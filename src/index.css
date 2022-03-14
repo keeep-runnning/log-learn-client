@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .app-keyword {
+    @apply py-2 md:py-4 text-5xl md:text-6xl font-bold bg-clip-text bg-gradient-to-r
+  }
+}
