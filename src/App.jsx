@@ -1,12 +1,15 @@
-import Header from "./components/Header";
-import AppKeywords from "./components/AppKeywords";
+import { Route, Routes } from "react-router-dom";
+
+import Layout from "./pages/Layout";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <>
-      <Header />
-      <AppKeywords />
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+      </Route>
+    </Routes>
   );
 };
 
