@@ -1,15 +1,32 @@
 import { useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import FieldErrorMessage from "./FieldErrorMessage";
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+
+  const signUpMutation = useMutation(async ({ username, email, password }) => {
+    const response = await axios.post("/api/users", { username, email, password });
+    return response.data;
+  }, {
+    onSuccess: () => {
+      navigate("/login");
+    }
+  });
+
   const { register, handleSubmit, getValues, formState: { errors } } = useForm({
     mode: "onChange"
   });
 
-  const onValidationSucceeded = useCallback((data) => {}, []);
+  const onValidationSucceeded = useCallback((data) => {
+    const { username, email, password } = data;
+    signUpMutation.mutate({ username, email, password });
+  }, []);
 
   return (
     <section className="w-80 space-y-8">
@@ -101,6 +118,7 @@ const SignUpForm = () => {
           {errors.passwordCheck && <FieldErrorMessage message={errors.passwordCheck.message} />}
         </div>
         <button
+          disabled={signUpMutation.isLoading}
           type="submit"
           className="bg-indigo-500 text-white py-1.5 rounded hover:bg-indigo-700"
         >
