@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -6,8 +6,15 @@ import axios from "axios";
 
 import FormHeader from "./FormHeader";
 import FieldErrorMessage from "./FieldErrorMessage";
+import AlertMessage from "./AlertMessage";
 
 const LoginForm = () => {
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const clearAlertMessage = useCallback(() => {
+    setAlertMessage("");
+  }, []);
+
   const navigate = useNavigate();
 
   const loginMutation = useMutation(async ({ email, password }) => {
@@ -16,9 +23,11 @@ const LoginForm = () => {
   }, {
     onSuccess: (data) => {
       const { isLoggedIn, username, message } = data;
-      if(isLoggedIn) {
-        navigate(`/@${username}`);
+      if(!isLoggedIn) {
+        setAlertMessage(message);
+        return;
       }
+      navigate(`/@${username}`);
     }
   });
 
@@ -31,6 +40,7 @@ const LoginForm = () => {
   return (
     <section className="w-80 space-y-8">
       <FormHeader title="로그인" />
+      {alertMessage && <AlertMessage message={alertMessage} onCloseButtonClicked={clearAlertMessage} />}
       <form noValidate onSubmit={onLoginFormSubmitted} className="flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-1.5">
           <label htmlFor="email" className="text-sm">이메일</label>
