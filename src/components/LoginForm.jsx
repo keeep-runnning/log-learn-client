@@ -1,14 +1,32 @@
 import { useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 import FormHeader from "./FormHeader";
 import FieldErrorMessage from "./FieldErrorMessage";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+
+  const loginMutation = useMutation(async ({ email, password }) => {
+    const response = await axios.post("/api/login", { email, password });
+    return response.data;
+  }, {
+    onSuccess: (data) => {
+      const { isLoggedIn, username, message } = data;
+      if(isLoggedIn) {
+        navigate(`/@${username}`);
+      }
+    }
+  });
+
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onLoginFormSubmitted = useCallback(handleSubmit((data) => {}), []);
+  const onLoginFormSubmitted = useCallback(handleSubmit((data) => {
+    loginMutation.mutate(data);
+  }), []);
 
   return (
     <section className="w-80 space-y-8">
@@ -33,6 +51,7 @@ const LoginForm = () => {
           {errors.password && <FieldErrorMessage message={errors.password.message} />}
         </div>
         <button
+          disabled={loginMutation.isLoading}
           className="bg-indigo-500 text-white py-1.5 rounded hover:bg-indigo-700"
           type="submit"
         >
