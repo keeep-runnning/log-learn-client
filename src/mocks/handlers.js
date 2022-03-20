@@ -37,6 +37,9 @@ export const handlers = [
         }
       }
     });
+    if(user) {
+      localStorage.setItem("[mockData]currentUsername", user.username);
+    }
 
     return res(
       ctx.status(200),
@@ -47,5 +50,17 @@ export const handlers = [
         message: Boolean(user)? "" : "이메일 또는 비밀번호가 유효하지 않습니다."
       })
     );
+  }),
+  rest.get("/api/currentUser", (req, res, ctx) => {
+     const currentUsername = localStorage.getItem("[mockData]currentUsername");
+
+     return res(
+       ctx.status(200),
+       ctx.delay(DELAY_TIME_MS),
+       ctx.json({
+         isLoggedIn: Boolean(currentUsername),
+         username: currentUsername ?? ""
+       })
+     );
   })
 ];

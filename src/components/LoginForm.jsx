@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
 import FormHeader from "./FormHeader";
@@ -17,6 +17,8 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+
   const loginMutation = useMutation(async ({ email, password }) => {
     const response = await axios.post("/api/login", { email, password });
     return response.data;
@@ -27,6 +29,7 @@ const LoginForm = () => {
         setAlertMessage(message);
         return;
       }
+      queryClient.invalidateQueries("currentUser");
       navigate(`/@${username}`);
     }
   });
