@@ -1,9 +1,11 @@
 import { useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsBoxArrowRight, BsGear, BsPencil } from "react-icons/bs";
+import { HiUserCircle } from "react-icons/hi";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { HiUserCircle } from "react-icons/hi";
+
+import LogoutButton from "./LogoutButton";
 
 const UserProfilePopover = ({ username }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,10 +56,12 @@ const UserProfilePopover = ({ username }) => {
             </Link>
           </li>
           <li>
-            <button className="flex items-center gap-4 hover:font-bold hover:text-gray-900">
-              <span>로그아웃</span>
-              <BsBoxArrowRight />
-            </button>
+            <LogoutButton>
+              <div className="flex items-center gap-4 hover:font-bold hover:text-gray-900">
+                <span>로그아웃</span>
+                <BsBoxArrowRight />
+              </div>
+            </LogoutButton>
           </li>
         </ul>
       </nav>

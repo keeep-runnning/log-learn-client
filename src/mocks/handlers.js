@@ -62,5 +62,23 @@ export const handlers = [
          username: currentUsername ?? ""
        })
      );
+  }),
+  rest.post("/api/logout", (req, res, ctx) => {
+    const currentUsername = localStorage.getItem("[mockData]currentUsername");
+    if(!currentUsername) {
+      return res(
+        ctx.status(401),
+        ctx.delay(DELAY_TIME_MS)
+      );
+    }
+    localStorage.removeItem("[mockData]currentUsername");
+
+    return res(
+      ctx.status(200),
+      ctx.delay(DELAY_TIME_MS),
+      ctx.json({
+        isLoggedIn: false
+      })
+    );
   })
 ];
