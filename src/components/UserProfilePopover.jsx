@@ -6,6 +6,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 import LogoutButton from "./LogoutButton";
+import UserProfileMenuItem from "./UserProfileMenuItem";
 
 const UserProfilePopover = ({ username }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,29 +39,20 @@ const UserProfilePopover = ({ username }) => {
           "translate-y-1/4 opacity-100 visible": isOpen
         }
       )}>
-        <ul className="text-gray-500 space-y-2">
+        <ul className="space-y-2">
           <li>
             <Link to="/settings">
-              <div className="flex items-center gap-4 hover:font-bold hover:text-gray-900">
-                <span>설정</span>
-                <BsGear />
-              </div>
+              <UserProfileMenuItem menuName="설정" icon={<BsGear />} />
             </Link>
           </li>
           <li>
             <Link to="/write">
-              <div className="flex items-center gap-4 hover:font-bold hover:text-gray-900">
-                <span>글쓰기</span>
-                <BsPencil />
-              </div>
+              <UserProfileMenuItem menuName="글쓰기" icon={<BsPencil />} />
             </Link>
           </li>
           <li>
             <LogoutButton>
-              <div className="flex items-center gap-4 hover:font-bold hover:text-gray-900">
-                <span>로그아웃</span>
-                <BsBoxArrowRight />
-              </div>
+              <UserProfileMenuItem menuName="로그아웃" icon={<BsBoxArrowRight />} />
             </LogoutButton>
           </li>
         </ul>
