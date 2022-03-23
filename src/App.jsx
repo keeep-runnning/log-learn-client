@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import UserHome from "./pages/UserHome";
+import PostPublication from "./pages/PostPublication";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="/@:username" element={<Layout />}>
         <Route index element={<UserHome />}/>
       </Route>
+      <Route path="/write" element={<PostPublication />}/>
     </Routes>
   );
 };
