@@ -22,9 +22,7 @@ const PostPublicationForm = () => {
           className="h-full md:w-11/12 md:mx-auto flex flex-col gap-y-4 px-2 py-4"
     >
       <div className="flex justify-end">
-        <button
-          type="submit"
-          className="rounded py-1 px-2 bg-indigo-500 hover:bg-indigo-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-300">
+        <button type="submit" className="btn btn-indigo">
           글 발행하기
         </button>
       </div>
