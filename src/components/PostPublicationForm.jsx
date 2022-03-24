@@ -5,12 +5,9 @@ import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, Navigate } from "react-router-dom";
-import axios from "axios";
 
-async function publishPost({ title, content }) {
-  const response = await axios.post("/api/posts", {title, content});
-  return response.data;
-}
+import { publishPost } from "../apis/posts";
+import { fetchCurrentUser } from "../apis/users";
 
 function getPostTitleUrlFromPostTitle(postTitle="") {
   const specialCharacter = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
@@ -42,10 +39,7 @@ const PostPublicationForm = () => {
     postPublicationMutation.mutate({title, content});
   }), []);
 
-  const { data: currentUser, isSuccess } = useQuery("currentUser", async () => {
-    const response = await axios.get("/api/currentUser");
-    return response.data;
-  });
+  const { data: currentUser, isSuccess } = useQuery("currentUser", fetchCurrentUser);
 
   if(isSuccess && !currentUser.isLoggedIn) {
     return <Navigate to="/login" replace={true} />;

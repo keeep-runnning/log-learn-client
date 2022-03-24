@@ -1,12 +1,8 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
-import axios from "axios";
-import UserProfilePopover from "./UserProfilePopover";
 
-async function fetchCurrentUser() {
-  const response = await axios.get("/api/currentUser");
-  return response.data;
-}
+import UserProfilePopover from "./UserProfilePopover";
+import { fetchCurrentUser } from "../apis/users";
 
 const Header = () => {
   const { data: currentUser, isLoading, isError } = useQuery("currentUser", fetchCurrentUser);

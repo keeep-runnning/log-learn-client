@@ -3,17 +3,14 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import FieldErrorMessage from "./FieldErrorMessage";
+import { signUp } from "../apis/users";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
 
-  const signUpMutation = useMutation(async ({ username, email, password }) => {
-    const response = await axios.post("/api/users", { username, email, password });
-    return response.data;
-  }, {
+  const signUpMutation = useMutation(signUp, {
     onSuccess: () => {
       navigate("/login");
     }

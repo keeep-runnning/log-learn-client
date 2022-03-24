@@ -1,12 +1,8 @@
 import { useCallback } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
 import PropTypes from "prop-types";
 
-async function logout() {
-  const response = await axios.post("/api/logout");
-  return response.data;
-}
+import { logout } from "../apis/users";
 
 const LogoutButton = ({ children }) => {
   const queryClient = useQueryClient();

@@ -2,11 +2,11 @@ import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
 
 import FormHeader from "./FormHeader";
 import FieldErrorMessage from "./FieldErrorMessage";
 import AlertMessage from "./AlertMessage";
+import { login } from "../apis/users";
 
 const LoginForm = () => {
   const [alertMessage, setAlertMessage] = useState("");
@@ -19,10 +19,7 @@ const LoginForm = () => {
 
   const queryClient = useQueryClient();
 
-  const loginMutation = useMutation(async ({ email, password }) => {
-    const response = await axios.post("/api/login", { email, password });
-    return response.data;
-  }, {
+  const loginMutation = useMutation(login, {
     onSuccess: (data) => {
       const { isLoggedIn, username, message } = data;
       if(!isLoggedIn) {
