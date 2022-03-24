@@ -12,8 +12,10 @@ import { fetchCurrentUser } from "../apis/users";
 function getPostTitleUrlFromPostTitle(postTitle="") {
   const specialCharacter = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
   const whitespace = /[\s]+/g;
-  return postTitle.trim()
+
+  return postTitle
     .replaceAll(specialCharacter, " ")
+    .trim()
     .replaceAll(whitespace, "-");
 }
 
