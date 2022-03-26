@@ -23,6 +23,7 @@ const db = factory({
     id: primaryKey(() => String(idGenerator.getNextId())),
     title: String,
     content: String,
+    urlTitle: String,
     author: String,
     createdAt: String,
   }
