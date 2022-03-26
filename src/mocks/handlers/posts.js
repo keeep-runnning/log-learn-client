@@ -16,11 +16,10 @@ const handlers = [
         })
       );
     }
-    const { title, content, urlTitle } = req.body;
+    const { title, content } = req.body;
     const createdPost = db.posts.create({
       title,
       content,
-      urlTitle,
       author: currentUsername,
       createdAt: new Date().toISOString()
     });

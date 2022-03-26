@@ -9,16 +9,6 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { publishPost } from "../apis/posts";
 import { fetchCurrentUser } from "../apis/users";
 
-function getUrlPostTitleFromPostTitle(postTitle="") {
-  const specialCharacter = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-  const whitespace = /[\s]+/g;
-
-  return postTitle
-    .replaceAll(specialCharacter, " ")
-    .trim()
-    .replaceAll(whitespace, "-");
-}
-
 const PostPublicationForm = () => {
   const navigate = useNavigate();
   const editorRef = useRef();
@@ -29,16 +19,15 @@ const PostPublicationForm = () => {
   }, [setFocus]);
 
   const postPublicationMutation = useMutation(publishPost, {
-    onSuccess: ({author, urlTitle}) => {
-      navigate(`/@${author}/${urlTitle}`);
+    onSuccess: ({author, id: postId}) => {
+      navigate(`/@${author}/posts/${postId}`);
     }
   });
 
   const handlePostPublication = useCallback(handleSubmit((data) => {
     const { title } = data;
     const content = editorRef.current.getInstance().getMarkdown();
-    const urlTitle = getUrlPostTitleFromPostTitle(title);
-    postPublicationMutation.mutate({title, content, urlTitle});
+    postPublicationMutation.mutate({title, content});
   }), []);
 
   const { data: currentUser, isSuccess } = useQuery("currentUser", fetchCurrentUser);
