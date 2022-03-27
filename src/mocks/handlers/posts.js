@@ -28,6 +28,31 @@ const handlers = [
       ctx.status(201),
       ctx.json(createdPost)
     );
+  }),
+  rest.get("/api/posts/:postId", (req, res, ctx) => {
+    const { postId } = req.params;
+    const postFoundById = db.posts.findFirst({
+      where: {
+        id: {
+          equals: postId
+        }
+      }
+    });
+    if(!postFoundById) {
+      return delayedResponse(
+        ctx.status(404),
+        ctx.json({
+          code: "post-001",
+          errorMessage: "요청한 블로그 포스트를 찾을 수 없습니다.",
+          errors: []
+        })
+      );
+    }
+
+    return delayedResponse(
+      ctx.status(200),
+      ctx.json(postFoundById)
+    );
   })
 ];
 
