@@ -2,14 +2,11 @@ import { rest } from "msw";
 
 import db from "../model";
 import delayedResponse from "../response/delayedResponse";
-
-function serializePost(post) {
-  return ({...post, author: post.author.username});
-}
+import { getLoggedInUsername, serializePost } from "../utils";
 
 const handlers = [
   rest.post("/api/posts", (req, res, ctx) => {
-    const currentUsername = localStorage.getItem("[mockData]currentUsername");
+    const currentUsername = getLoggedInUsername();
     if(!currentUsername) {
       return delayedResponse(
         ctx.status(401),

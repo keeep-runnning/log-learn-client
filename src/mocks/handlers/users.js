@@ -2,6 +2,7 @@ import { rest } from "msw";
 
 import db from "../model";
 import delayedResponse from "../response/delayedResponse";
+import { deleteLoggedInUsername, getLoggedInUsername, saveLoggedInUsername } from "../utils";
 
 const handlers = [
   rest.post("/api/users", (req, res, ctx) => {
@@ -26,7 +27,7 @@ const handlers = [
       }
     });
     if(user) {
-      localStorage.setItem("[mockData]currentUsername", user.username);
+      saveLoggedInUsername(user);
     }
 
     return delayedResponse(
@@ -39,7 +40,7 @@ const handlers = [
     );
   }),
   rest.get("/api/currentUser", (req, res, ctx) => {
-    const currentUsername = localStorage.getItem("[mockData]currentUsername");
+    const currentUsername = getLoggedInUsername();
 
     return delayedResponse(
       ctx.status(200),
@@ -50,13 +51,14 @@ const handlers = [
     );
   }),
   rest.post("/api/logout", (req, res, ctx) => {
-    const currentUsername = localStorage.getItem("[mockData]currentUsername");
+    const currentUsername = getLoggedInUsername();
     if(!currentUsername) {
       return delayedResponse(
         ctx.status(401)
       );
     }
-    localStorage.removeItem("[mockData]currentUsername");
+
+    deleteLoggedInUsername();
 
     return delayedResponse(
       ctx.status(200),
