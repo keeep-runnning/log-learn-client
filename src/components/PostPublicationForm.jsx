@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
 import { useMutation, useQuery } from "react-query";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { publishPost } from "../apis/posts";
 import { fetchCurrentUser } from "../apis/users";
@@ -13,6 +13,14 @@ const PostPublicationForm = () => {
   const navigate = useNavigate();
   const editorRef = useRef();
   const { register, handleSubmit, setFocus } = useForm();
+
+  const { data: currentUser, isSuccess } = useQuery("currentUser", fetchCurrentUser);
+
+  useEffect(() => {
+    if(isSuccess && !currentUser.isLoggedIn) {
+      navigate("/login", { replace: true });
+    }
+  }, [isSuccess, currentUser]);
 
   useEffect(() => {
     setFocus("title");
@@ -29,12 +37,6 @@ const PostPublicationForm = () => {
     const content = editorRef.current.getInstance().getMarkdown();
     postPublicationMutation.mutate({title, content});
   }), []);
-
-  const { data: currentUser, isSuccess } = useQuery("currentUser", fetchCurrentUser);
-
-  if(isSuccess && !currentUser.isLoggedIn) {
-    return <Navigate to="/login" replace={true} />;
-  }
 
   return (
     <form onSubmit={handlePostPublication}
