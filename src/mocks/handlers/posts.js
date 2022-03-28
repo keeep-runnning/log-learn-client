@@ -3,6 +3,10 @@ import { rest } from "msw";
 import db from "../model";
 import delayedResponse from "../response/delayedResponse";
 
+function serializePost(post) {
+  return ({...post, author: post.author.username});
+}
+
 const handlers = [
   rest.post("/api/posts", (req, res, ctx) => {
     const currentUsername = localStorage.getItem("[mockData]currentUsername");
@@ -16,22 +20,30 @@ const handlers = [
         })
       );
     }
+
+    const author = db.user.findFirst({
+      where: {
+        username: {
+          equals: currentUsername
+        }
+      }
+    });
     const { title, content } = req.body;
-    const createdPost = db.posts.create({
+    const createdPost = db.post.create({
       title,
       content,
-      author: currentUsername,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      author
     });
 
     return delayedResponse(
       ctx.status(201),
-      ctx.json(createdPost)
+      ctx.json(serializePost(createdPost))
     );
   }),
   rest.get("/api/posts/:postId", (req, res, ctx) => {
     const { postId } = req.params;
-    const postFoundById = db.posts.findFirst({
+    const postFoundById = db.post.findFirst({
       where: {
         id: {
           equals: postId
@@ -51,7 +63,7 @@ const handlers = [
 
     return delayedResponse(
       ctx.status(200),
-      ctx.json(postFoundById)
+      ctx.json(serializePost(postFoundById))
     );
   })
 ];

@@ -6,7 +6,7 @@ import delayedResponse from "../response/delayedResponse";
 const handlers = [
   rest.post("/api/users", (req, res, ctx) => {
     const { username, email, password } = req.body;
-    const createdUser = db.users.create({username, email, password});
+    const createdUser = db.user.create({username, email, password});
 
     return delayedResponse(
       ctx.status(201),
@@ -15,7 +15,7 @@ const handlers = [
   }),
   rest.post("/api/login", (req, res, ctx) => {
     const { email, password } = req.body;
-    const user = db.users.findFirst({
+    const user = db.user.findFirst({
       where: {
         email: {
           equals: email

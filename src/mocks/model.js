@@ -1,4 +1,4 @@
-import { factory, primaryKey } from "@mswjs/data";
+import { factory, oneOf, primaryKey } from "@mswjs/data";
 
 class IdGenerator {
   constructor() {
@@ -13,18 +13,18 @@ class IdGenerator {
 const idGenerator = new IdGenerator();
 
 const db = factory({
-  users: {
+  user: {
     id: primaryKey(() => String(idGenerator.getNextId())),
     username: String,
     email: String,
     password: String,
   },
-  posts: {
+  post: {
     id: primaryKey(() => String(idGenerator.getNextId())),
     title: String,
     content: String,
-    author: String,
     createdAt: String,
+    author: oneOf("user")
   }
 });
 
