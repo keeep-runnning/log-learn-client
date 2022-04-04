@@ -5,8 +5,10 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { ThemeProvider } from "@emotion/react";
 
 import App from "./App";
+import { theme } from "./styles/theme";
 
 function prepareMSW() {
   if (process.env.NODE_ENV === 'development') {
@@ -23,7 +25,9 @@ prepareMSW().then(() => {
     <React.StrictMode>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
           <ReactQueryDevtools />
         </QueryClientProvider>
       </BrowserRouter>
