@@ -9,6 +9,7 @@ import { ThemeProvider } from "@emotion/react";
 
 import App from "./App";
 import { theme } from "./styles/theme";
+import GlobalStyles from "./styles/GlobalStyles";
 
 function prepareMSW() {
   if (process.env.NODE_ENV === 'development') {
@@ -26,6 +27,7 @@ prepareMSW().then(() => {
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
+            <GlobalStyles />
             <App />
           </ThemeProvider>
           <ReactQueryDevtools />
