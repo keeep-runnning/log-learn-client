@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { css } from "@emotion/react";
 
-import { fetchCurrentUser } from "../../apis/users";
-import UserProfilePopover from "../UserProfilePopover";
+import { fetchCurrentUser } from "../apis/users";
+import UserProfilePopover from "./UserProfilePopover";
 import Logo from "./Logo";
-import PrimaryButton from "../buttons/PrimaryButton";
+import PrimaryButton from "./buttons/PrimaryButton";
 
 const HeaderBar = () => {
   const { data: currentUser, isLoading, isError } = useQuery("currentUser", fetchCurrentUser);
