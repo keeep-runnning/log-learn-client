@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-import FieldErrorMessage from "./FieldErrorMessage";
-import { signUp } from "../apis/users";
+import FieldErrorMessage from "../FieldErrorMessage";
+import { signUp } from "../../apis/users";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
