@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 
-import FormHeader from "./FormHeader";
-import FieldErrorMessage from "../FieldErrorMessage";
+import AccountFormHeader from "./AccountFormHeader";
+import FormFieldErrorMessage from "../FormFieldErrorMessage";
 import AlertMessage from "../AlertMessage";
 import { login } from "../../apis/users";
 
@@ -39,7 +39,7 @@ const LoginForm = () => {
 
   return (
     <section className="w-80 space-y-8">
-      <FormHeader title="로그인" />
+      <AccountFormHeader title="로그인" />
       {alertMessage && <AlertMessage message={alertMessage} onCloseButtonClicked={clearAlertMessage} />}
       <form noValidate onSubmit={onLoginFormSubmitted} className="flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-1.5">
@@ -49,7 +49,7 @@ const LoginForm = () => {
                    required: "이메일을 입력해주세요."
                  })}
           />
-          {errors.email && <FieldErrorMessage message={errors.email.message} />}
+          {errors.email && <FormFieldErrorMessage>{errors.email.message}</FormFieldErrorMessage>}
         </div>
         <div className="flex flex-col gap-y-1.5">
           <label htmlFor="password" className="text-sm">비밀번호</label>
@@ -58,7 +58,7 @@ const LoginForm = () => {
                    required: "비밀번호를 입력해주세요."
                  })}
           />
-          {errors.password && <FieldErrorMessage message={errors.password.message} />}
+          {errors.password && <FormFieldErrorMessage>{errors.password.message}</FormFieldErrorMessage>}
         </div>
         <button
           disabled={loginMutation.isLoading}

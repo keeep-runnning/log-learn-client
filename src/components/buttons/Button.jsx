@@ -7,6 +7,9 @@ const Button = styled.button`
     ${theme.textSize.sm}
     ${theme.borderRound.normal}
   `}
+  &:disabled {
+    cursor: default;
+  }
 `;
 
 export default Button;

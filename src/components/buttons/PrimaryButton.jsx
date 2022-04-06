@@ -10,6 +10,9 @@ const PrimaryButton = styled(Button)`
     &:hover {
       background-color: ${theme.primaryColor[4]};
     }
+    &:disabled {
+      background-color: ${theme.primaryColor[4]};
+    }
   `}
 `;
 
