@@ -1,17 +1,19 @@
-import PropTypes from "prop-types";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
-const UserProfileMenuItem = ({ menuName, icon }) => {
-  return (
-    <div className="flex items-center gap-4 hover:font-bold text-gray-500 hover:text-gray-900">
-      <span>{menuName}</span>
-      {icon}
-    </div>
-  );
-};
-
-UserProfileMenuItem.propTypes = {
-  menuName: PropTypes.string.isRequired,
-  icon: PropTypes.node
-}
+const UserProfileMenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  ${({theme}) => css`
+    padding: ${theme.spacing[1]};
+    column-gap: ${theme.spacing[4]};
+    color: ${theme.textColor[4]};
+    ${theme.textSize.base}
+    &:hover {
+      font-weight: ${theme.textWeight.bold};
+      color: ${theme.textColor[5]};
+    }
+  `}
+`;
 
 export default UserProfileMenuItem;

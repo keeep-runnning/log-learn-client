@@ -1,8 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { BsBoxArrowRight, BsGear, BsPencil } from "react-icons/bs";
-import { HiUserCircle } from "react-icons/hi";
-import classNames from "classnames";
+import { IoLogOutOutline, IoPencil, IoPersonCircleSharp, IoSettingsOutline } from "react-icons/io5";
+import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 
 import LogoutButton from "./LogoutButton";
@@ -16,43 +15,72 @@ const UserProfilePopover = ({ username }) => {
     setIsOpen(prevIsOpen => !prevIsOpen);
   }, []);
 
-  const onPopoverBlurred = useCallback(() => {
+  const handlePopoverBlur = useCallback(() => {
     timerId.current = setTimeout(() => {
       setIsOpen(false);
     });
   }, []);
 
-  const onPopoverFocused = useCallback(() => {
+  const handlePopoverFocus = useCallback(() => {
     clearTimeout(timerId.current);
   }, []);
 
   return (
-    <div onBlur={onPopoverBlurred} onFocus={onPopoverFocused} className="relative">
-      <button className="hover:font-bold hover:scale-105 flex items-center gap-x-2" onClick={togglePopover}>
-        <span className="text-gray-800">{username}</span>
-        <HiUserCircle className="w-8 h-8" />
+    <div onBlur={handlePopoverBlur} onFocus={handlePopoverFocus} css={css`position: relative;`}>
+      <button onClick={togglePopover}
+        css={theme => css`
+          display: flex;
+          column-gap: ${theme.spacing[2]};
+          align-items: center;
+          ${theme.textSize.base}
+        `}
+      >
+        {username}
+        <IoPersonCircleSharp size={24} />
       </button>
-      <nav className={classNames(
-        "transition delay-300 absolute right-1 min-w-max p-2 bg-gray-100 shadow-lg rounded",
-        {
-          "translate-y-1/2 opacity-0 invisible": !isOpen,
-          "translate-y-1/4 opacity-100 visible": isOpen
-        }
-      )}>
-        <ul className="space-y-2">
+      <nav css={theme => css`
+          position: absolute;
+          min-width: max-content;
+          right: ${theme.spacing[1]};
+          padding: ${theme.spacing[2]};
+          background-color: ${theme.bgColor[2]};
+          box-shadow: 3px 3px 8px 3px rgba(195,204,216,0.75);
+          ${theme.borderRound.normal}
+          transform: translateY(60%);
+          opacity: 0;
+          visibility: hidden;
+          transition: transform 150ms ease-in, opacity 150ms ease-in, visibility 150ms ease-in;
+          ${isOpen && css`
+            transform: translateY(15%);
+            opacity: 1;
+            visibility: visible;
+          `}
+        `}
+      >
+        <ul css={theme => css`
+          display: flex;
+          flex-direction: column;
+          row-gap: ${theme.spacing[3]};
+        `}>
           <li>
             <Link to="/settings">
-              <UserProfileMenuItem menuName="설정" icon={<BsGear />} />
+              <UserProfileMenuItem>
+                설정 <IoSettingsOutline />
+              </UserProfileMenuItem>
             </Link>
           </li>
           <li>
             <Link to="/write">
-              <UserProfileMenuItem menuName="글쓰기" icon={<BsPencil />} />
+              <UserProfileMenuItem>
+                글쓰기 <IoPencil />
+              </UserProfileMenuItem>
             </Link>
           </li>
           <li>
             <LogoutButton>
-              <UserProfileMenuItem menuName="로그아웃" icon={<BsBoxArrowRight />} />
+              <UserProfileMenuItem>
+                로그아웃 <IoLogOutOutline />
+              </UserProfileMenuItem>
             </LogoutButton>
           </li>
         </ul>
