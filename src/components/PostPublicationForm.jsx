@@ -5,9 +5,31 @@ import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
 import { publishPost } from "../apis/posts";
 import { fetchCurrentUser } from "../apis/users";
+import PrimaryButton from "./buttons/PrimaryButton";
+
+const PostTitleTextArea = styled.textarea`
+  resize: none;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  ${({ theme }) => css`
+    padding: ${theme.spacing[1]} ${theme.spacing[2]};
+    ${theme.textSize["2xl"]};
+    &::placeholder {
+      color: ${theme.textColor[2]};
+    }
+  `}
+`;
+
+const RowButtonList = styled.ul`
+  display: flex;
+  justify-content: flex-end;
+`;
 
 const PostPublicationForm = () => {
   const navigate = useNavigate();
@@ -40,37 +62,42 @@ const PostPublicationForm = () => {
 
   return (
     <form onSubmit={handlePostPublication}
-          className="h-full md:w-11/12 md:mx-auto flex flex-col gap-y-4 px-2 py-4"
+          css={theme => css`
+            height: 100%;
+            padding: ${theme.spacing[4]};
+            display: flex;
+            flex-direction: column;
+            row-gap: ${theme.spacing[4]};
+            ${theme.mq.md} {
+              padding: ${theme.spacing[6]};
+              row-gap: ${theme.spacing[6]};
+            }
+          `}
     >
-      <div className="flex justify-end">
-        <button disabled={postPublicationMutation.isLoading} type="submit" className="btn btn-indigo">
+      <RowButtonList>
+        <PrimaryButton disabled={postPublicationMutation.isLoading} type="submit">
           글 발행하기
-        </button>
-      </div>
-      <section className="grow flex flex-col gap-y-6">
-        <input {...register("title", {required: true})}
-               type="text" placeholder="제목을 입력하세요."
-               className="bg-transparent mx-1 pb-3 text-xl focus:outline-none focus:border-b-2 focus:border-b-gray-200"
+        </PrimaryButton>
+      </RowButtonList>
+      <PostTitleTextArea {...register("title", {required: true})} placeholder="제목을 입력하세요." rows={1} />
+      <div css={css`flex-grow: 1;`}>
+        <Editor
+          autofocus={false}
+          ref={editorRef}
+          height="100%"
+          previewStyle="vertical"
+          initialEditType="wysiwyg"
+          toolbarItems={[
+            ["heading", "bold", "italic", "strike"],
+            ["hr", "quote"],
+            ["ul", "ol", "task", "indent", "outdent"],
+            ["table", "link"],
+            ["code", "codeblock"]
+          ]}
+          useCommandShortcut={true}
+          usageStatistics={false}
         />
-        <div className="grow">
-          <Editor
-            autofocus={false}
-            ref={editorRef}
-            height="100%"
-            previewStyle="vertical"
-            initialEditType="wysiwyg"
-            toolbarItems={[
-              ["heading", "bold", "italic", "strike"],
-              ["hr", "quote"],
-              ["ul", "ol", "task", "indent", "outdent"],
-              ["table", "link"],
-              ["code", "codeblock"]
-            ]}
-            useCommandShortcut={true}
-            usageStatistics={false}
-          />
-        </div>
-      </section>
+      </div>
     </form>
   );
 };
