@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
+import { css } from "@emotion/react";
 
 import { fetchPost } from "../apis/posts";
 import Post from "../components/Post";
@@ -30,7 +31,13 @@ const PostDetail = () => {
 
   return (
     <>
-     <main className="max-w-screen-md mx-auto">
+     <main css={theme => css`
+       padding: ${theme.spacing[4]};
+       ${theme.mq.md} {
+         max-width: ${theme.bp.md};
+         margin: 0 auto;
+       }
+     `}>
        <Post post={post} />
      </main>
     </>

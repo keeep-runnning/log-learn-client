@@ -1,27 +1,42 @@
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 
+import { css } from "@emotion/react";
 import { Viewer } from "@toast-ui/react-editor";
 import PropTypes from "prop-types";
 
 const Post = ({ post }) => {
   return (
-    <article className="space-y-8 px-4">
-      <header className="space-y-4 py-4">
-        <h1 className="text-2xl font-bold">{post.title}</h1>
-        <div className="text-sm">
-          <span className="font-bold">{post.author}</span>
-          &nbsp;
-          &middot;
-          &nbsp;
-          <span className="text-gray-400">{post.createdAt}</span>
+    <article
+      css={theme => css`
+        display: flex;
+        flex-direction: column;
+        row-gap: ${theme.spacing[6]};      
+      `}
+    >
+      <header css={theme => css`
+        display: flex;
+        flex-direction: column;
+        row-gap: ${theme.spacing[4]};
+        h1 {
+          font-weight: ${theme.textWeight.bold};
+          ${theme.textSize["2xl"]}
+        }
+      `}>
+        <h1>{post.title}</h1>
+        <div css={theme => css`${theme.textSize.sm}`}>
+          <span css={theme => css`font-weight: ${theme.textWeight.bold}`}>
+            {post.author}
+          </span>
+          {" "}&middot;{" "}
+          <span css={theme => css`color: ${theme.textColor[2]}`}>
+            {post.createdAt}
+          </span>
         </div>
       </header>
-      <section className="py-4">
-        <Viewer
-          initialValue={post.content}
-          usageStatistics={false}
-        />
-      </section>
+      <Viewer
+        initialValue={post.content}
+        usageStatistics={false}
+      />
     </article>
   );
 };
