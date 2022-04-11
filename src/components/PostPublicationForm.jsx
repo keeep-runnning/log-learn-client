@@ -6,30 +6,13 @@ import { Editor } from "@toast-ui/react-editor";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
 
 import { publishPost } from "../apis/posts";
 import { fetchCurrentUser } from "../apis/users";
 import PrimaryButton from "./buttons/PrimaryButton";
-
-const PostTitleTextArea = styled.textarea`
-  resize: none;
-  background-color: transparent;
-  border: 0;
-  outline: 0;
-  ${({ theme }) => css`
-    padding: ${theme.spacing[1]} ${theme.spacing[2]};
-    ${theme.textSize["2xl"]};
-    &::placeholder {
-      color: ${theme.textColor[2]};
-    }
-  `}
-`;
-
-const RowButtonList = styled.ul`
-  display: flex;
-  justify-content: flex-end;
-`;
+import PostTitleTextArea from "./PostTitleTextArea";
+import PostForm from "./PostForm";
+import DefaultButton from "./buttons/DefaultButton";
 
 const PostPublicationForm = () => {
   const navigate = useNavigate();
@@ -60,25 +43,28 @@ const PostPublicationForm = () => {
     postPublicationMutation.mutate({title, content});
   }), []);
 
+  const handleGoBackButtonClick = useCallback(() => {
+    navigate(-1);
+  }, []);
+
   return (
-    <form onSubmit={handlePostPublication}
-          css={theme => css`
-            height: 100%;
-            padding: ${theme.spacing[4]};
-            display: flex;
-            flex-direction: column;
-            row-gap: ${theme.spacing[4]};
-            ${theme.mq.md} {
-              padding: ${theme.spacing[6]};
-              row-gap: ${theme.spacing[6]};
-            }
-          `}
-    >
-      <RowButtonList>
-        <PrimaryButton disabled={postPublicationMutation.isLoading} type="submit">
-          글 발행하기
-        </PrimaryButton>
-      </RowButtonList>
+    <PostForm onSubmit={handlePostPublication}>
+      <ul css={theme => css`
+        display: flex;
+        justify-content: flex-end;
+        column-gap: ${theme.spacing[2]};
+      `}>
+        <li>
+          <DefaultButton onClick={handleGoBackButtonClick} type="button">
+            뒤로가기
+          </DefaultButton>
+        </li>
+        <li>
+          <PrimaryButton disabled={postPublicationMutation.isLoading} type="submit">
+            글 발행하기
+          </PrimaryButton>
+        </li>
+      </ul>
       <PostTitleTextArea {...register("title", {required: true})} placeholder="제목을 입력하세요." rows={1} />
       <div css={css`flex-grow: 1;`}>
         <Editor
@@ -98,7 +84,7 @@ const PostPublicationForm = () => {
           usageStatistics={false}
         />
       </div>
-    </form>
+    </PostForm>
   );
 };
 
