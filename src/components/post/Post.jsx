@@ -5,7 +5,7 @@ import { css, keyframes } from "@emotion/react";
 import { Viewer } from "@toast-ui/react-editor";
 import PropTypes from "prop-types";
 
-import DefaultButton from "./buttons/DefaultButton";
+import DefaultButton from "../common/buttons/DefaultButton";
 import PostEditForm from "./PostEditForm";
 
 const SLIDE_ANIMATION_TIME_IN_MS = 200;

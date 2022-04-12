@@ -7,12 +7,12 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import { publishPost } from "../apis/posts";
-import { fetchCurrentUser } from "../apis/users";
-import PrimaryButton from "./buttons/PrimaryButton";
+import { publishPost } from "../../apis/posts";
+import { fetchCurrentUser } from "../../apis/users";
+import PrimaryButton from "../common/buttons/PrimaryButton";
 import PostTitleTextArea from "./PostTitleTextArea";
 import PostForm from "./PostForm";
-import DefaultButton from "./buttons/DefaultButton";
+import DefaultButton from "../common/buttons/DefaultButton";
 
 const PostPublicationForm = () => {
   const navigate = useNavigate();

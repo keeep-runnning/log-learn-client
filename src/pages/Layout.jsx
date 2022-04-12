@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import HeaderBar from "../components/HeaderBar";
+import HeaderBar from "../components/common/HeaderBar";
 
 const Layout = () => {
   return (

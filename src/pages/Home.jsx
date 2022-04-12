@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
-import AppKeywords from "../components/AppKeywords";
-import AppIntroduction from "../components/AppIntroduction";
+import AppKeywords from "../components/home/AppKeywords";
+import AppIntroduction from "../components/home/AppIntroduction";
 
 const Home = () => {
   return (

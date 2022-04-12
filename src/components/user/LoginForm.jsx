@@ -5,10 +5,10 @@ import { useMutation, useQueryClient } from "react-query";
 import { css } from "@emotion/react";
 
 import { login } from "../../apis/users";
-import FormFieldErrorMessage from "../FormFieldErrorMessage";
-import AlertMessage from "../AlertMessage";
+import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
+import AlertMessage from "../common/AlertMessage";
 import TextInputWrapper from "./TextInputWrapper";
-import PrimaryButton from "../buttons/PrimaryButton";
+import PrimaryButton from "../common/buttons/PrimaryButton";
 
 const LoginForm = () => {
   const [alertMessage, setAlertMessage] = useState("");

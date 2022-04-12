@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import Button from "./buttons/Button";
+import Button from "../common/buttons/Button";
 
 const AppIntroduction = () => {
   return (

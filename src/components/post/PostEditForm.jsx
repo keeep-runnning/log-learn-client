@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
 import PropTypes from "prop-types";
 
-import DefaultButton from "./buttons/DefaultButton";
+import DefaultButton from "../common/buttons/DefaultButton";
 import PostForm from "./PostForm";
 import PostTitleTextArea from "./PostTitleTextArea";
-import PrimaryButton from "./buttons/PrimaryButton";
+import PrimaryButton from "../common/buttons/PrimaryButton";
 
 const PostEditForm = ({ editableData, onClose }) => {
   const { register, handleSubmit, setFocus } = useForm({

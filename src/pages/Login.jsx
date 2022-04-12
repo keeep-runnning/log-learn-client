@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import LoginForm from "../components/accountForm/LoginForm";
-import AccountFormHeader from "../components/accountForm/AccountFormHeader";
+import LoginForm from "../components/user/LoginForm";
+import AccountFormHeader from "../components/user/AccountFormHeader";
 
 const Login = () => {
   return (

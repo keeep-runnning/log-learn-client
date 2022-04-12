@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import SignUpForm from "../components/accountForm/SignUpForm";
-import AccountFormHeader from "../components/accountForm/AccountFormHeader";
+import SignUpForm from "../components/user/SignUpForm";
+import AccountFormHeader from "../components/user/AccountFormHeader";
 
 const SignUpFormMessage = styled.p`
   text-align: center;

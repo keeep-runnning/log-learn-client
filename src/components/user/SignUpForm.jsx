@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import { signUp } from "../../apis/users";
-import FormFieldErrorMessage from "../FormFieldErrorMessage";
-import PrimaryButton from "../buttons/PrimaryButton";
+import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
+import PrimaryButton from "../common/buttons/PrimaryButton";
 import TextInputWrapper from "./TextInputWrapper";
 
 const SignUpForm = () => {

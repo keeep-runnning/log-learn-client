@@ -4,7 +4,7 @@ import { IoLogOutOutline, IoPencil, IoPersonCircleSharp, IoSettingsOutline } fro
 import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../user/LogoutButton";
 import UserProfileMenuItem from "./UserProfileMenuItem";
 
 const UserProfilePopover = ({ username }) => {

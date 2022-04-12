@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-import PostPublicationForm from "../components/PostPublicationForm";
+import PostPublicationForm from "../components/post/PostPublicationForm";
 
 const PostPublication = () => {
   return (

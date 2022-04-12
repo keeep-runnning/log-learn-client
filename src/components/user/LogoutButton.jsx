@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import PropTypes from "prop-types";
 
-import { logout } from "../apis/users";
+import { logout } from "../../apis/users";
 
 const LogoutButton = ({ children }) => {
   const queryClient = useQueryClient();

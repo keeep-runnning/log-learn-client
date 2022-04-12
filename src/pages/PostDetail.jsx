@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { css } from "@emotion/react";
 
 import { fetchPost } from "../apis/posts";
-import Post from "../components/Post";
+import Post from "../components/post/Post";
 
 const PostDetail = () => {
   const { username: author, postId } = useParams();
