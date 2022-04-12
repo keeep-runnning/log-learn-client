@@ -1,6 +1,6 @@
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { css, keyframes } from "@emotion/react";
 import { Viewer } from "@toast-ui/react-editor";
 import PropTypes from "prop-types";
@@ -20,8 +20,14 @@ const slideUpAnimation = keyframes`
 `;
 
 const Post = ({ post }) => {
+  const viewerRef = useRef();
+
   const [isEditFormDisplayed, setIsEditFormDisplayed] = useState(false);
   const [isEditFormClosing, setIsEditFormClosing] = useState(false);
+
+  useEffect(() => {
+    viewerRef.current.getInstance().setMarkdown(post.content);
+  }, [post]);
 
   useEffect(() => {
     if(isEditFormClosing) {
@@ -54,59 +60,60 @@ const Post = ({ post }) => {
     setIsEditFormClosing(true);
   }, []);
 
-  const editableData = useMemo(() => ({
+  const postData = useMemo(() => ({
+    id: post.id,
     title: post.title,
     content: post.content
   }), [post]);
 
   return (
     <>
-      <article
-        css={theme => css`
+      <article css={theme => css`
         display: flex;
         flex-direction: column;
         row-gap: ${theme.spacing[6]};      
-      `}
-      >
-        <header css={theme => css`
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[4]};
-        h1 {
-          font-weight: ${theme.textWeight.bold};
-          ${theme.textSize["2xl"]}
-        }
       `}>
+        <header css={theme => css`
+          display: flex;
+          flex-direction: column;
+          row-gap: ${theme.spacing[4]};
+          h1 {
+            font-weight: ${theme.textWeight.bold};
+            ${theme.textSize["2xl"]}
+          }
+        `}>
           <h1>{post.title}</h1>
           <div css={theme => css`
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          ${theme.textSize.sm}
-        `}>
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            ${theme.textSize.sm}
+          `}>
             <div>
-            <span css={theme => css`font-weight: ${theme.textWeight.bold}`}>
-              {post.author}
-            </span>
+              <span css={theme => css`font-weight: ${theme.textWeight.bold}`}>
+                {post.author}
+              </span>
               {" "}&middot;{" "}
               <span css={theme => css`color: ${theme.textColor[2]}`}>
-              {post.createdAt}
-            </span>
+                {post.createdAt}
+              </span>
             </div>
             <div css={theme => css`
-            display: flex;
-            column-gap: ${theme.spacing[2]};
-          `}>
+              display: flex;
+              column-gap: ${theme.spacing[2]};
+            `}>
               <DefaultButton onClick={displayEditForm}>수정</DefaultButton>
               <DefaultButton>삭제</DefaultButton>
             </div>
           </div>
         </header>
         <Viewer
+          ref={viewerRef}
           initialValue={post.content}
           usageStatistics={false}
         />
       </article>
+
       {isEditFormDisplayed &&
         <section css={theme => css`
           background-color: ${theme.bgColor[2]};
@@ -121,7 +128,7 @@ const Post = ({ post }) => {
             transform: translateY(100%);
           `}
         `}>
-          <PostEditForm editableData={editableData} onClose={closeEditForm} />
+          <PostEditForm postData={postData} onClose={closeEditForm} />
         </section>
       }
     </>
@@ -130,10 +137,11 @@ const Post = ({ post }) => {
 
 Post.propTypes = {
   post: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired
+    content: PropTypes.string
   }).isRequired
 };
 

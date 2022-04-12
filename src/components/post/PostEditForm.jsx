@@ -1,21 +1,35 @@
+import "@toast-ui/editor/dist/toastui-editor.css";
+
 import { useCallback, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
+import { useMutation, useQueryClient } from "react-query";
 import PropTypes from "prop-types";
 
+import { editPost } from "../../apis/posts";
 import DefaultButton from "../common/buttons/DefaultButton";
 import PostForm from "./PostForm";
 import PostTitleTextArea from "./PostTitleTextArea";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 
-const PostEditForm = ({ editableData, onClose }) => {
+const PostEditForm = ({ postData, onClose }) => {
+  const queryClient = useQueryClient();
+
+  const editorRef = useRef();
+
   const { register, handleSubmit, setFocus } = useForm({
     defaultValues: {
-      title: editableData.title
+      title: postData.title
     }
   });
-  const editorRef = useRef();
+
+  const editMutation = useMutation(editPost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["post", postData.id]);
+      onClose();
+    }
+  });
 
   useEffect(() => {
     setFocus("title");
@@ -24,8 +38,12 @@ const PostEditForm = ({ editableData, onClose }) => {
   const handlePostEdit = useCallback(handleSubmit((data) => {
     const { title } = data;
     const content = editorRef.current.getInstance().getMarkdown();
-    console.log("onPostEditFormSubmitted", { title, content });
-  }), []);
+    editMutation.mutate({
+      postId: postData.id,
+      title,
+      content
+    });
+  }), [postData]);
 
   return (
     <PostForm onSubmit={handlePostEdit}>
@@ -38,14 +56,14 @@ const PostEditForm = ({ editableData, onClose }) => {
           <DefaultButton type="button" onClick={onClose}>나가기</DefaultButton>
         </li>
         <li>
-          <PrimaryButton type="submit">글 수정하기</PrimaryButton>
+          <PrimaryButton disabled={editMutation.isLoading} type="submit">글 수정하기</PrimaryButton>
         </li>
       </ul>
       <PostTitleTextArea placeholder="제목을 입력하세요." rows={1}
         {...register("title", { required: true })} />
       <div css={css`flex-grow: 1;`}>
         <Editor
-          initialValue={editableData.content}
+          initialValue={postData.content}
           autofocus={false}
           ref={editorRef}
           height="100%"
@@ -67,7 +85,8 @@ const PostEditForm = ({ editableData, onClose }) => {
 };
 
 PostEditForm.propTypes = {
-  editableData: PropTypes.shape({
+  postData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string
   }).isRequired,

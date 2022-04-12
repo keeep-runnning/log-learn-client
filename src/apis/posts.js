@@ -9,3 +9,8 @@ export async function fetchPost(postId) {
   const response = await axios.get(`/api/posts/${postId}`);
   return response.data;
 }
+
+export async function editPost({ postId, title, content }) {
+  const response = await axios.patch(`/api/posts/${postId}`, { title, content });
+  return response.data;
+}
