@@ -14,3 +14,8 @@ export async function editPost({ postId, title, content }) {
   const response = await axios.patch(`/api/posts/${postId}`, { title, content });
   return response.data;
 }
+
+export async function fetchPostsByAuthorName({ cursor = -1, authorName }) {
+  const response = await axios.get(`/api/posts?cursor=${cursor}&authorName=${authorName}`);
+  return response.data;
+}

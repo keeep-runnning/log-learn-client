@@ -110,6 +110,47 @@ const handlers = [
     return delayedResponse(
       ctx.status(204)
     );
+  }),
+  rest.get("/api/posts", (req, res, ctx) => {
+    const PAGE_SIZE = 10;
+    const cursor = req.url.searchParams.get("cursor") ?? "-1";
+    const authorName = req.url.searchParams.get("authorName");
+
+    let posts;
+    if(authorName) {
+      posts = db.post.findMany({
+        orderBy: {
+          createdAt: "desc"
+        },
+        where: {
+          author: {
+            username: {
+              equals: authorName
+            }
+          }
+        },
+        cursor: cursor === "-1" ? null : cursor,
+        take: PAGE_SIZE
+      })
+    } else {
+      posts = db.post.findMany({
+        orderBy: {
+          createdAt: "desc"
+        },
+        cursor: cursor === "-1" ? null : cursor,
+        take: PAGE_SIZE
+      })
+    }
+
+    const responseBody = {
+      posts: posts.map(serializePost),
+      nextCursor: posts?.length === PAGE_SIZE ? posts[PAGE_SIZE - 1].id : null
+    };
+
+    return delayedResponse(
+      ctx.status(200),
+      ctx.json(responseBody)
+    );
   })
 ];
 
