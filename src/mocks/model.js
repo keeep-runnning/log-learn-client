@@ -40,7 +40,7 @@ mockUserData.forEach(({ username, email, password }) => {
     db.post.create({
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraphs(),
-      createdAt: faker.date.between(new Date(2022, 0, 1), new Date()),
+      createdAt: faker.date.between(new Date(2022, 0, 1), new Date()).toISOString(),
       author
     });
   }
