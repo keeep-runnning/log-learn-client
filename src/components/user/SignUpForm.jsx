@@ -8,12 +8,21 @@ import { signUp } from "../../apis/users";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import TextInputWrapper from "./TextInputWrapper";
+import useNotifications from "../../hooks/useNotifications";
+import { NOTIFICATION_TYPE } from "../../constants/notifications";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
 
+  const { addNotification } = useNotifications();
+
   const signUpMutation = useMutation(signUp, {
     onSuccess: () => {
+      addNotification({
+        type: NOTIFICATION_TYPE.SUCCESS,
+        content: "계정이 생성되었습니다. 로그인 해주세요.",
+        isAutoClose: true
+      });
       navigate("/login");
     }
   });
