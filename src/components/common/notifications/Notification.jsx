@@ -66,6 +66,7 @@ const Notification = ({ notification }) => {
       column-gap: ${theme.spacing[4]};
       padding: ${theme.spacing[3]};
       ${theme.borderRound.normal}
+      background-color: ${theme.bgColor[1]};
       box-shadow: 3px 3px 5px 1px ${theme.bgColor[5]};
       animation: ${notificationSlideDownAnimation} ${NOTIFICATION_SLIDE_ANIMATION_TIME_IN_MS}ms ease-in;
       transition: all ${NOTIFICATION_SLIDE_ANIMATION_TIME_IN_MS}ms ease-in;
