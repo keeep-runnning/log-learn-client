@@ -9,6 +9,8 @@ import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import AlertMessage from "../common/AlertMessage";
 import TextInputWrapper from "./TextInputWrapper";
 import PrimaryButton from "../common/buttons/PrimaryButton";
+import useNotifications from "../../hooks/useNotifications";
+import { NOTIFICATION_TYPE } from "../../constants/notifications";
 
 const LoginForm = () => {
   const [alertMessage, setAlertMessage] = useState("");
@@ -21,6 +23,8 @@ const LoginForm = () => {
 
   const queryClient = useQueryClient();
 
+  const { addNotification } = useNotifications();
+
   const loginMutation = useMutation(login, {
     onSuccess: (data) => {
       const { isLoggedIn, username, message } = data;
@@ -29,6 +33,11 @@ const LoginForm = () => {
         return;
       }
       queryClient.invalidateQueries("currentUser");
+      addNotification({
+        type: NOTIFICATION_TYPE.SUCCESS,
+        content: "로그인 되었습니다.",
+        isAutoClose: true
+      });
       navigate(`/@${username}`);
     }
   });
