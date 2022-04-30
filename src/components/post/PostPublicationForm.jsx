@@ -7,8 +7,8 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import { publishPost } from "../../apis/posts";
-import { fetchCurrentUser } from "../../apis/users";
+import { publishPost } from "../../apis";
+import { fetchCurrentUser } from "../../apis";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import PostTitleTextArea from "./PostTitleTextArea";
 import PostForm from "./PostForm";

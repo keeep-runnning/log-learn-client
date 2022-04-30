@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "react-query";
 import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 
-import { fetchPostsByAuthorName } from "../../apis/posts";
+import { fetchPostsByAuthorName } from "../../apis";
 import PostListItem from "./PostListItem";
 
 const PostList = ({ authorName }) => {

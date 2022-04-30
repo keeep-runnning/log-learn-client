@@ -4,7 +4,7 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import { signUp } from "../../apis/users";
+import { signUp } from "../../apis";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import TextInputWrapper from "./TextInputWrapper";

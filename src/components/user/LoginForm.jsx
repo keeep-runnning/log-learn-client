@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { css } from "@emotion/react";
 
-import { login } from "../../apis/users";
+import { login } from "../../apis";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import AlertMessage from "../common/AlertMessage";
 import TextInputWrapper from "./TextInputWrapper";

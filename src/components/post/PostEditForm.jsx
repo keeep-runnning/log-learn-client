@@ -7,7 +7,7 @@ import { Editor } from "@toast-ui/react-editor";
 import { useMutation, useQueryClient } from "react-query";
 import PropTypes from "prop-types";
 
-import { editPost } from "../../apis/posts";
+import { editPost } from "../../apis";
 import DefaultButton from "../common/buttons/DefaultButton";
 import PostForm from "./PostForm";
 import PostTitleTextArea from "./PostTitleTextArea";

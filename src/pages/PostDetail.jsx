@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { css } from "@emotion/react";
 
-import { fetchPost } from "../apis/posts";
+import { fetchPost } from "../apis";
 import Post from "../components/post/Post";
 
 const PostDetail = () => {
