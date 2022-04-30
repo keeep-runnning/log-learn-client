@@ -14,7 +14,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 import GlobalNotifications from "./components/common/notifications/GlobalNotifications";
 
 function prepareMSW() {
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.DEV && import.meta.env.VITE_WITH_MSW) {
     return import("./mocks/browser").then(({ worker }) => worker.start());
   }
 

@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "dev-with-msw": "cross-env VITE_WITH_MSW=true vite",
     "build": "vite build",
     "preview": "vite preview"
   },
