@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -10,11 +10,22 @@ import PrimaryButton from "../common/buttons/PrimaryButton";
 import TextInputWrapper from "./TextInputWrapper";
 import useNotifications from "../../hooks/useNotifications";
 import { NOTIFICATION_TYPE } from "../../constants/notifications";
+import AlertMessage from "../common/AlertMessage";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
 
   const { addNotification } = useNotifications();
+
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const addAlertMessage = useCallback((message) => {
+    setAlertMessage(message);
+  }, []);
+
+  const removeAlertMessage = useCallback(() => {
+    setAlertMessage("");
+  }, []);
 
   const signUpMutation = useMutation(signUp, {
     onSuccess: () => {
@@ -24,6 +35,14 @@ const SignUpForm = () => {
         isAutoClose: true
       });
       navigate("/login");
+    },
+    onError: (error) => {
+      const { code } = error.response.data;
+      if(code === "user-001") {
+        addAlertMessage("이미 사용중인 유저이름입니다.");
+      } else if(code === "user-002") {
+        addAlertMessage("이미 사용중인 이메일입니다.");
+      }
     }
   });
 
@@ -44,6 +63,7 @@ const SignUpForm = () => {
             row-gap: ${theme.spacing[4]};
           `}
     >
+      {alertMessage && <AlertMessage message={alertMessage} onCloseButtonClicked={removeAlertMessage} />}
       <TextInputWrapper>
         <label htmlFor="username">유저이름</label>
         <input
