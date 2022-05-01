@@ -27,6 +27,7 @@ const AlertMessage = ({ message, onCloseButtonClicked }) => {
         <IoWarning size={24} />
       </div>
       <p css={theme => css`
+          flex-grow: 1;
           font-weight: ${theme.textWeight.bold};
           ${theme.textSize.xs}  
         `}
