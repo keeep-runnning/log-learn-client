@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
@@ -11,19 +11,17 @@ import TextInputWrapper from "./TextInputWrapper";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import useNotifications from "../../hooks/useNotifications";
 import { NOTIFICATION_TYPE } from "../../constants/notifications";
+import useAlertMessage from "../../hooks/useAlertMessage";
 
 const LoginForm = () => {
-  const [alertMessage, setAlertMessage] = useState("");
-
-  const clearAlertMessage = useCallback(() => {
-    setAlertMessage("");
-  }, []);
 
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
 
   const { addNotification } = useNotifications();
+
+  const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
 
   const loginMutation = useMutation(login, {
     onSuccess: (data) => {
@@ -56,7 +54,7 @@ const LoginForm = () => {
             row-gap: ${theme.spacing[4]};
           `}
     >
-      {alertMessage && <AlertMessage message={alertMessage} onCloseButtonClicked={clearAlertMessage} />}
+      {alertMessage && <AlertMessage message={alertMessage} onCloseButtonClicked={removeAlertMessage} />}
       <TextInputWrapper>
         <label htmlFor="email">이메일</label>
         <input id="email" type="email"

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -11,21 +11,14 @@ import TextInputWrapper from "./TextInputWrapper";
 import useNotifications from "../../hooks/useNotifications";
 import { NOTIFICATION_TYPE } from "../../constants/notifications";
 import AlertMessage from "../common/AlertMessage";
+import useAlertMessage from "../../hooks/useAlertMessage";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
 
   const { addNotification } = useNotifications();
 
-  const [alertMessage, setAlertMessage] = useState("");
-
-  const addAlertMessage = useCallback((message) => {
-    setAlertMessage(message);
-  }, []);
-
-  const removeAlertMessage = useCallback(() => {
-    setAlertMessage("");
-  }, []);
+  const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
 
   const signUpMutation = useMutation(signUp, {
     onSuccess: () => {
@@ -39,9 +32,9 @@ const SignUpForm = () => {
     onError: (error) => {
       const { code } = error.response.data;
       if(code === "user-001") {
-        addAlertMessage("이미 사용중인 유저이름입니다.");
+        setAlertMessage("이미 사용중인 유저이름입니다.");
       } else if(code === "user-002") {
-        addAlertMessage("이미 사용중인 이메일입니다.");
+        setAlertMessage("이미 사용중인 이메일입니다.");
       }
     }
   });
