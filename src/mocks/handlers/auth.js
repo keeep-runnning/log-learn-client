@@ -50,20 +50,11 @@ const handlers = [
   }),
   rest.post("/api/auth/logout", (req, res, ctx) => {
     const currentUsername = getLoggedInUsername();
-    if(!currentUsername) {
-      return delayedResponse(
-        ctx.status(401)
-      );
+    if(currentUsername) {
+      deleteLoggedInUsername();
     }
 
-    deleteLoggedInUsername();
-
-    return delayedResponse(
-      ctx.status(200),
-      ctx.json({
-        isLoggedIn: false
-      })
-    );
+    return delayedResponse(ctx.status(200));
   }),
 ];
 
