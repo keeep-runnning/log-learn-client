@@ -28,16 +28,23 @@ const handlers = [
         }
       }
     });
-    if(user) {
-      saveLoggedInUsername(user);
+    if(!user) {
+      return delayedResponse(
+        ctx.status(401),
+        ctx.json({
+          code: "auth-001",
+          errorMessage: "이메일 또는 비밀번호가 유효하지 않습니다.",
+          errors: []
+        })
+      );
     }
+    saveLoggedInUsername(user);
 
     return delayedResponse(
       ctx.status(200),
       ctx.json({
         isLoggedIn: Boolean(user),
-        username: user?.username ?? "",
-        message: Boolean(user)? "" : "이메일 또는 비밀번호가 유효하지 않습니다."
+        username: user.username,
       })
     );
   }),

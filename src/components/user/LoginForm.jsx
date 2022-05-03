@@ -25,11 +25,8 @@ const LoginForm = () => {
 
   const loginMutation = useMutation(login, {
     onSuccess: (data) => {
-      const { isLoggedIn, username, message } = data;
-      if(!isLoggedIn) {
-        setAlertMessage(message);
-        return;
-      }
+      const { isLoggedIn, username } = data;
+      if(!isLoggedIn) return;
       queryClient.invalidateQueries("currentUser");
       addNotification({
         type: NOTIFICATION_TYPE.SUCCESS,
@@ -37,6 +34,12 @@ const LoginForm = () => {
         isAutoClose: true
       });
       navigate(`/@${username}`);
+    },
+    onError: (error) => {
+      const { code } = error.response.data;
+      if(code === "auth-001") {
+        setAlertMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
+      }
     }
   });
 
