@@ -3,29 +3,28 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import { publishPost } from "../../apis";
-import { fetchCurrentUser } from "../../apis";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import PostTitleTextArea from "./PostTitleTextArea";
 import PostForm from "./PostForm";
 import DefaultButton from "../common/buttons/DefaultButton";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const PostPublicationForm = () => {
   const navigate = useNavigate();
   const editorRef = useRef();
   const { register, handleSubmit, setFocus } = useForm();
-
-  const { data: currentUser, isSuccess } = useQuery("currentUser", fetchCurrentUser);
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
-    if(isSuccess && !currentUser.isLoggedIn) {
+    if(!currentUser.isLoggedIn) {
       navigate("/login", { replace: true });
     }
-  }, [isSuccess, currentUser]);
+  }, [currentUser]);
 
   useEffect(() => {
     setFocus("title");

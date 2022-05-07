@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
-import { useQuery } from "react-query";
 import { css } from "@emotion/react";
 
-import { fetchCurrentUser } from "../../apis";
 import UserProfilePopover from "./UserProfilePopover";
 import Logo from "./Logo";
 import PrimaryButton from "./buttons/PrimaryButton";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const HeaderBar = () => {
-  const { data: currentUser, isLoading, isError } = useQuery("currentUser", fetchCurrentUser);
+  const currentUser = useCurrentUser();
 
   return (
     <header css={theme => css`
@@ -21,9 +20,9 @@ const HeaderBar = () => {
       <Link to="/">
         <Logo />
       </Link>
-      {(isLoading || isError || !currentUser.isLoggedIn) ? (
+      {currentUser.isLoggedIn ?
+        <UserProfilePopover username={currentUser.username} /> :
         <PrimaryButton as={Link} to="/login">로그인</PrimaryButton>
-        ): (<UserProfilePopover username={currentUser.username} />)
       }
     </header>
   );
