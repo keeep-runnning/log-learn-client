@@ -11,7 +11,3 @@ export function deleteLoggedInUsername() {
 export function getLoggedInUsername() {
   return sessionStorage.getItem(USERNAME_KEY);
 }
-
-export function serializePost(post) {
-  return ({...post, author: post.author.username});
-}

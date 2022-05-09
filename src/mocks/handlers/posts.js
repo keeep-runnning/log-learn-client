@@ -2,7 +2,7 @@ import { rest } from "msw";
 
 import db from "../model";
 import delayedResponse from "../response/delayedResponse";
-import { getLoggedInUsername, serializePost } from "../utils";
+import { getLoggedInUsername } from "../utils";
 
 const handlers = [
   rest.post("/api/posts", (req, res, ctx) => {
@@ -35,7 +35,13 @@ const handlers = [
 
     return delayedResponse(
       ctx.status(201),
-      ctx.json(serializePost(createdPost))
+      ctx.json({
+        id: createdPost.id,
+        title: createdPost.title,
+        content: createdPost.content,
+        author: createdPost.author.username,
+        createdAt: createdPost.createdAt
+      })
     );
   }),
   rest.get("/api/posts/:postId", (req, res, ctx) => {
@@ -60,7 +66,13 @@ const handlers = [
 
     return delayedResponse(
       ctx.status(200),
-      ctx.json(serializePost(postFoundById))
+      ctx.json({
+        id: postFoundById.id,
+        title: postFoundById.title,
+        content: postFoundById.content,
+        author: postFoundById.author.username,
+        createdAt: postFoundById.createdAt
+      })
     );
   }),
   rest.patch("/api/posts/:postId", (req, res, ctx) => {
@@ -143,7 +155,13 @@ const handlers = [
     }
 
     const responseBody = {
-      posts: posts.map(serializePost),
+      posts: posts.map(post => ({
+        id: post.id,
+        author: post.author.username,
+        title: post.title,
+        createdAt: post.createdAt,
+        content: post.content
+      })),
       nextCursor: posts?.length === PAGE_SIZE ? posts[PAGE_SIZE - 1].id : null
     };
 
