@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 
 import DefaultButton from "../common/buttons/DefaultButton";
 import PostEditForm from "./PostEditForm";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const SLIDE_ANIMATION_TIME_IN_MS = 200;
 
@@ -21,7 +22,7 @@ const slideUpAnimation = keyframes`
 
 const Post = ({ post }) => {
   const viewerRef = useRef();
-
+  const currentUser = useCurrentUser();
   const [isEditFormDisplayed, setIsEditFormDisplayed] = useState(false);
   const [isEditFormClosing, setIsEditFormClosing] = useState(false);
 
@@ -98,13 +99,15 @@ const Post = ({ post }) => {
                 {post.createdAt}
               </span>
             </div>
-            <div css={theme => css`
-              display: flex;
-              column-gap: ${theme.spacing[2]};
-            `}>
-              <DefaultButton onClick={displayEditForm}>수정</DefaultButton>
-              <DefaultButton>삭제</DefaultButton>
-            </div>
+            {(currentUser.isLoggedIn && currentUser.username === post.author) && (
+              <div css={theme => css`
+                display: flex;
+                column-gap: ${theme.spacing[2]};
+              `}>
+                <DefaultButton onClick={displayEditForm}>수정</DefaultButton>
+                <DefaultButton>삭제</DefaultButton>
+              </div>
+            )}
           </div>
         </header>
         <Viewer
