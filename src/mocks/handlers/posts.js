@@ -7,17 +7,6 @@ import { getLoggedInUsername } from "../utils";
 const handlers = [
   rest.post("/api/posts", (req, res, ctx) => {
     const currentUsername = getLoggedInUsername();
-    if(!currentUsername) {
-      return delayedResponse(
-        ctx.status(401),
-        ctx.json({
-          code: "common-002",
-          errorMessage: "로그인이 필요합니다.",
-          errors: []
-        })
-      );
-    }
-
     const author = db.user.findFirst({
       where: {
         username: {
@@ -76,37 +65,7 @@ const handlers = [
     );
   }),
   rest.patch("/api/posts/:postId", (req, res, ctx) => {
-    const currentUsername = getLoggedInUsername();
-    if(!currentUsername) {
-      return delayedResponse(
-        ctx.status(401),
-        ctx.json({
-          code: "common-002",
-          errorMessage: "로그인이 필요합니다.",
-          errors: []
-        })
-      );
-    }
-
     const { postId } = req.params;
-    const postFoundById = db.post.findFirst({
-      where: {
-        id: {
-          equals: postId
-        }
-      }
-    });
-    if(!postFoundById) {
-      return delayedResponse(
-        ctx.status(404),
-        ctx.json({
-          code: "post-001",
-          errorMessage: "존재하지 않는 블로그 포스트를 수정할 수 없습니다.",
-          errors: []
-        })
-      );
-    }
-
     const { title, content } = req.body;
     db.post.update({
       where: {
