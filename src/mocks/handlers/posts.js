@@ -128,6 +128,20 @@ const handlers = [
       ctx.status(200),
       ctx.json(responseBody)
     );
+  }),
+  rest.delete("/api/posts/:postId", (req, res, ctx) => {
+    const { postId } = req.params;
+    db.post.delete({
+      where: {
+        id: {
+          equals: postId
+        }
+      }
+    });
+
+    return delayedResponse(
+      ctx.status(204)
+    );
   })
 ];
 

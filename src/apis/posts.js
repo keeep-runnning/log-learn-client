@@ -19,3 +19,8 @@ export async function fetchPostsByAuthorName({ cursor = -1, authorName }) {
   const response = await axios.get(`/api/posts?cursor=${cursor}&authorName=${authorName}`);
   return response.data;
 }
+
+export async function removePost(postId) {
+  const response = await axios.delete(`/api/posts/${postId}`);
+  return response.data;
+}

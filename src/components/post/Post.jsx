@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import DefaultButton from "../common/buttons/DefaultButton";
 import PostEditForm from "./PostEditForm";
 import useCurrentUser from "../../hooks/useCurrentUser";
+import PostRemoveButton from "./PostRemoveButton";
 
 const SLIDE_ANIMATION_TIME_IN_MS = 200;
 
@@ -105,7 +106,7 @@ const Post = ({ post }) => {
                 column-gap: ${theme.spacing[2]};
               `}>
                 <DefaultButton onClick={displayEditForm}>수정</DefaultButton>
-                <DefaultButton>삭제</DefaultButton>
+                <PostRemoveButton post={post} />
               </div>
             )}
           </div>
