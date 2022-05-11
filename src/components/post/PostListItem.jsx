@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 
+import DateTime from "../common/DateTime";
+
 const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
   return (
     <article css={theme => css`
@@ -22,12 +24,7 @@ const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
         <h2>{title}</h2>
       </Link>
       <p>{preview.slice(0, 100)}</p>
-      <span css={theme => css`
-        color: ${theme.textColor[2]};
-        ${theme.textSize.sm}
-      `}>
-        {createdAt}
-      </span>
+      <DateTime dateTimeStr={createdAt} />
     </article>
   );
 };

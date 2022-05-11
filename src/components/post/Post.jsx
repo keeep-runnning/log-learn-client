@@ -9,6 +9,7 @@ import DefaultButton from "../common/buttons/DefaultButton";
 import PostEditForm from "./PostEditForm";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import PostRemoveButton from "./PostRemoveButton";
+import DateTime from "../common/DateTime";
 
 const SLIDE_ANIMATION_TIME_IN_MS = 200;
 
@@ -91,14 +92,16 @@ const Post = ({ post }) => {
             justify-content: space-between;
             ${theme.textSize.sm}
           `}>
-            <div>
-              <span css={theme => css`font-weight: ${theme.textWeight.bold}`}>
+            <div css={theme => css`
+              display: flex;
+              align-items: center;
+              column-gap: ${theme.spacing[2]};
+            `}>
+              <div css={theme => css`font-weight: ${theme.textWeight.bold}`}>
                 {post.author}
-              </span>
+              </div>
               {" "}&middot;{" "}
-              <span css={theme => css`color: ${theme.textColor[2]}`}>
-                {post.createdAt}
-              </span>
+              <DateTime dateTimeStr={post.createdAt} />
             </div>
             {(currentUser.isLoggedIn && currentUser.username === post.author) && (
               <div css={theme => css`
