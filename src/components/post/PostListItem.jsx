@@ -24,7 +24,23 @@ const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
         <h2>{title}</h2>
       </Link>
       <p>{preview.slice(0, 100)}</p>
-      <DateTime dateTimeStr={createdAt} />
+      <div css={theme => css`
+        display: flex;
+        align-items: center;
+        column-gap: ${theme.spacing[2]};
+      `}>
+        <Link to={`/@${authorName}`} css={theme => css`
+          ${theme.textSize.sm}
+          font-weight: ${theme.textWeight.bold};
+          &:hover {
+            text-decoration: underline;
+          }
+        `}>
+          {authorName}
+        </Link>
+        &middot;
+        <DateTime dateTimeStr={createdAt} />
+      </div>
     </article>
   );
 };
