@@ -4,6 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { css, keyframes } from "@emotion/react";
 import { Viewer } from "@toast-ui/react-editor";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import DefaultButton from "../common/buttons/DefaultButton";
 import PostEditForm from "./PostEditForm";
@@ -97,10 +98,16 @@ const Post = ({ post }) => {
               align-items: center;
               column-gap: ${theme.spacing[2]};
             `}>
-              <div css={theme => css`font-weight: ${theme.textWeight.bold}`}>
+              <Link to={`/@${post.author}`} css={theme => css`
+                ${theme.textSize.sm}
+                font-weight: ${theme.textWeight.bold};
+                &:hover {
+                  text-decoration: underline;
+                }
+              `}>
                 {post.author}
-              </div>
-              {" "}&middot;{" "}
+              </Link>
+              &middot;
               <DateTime dateTimeStr={post.createdAt} />
             </div>
             {(currentUser.isLoggedIn && currentUser.username === post.author) && (
