@@ -20,8 +20,14 @@ const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
         ${theme.textSize.base}
       }
     `}>
-      <Link to={`/@${authorName}/posts/${postId}`}>
-        <h2>{title}</h2>
+      <Link to={`/@${authorName}/posts/${postId}`} css={theme => css`
+        font-weight: ${theme.textWeight.bold};
+        ${theme.textSize.lg}
+        &:hover {
+          text-decoration: underline;
+        }
+      `}>
+        {title}
       </Link>
       <p>{preview.slice(0, 100)}</p>
       <div css={theme => css`
