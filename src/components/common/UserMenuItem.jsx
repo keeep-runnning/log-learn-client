@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const UserProfileMenuItem = styled.div`
+const UserMenuItem = styled.div`
   display: flex;
   align-items: center;
   ${({theme}) => css`
@@ -16,4 +16,4 @@ const UserProfileMenuItem = styled.div`
   `}
 `;
 
-export default UserProfileMenuItem;
+export default UserMenuItem;

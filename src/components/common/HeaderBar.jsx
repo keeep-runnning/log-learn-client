@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import UserProfilePopover from "./UserProfilePopover";
+import UserMenuPopover from "./UserMenuPopover";
 import Logo from "./Logo";
 import PrimaryButton from "./buttons/PrimaryButton";
 import useCurrentUser from "../../hooks/useCurrentUser";
@@ -21,7 +21,7 @@ const HeaderBar = () => {
         <Logo />
       </Link>
       {currentUser.isLoggedIn ?
-        <UserProfilePopover username={currentUser.username} /> :
+        <UserMenuPopover username={currentUser.username} /> :
         <PrimaryButton as={Link} to="/login">로그인</PrimaryButton>
       }
     </header>

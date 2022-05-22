@@ -1,13 +1,19 @@
 import { useCallback, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { IoLogOutOutline, IoPencil, IoPersonCircleSharp, IoSettingsOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoPencil, IoSettingsOutline } from "react-icons/io5";
 import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 
 import LogoutButton from "../user/LogoutButton";
-import UserProfileMenuItem from "./UserProfileMenuItem";
+import UserMenuItem from "./UserMenuItem";
+import UserNameIcon from "./UserNameIcon";
 
-const UserProfilePopover = ({ username }) => {
+const userMenuData = [
+  { name: "설정", link: "/settings", icon: <IoSettingsOutline /> },
+  { name: "글쓰기", link: "/write", icon: <IoPencil /> }
+];
+
+const UserMenuPopover = ({ username }) => {
   const [isOpen, setIsOpen] = useState(false);
   const timerId = useRef();
 
@@ -27,16 +33,8 @@ const UserProfilePopover = ({ username }) => {
 
   return (
     <div onBlur={handlePopoverBlur} onFocus={handlePopoverFocus} css={css`position: relative;`}>
-      <button onClick={togglePopover}
-        css={theme => css`
-          display: flex;
-          column-gap: ${theme.spacing[2]};
-          align-items: center;
-          ${theme.textSize.base}
-        `}
-      >
-        {username}
-        <IoPersonCircleSharp size={24} />
+      <button onClick={togglePopover}>
+        <UserNameIcon username={username} />
       </button>
       <nav css={theme => css`
           position: absolute;
@@ -44,7 +42,7 @@ const UserProfilePopover = ({ username }) => {
           right: ${theme.spacing[1]};
           padding: ${theme.spacing[2]};
           background-color: ${theme.bgColor[2]};
-          box-shadow: 3px 3px 8px 3px rgba(195,204,216,0.75);
+          box-shadow: 3px 3px 8px 3px rgba(195, 204, 216, 0.75);
           ${theme.borderRound.normal}
           transform: translateY(60%);
           opacity: 0;
@@ -62,25 +60,20 @@ const UserProfilePopover = ({ username }) => {
           flex-direction: column;
           row-gap: ${theme.spacing[3]};
         `}>
-          <li>
-            <Link to="/settings">
-              <UserProfileMenuItem>
-                설정 <IoSettingsOutline />
-              </UserProfileMenuItem>
-            </Link>
-          </li>
-          <li>
-            <Link to="/write">
-              <UserProfileMenuItem>
-                글쓰기 <IoPencil />
-              </UserProfileMenuItem>
-            </Link>
-          </li>
+          {userMenuData.map(({ name, link, icon }) => (
+            <li key={name}>
+              <Link to={link}>
+                <UserMenuItem>
+                  {name} {icon}
+                </UserMenuItem>
+              </Link>
+            </li>
+          ))}
           <li>
             <LogoutButton>
-              <UserProfileMenuItem>
+              <UserMenuItem>
                 로그아웃 <IoLogOutOutline />
-              </UserProfileMenuItem>
+              </UserMenuItem>
             </LogoutButton>
           </li>
         </ul>
@@ -89,8 +82,8 @@ const UserProfilePopover = ({ username }) => {
   );
 };
 
-UserProfilePopover.propTypes = {
+UserMenuPopover.propTypes = {
   username: PropTypes.string.isRequired
 };
 
-export default UserProfilePopover;
+export default UserMenuPopover;
