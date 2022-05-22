@@ -1,6 +1,6 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { IoLogOutOutline, IoPencil, IoSettingsOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoPencil, IoSettingsOutline, IoHomeOutline } from "react-icons/io5";
 import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 
@@ -31,6 +31,11 @@ const UserMenuPopover = ({ username }) => {
     clearTimeout(timerId.current);
   }, []);
 
+  const userMenuListData = useMemo(() => [
+    { name: "내 블로그로 이동", link: `/@${username}`, icon: <IoHomeOutline /> },
+    ...userMenuData
+  ], [username]);
+
   return (
     <div onBlur={handlePopoverBlur} onFocus={handlePopoverFocus} css={css`position: relative;`}>
       <button onClick={togglePopover}>
@@ -60,7 +65,7 @@ const UserMenuPopover = ({ username }) => {
           flex-direction: column;
           row-gap: ${theme.spacing[3]};
         `}>
-          {userMenuData.map(({ name, link, icon }) => (
+          {userMenuListData.map(({ name, link, icon }) => (
             <li key={name}>
               <Link to={link}>
                 <UserMenuItem>
