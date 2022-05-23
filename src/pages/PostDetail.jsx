@@ -4,9 +4,10 @@ import { css } from "@emotion/react";
 
 import { fetchPost } from "../apis";
 import Post from "../components/post/Post";
+import NotFound from "./NotFound";
 
 const PostDetail = () => {
-  const { username: author, postId } = useParams();
+  const { username: authorName, postId } = useParams();
 
   const { data: post, error, isLoading, isError } = useQuery(
     ["post", postId],
@@ -21,26 +22,26 @@ const PostDetail = () => {
   }
 
   if(isError) {
-    if(error.response?.data) {
-      return (
-        <div>{error.response?.data.errorMessage}</div>
-      );
+    if(error.response?.status === 404) {
+      return <NotFound />;
     }
     return null;
   }
 
+  if(post.author !== authorName) {
+    return <NotFound />;
+  }
+
   return (
-    <>
-     <main css={theme => css`
-       padding: ${theme.spacing[4]};
-       ${theme.mq.md} {
-         max-width: ${theme.bp.md};
-         margin: 0 auto;
-       }
-     `}>
-       <Post post={post} />
-     </main>
-    </>
+    <main css={theme => css`
+      padding: ${theme.spacing[4]};
+      ${theme.mq.md} {
+        max-width: ${theme.bp.md};
+        margin: 0 auto;
+      }
+    `}>
+      <Post post={post} />
+    </main>
   );
 };
 
