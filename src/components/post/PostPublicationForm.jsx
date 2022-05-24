@@ -3,16 +3,15 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
-import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import { publishPost } from "../../apis";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import PostTitleTextArea from "./PostTitleTextArea";
 import PostForm from "./PostForm";
 import DefaultButton from "../common/buttons/DefaultButton";
 import useCurrentUser from "../../hooks/useCurrentUser";
+import usePostPublication from "../../hooks/queries/posts/usePostPublication";
 
 const PostPublicationForm = () => {
   const navigate = useNavigate();
@@ -30,16 +29,16 @@ const PostPublicationForm = () => {
     setFocus("title");
   }, [setFocus]);
 
-  const postPublicationMutation = useMutation(publishPost, {
-    onSuccess: ({author, id: postId}) => {
-      navigate(`/@${author}/posts/${postId}`);
-    }
-  });
+  const postPublicationMutation = usePostPublication();
 
   const handlePostPublication = useCallback(handleSubmit((data) => {
     const { title } = data;
     const content = editorRef.current.getInstance().getMarkdown();
-    postPublicationMutation.mutate({title, content});
+    postPublicationMutation.mutate({ title, content }, {
+      onSuccess: ({ author, id: postId }) => {
+        navigate(`/@${author}/posts/${postId}`);
+      }
+    });
   }), []);
 
   const handleGoBackButtonClick = useCallback(() => {
