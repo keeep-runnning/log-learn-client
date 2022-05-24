@@ -1,21 +1,14 @@
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
 import { css } from "@emotion/react";
 
-import { fetchPost } from "../apis";
 import Post from "../components/post/Post";
 import NotFound from "./NotFound";
+import usePostDetailQuery from "../hooks/queries/posts/usePostDetailQuery";
 
 const PostDetail = () => {
   const { username: authorName, postId } = useParams();
 
-  const { data: post, error, isLoading, isError } = useQuery(
-    ["post", postId],
-    ({queryKey}) => fetchPost(queryKey[1]),
-    {
-      retry: (failureCount, error) => error.response?.status !== 404 && failureCount <= 3
-    }
-  );
+  const { data: post, error, isLoading, isError } = usePostDetailQuery(postId);
 
   if(isLoading) {
     return <div>loading...</div>
