@@ -1,10 +1,9 @@
 import { Fragment, useEffect, useRef } from "react";
-import { useInfiniteQuery } from "react-query";
 import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 
-import { fetchPostsByAuthorName } from "../../apis";
 import PostListItem from "./PostListItem";
+import usePostsByAuthorInfiniteQuery from "../../hooks/queries/posts/usePostsByAuthorInfiniteQuery";
 
 const PostList = ({ authorName }) => {
   const targetRef = useRef();
@@ -17,13 +16,7 @@ const PostList = ({ authorName }) => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage
-  } = useInfiniteQuery(
-    [authorName, "posts"],
-    ({ pageParam : cursor }) => fetchPostsByAuthorName({ cursor, authorName }),
-    {
-      getNextPageParam: lastPage => lastPage.nextCursor ?? undefined
-    }
-  );
+  } = usePostsByAuthorInfiniteQuery(authorName);
 
   useEffect(() => {
     const io = new IntersectionObserver((entries) => {
