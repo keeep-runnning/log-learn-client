@@ -4,18 +4,15 @@ import { useCallback, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
-import { useMutation, useQueryClient } from "react-query";
 import PropTypes from "prop-types";
 
-import { editPost } from "../../apis";
 import DefaultButton from "../common/buttons/DefaultButton";
 import PostForm from "./PostForm";
 import PostTitleTextArea from "./PostTitleTextArea";
 import PrimaryButton from "../common/buttons/PrimaryButton";
+import usePostEdit from "../../hooks/queries/posts/usePostEdit";
 
 const PostEditForm = ({ postData, onClose }) => {
-  const queryClient = useQueryClient();
-
   const editorRef = useRef();
 
   const { register, handleSubmit, setFocus } = useForm({
@@ -24,12 +21,7 @@ const PostEditForm = ({ postData, onClose }) => {
     }
   });
 
-  const editMutation = useMutation(editPost, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["post", postData.id]);
-      onClose();
-    }
-  });
+  const editMutation = usePostEdit();
 
   useEffect(() => {
     setFocus("title");
@@ -42,6 +34,10 @@ const PostEditForm = ({ postData, onClose }) => {
       postId: postData.id,
       title,
       content
+    }, {
+      onSuccess: () => {
+        onClose();
+      }
     });
   }), [postData]);
 
