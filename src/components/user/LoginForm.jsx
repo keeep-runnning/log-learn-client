@@ -1,10 +1,8 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
 import { css } from "@emotion/react";
 
-import { login } from "../../apis";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import AlertMessage from "../common/AlertMessage";
 import TextInputWrapper from "./TextInputWrapper";
@@ -12,45 +10,45 @@ import PrimaryButton from "../common/buttons/PrimaryButton";
 import useNotifications from "../../hooks/useNotifications";
 import { NOTIFICATION_TYPE } from "../../constants/notifications";
 import useAlertMessage from "../../hooks/useAlertMessage";
+import useLogin from "../../hooks/queries/auth/useLogin";
 
 const LoginForm = () => {
-
   const navigate = useNavigate();
-
-  const queryClient = useQueryClient();
 
   const { addNotification } = useNotifications();
 
   const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
 
-  const loginMutation = useMutation(login, {
-    onSuccess: (data) => {
-      const { isLoggedIn, username } = data;
-      if(!isLoggedIn) return;
-      queryClient.invalidateQueries("currentUser");
-      addNotification({
-        type: NOTIFICATION_TYPE.SUCCESS,
-        content: "로그인 되었습니다.",
-        isAutoClose: true
-      });
-      navigate(`/@${username}`);
-    },
-    onError: (error) => {
-      const { code } = error.response.data;
-      if(code === "auth-001") {
-        setAlertMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
-      }
-    }
-  });
+  const loginMutation = useLogin();
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onLoginFormSubmitted = useCallback(handleSubmit((data) => {
-    loginMutation.mutate(data);
-  }), []);
+  const handleLoginFormSubmit = useCallback(
+    handleSubmit(({ email, password }) => {
+      loginMutation.mutate({ email, password }, {
+        onSuccess: ({ isLoggedIn, username }) => {
+          if(!isLoggedIn) return;
+          addNotification({
+            type: NOTIFICATION_TYPE.SUCCESS,
+            content: "로그인 되었습니다."
+          });
+          navigate(`/@${username}`);
+        },
+        onError: error => {
+          if(error.response) {
+            const { code } = error.response.data;
+            if(code === "auth-001") {
+              setAlertMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
+            }
+          }
+        }
+      });
+    }),
+    []
+  );
 
   return (
-    <form noValidate onSubmit={onLoginFormSubmitted}
+    <form noValidate onSubmit={handleLoginFormSubmit}
           css={theme => css`
             display: flex;
             flex-direction: column;
