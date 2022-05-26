@@ -4,10 +4,10 @@ import { css } from "@emotion/react";
 import UserMenuPopover from "./UserMenuPopover";
 import Logo from "./Logo";
 import PrimaryButton from "./buttons/PrimaryButton";
-import useCurrentUser from "../../hooks/useCurrentUser";
+import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
 
 const HeaderBar = () => {
-  const currentUser = useCurrentUser();
+  const currentUser = useCurrentUserQuery();
 
   return (
     <header css={theme => css`

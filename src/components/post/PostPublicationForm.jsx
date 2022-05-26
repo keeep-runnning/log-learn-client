@@ -10,14 +10,14 @@ import PrimaryButton from "../common/buttons/PrimaryButton";
 import PostTitleTextArea from "./PostTitleTextArea";
 import PostForm from "./PostForm";
 import DefaultButton from "../common/buttons/DefaultButton";
-import useCurrentUser from "../../hooks/useCurrentUser";
+import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
 import usePostPublication from "../../hooks/queries/posts/usePostPublication";
 
 const PostPublicationForm = () => {
   const navigate = useNavigate();
   const editorRef = useRef();
   const { register, handleSubmit, setFocus } = useForm();
-  const currentUser = useCurrentUser();
+  const currentUser = useCurrentUserQuery();
 
   useEffect(() => {
     if(!currentUser.isLoggedIn) {

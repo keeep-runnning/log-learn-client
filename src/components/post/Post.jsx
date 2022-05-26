@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 import DefaultButton from "../common/buttons/DefaultButton";
 import PostEditForm from "./PostEditForm";
-import useCurrentUser from "../../hooks/useCurrentUser";
+import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
 import PostRemoveButton from "./PostRemoveButton";
 import DateTime from "../common/DateTime";
 
@@ -25,7 +25,7 @@ const slideUpAnimation = keyframes`
 
 const Post = ({ post }) => {
   const viewerRef = useRef();
-  const currentUser = useCurrentUser();
+  const currentUser = useCurrentUserQuery();
   const [isEditFormDisplayed, setIsEditFormDisplayed] = useState(false);
   const [isEditFormClosing, setIsEditFormClosing] = useState(false);
 
