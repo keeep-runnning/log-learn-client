@@ -1,10 +1,8 @@
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import { signUp } from "../../apis";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import TextInputWrapper from "./TextInputWrapper";
@@ -12,6 +10,7 @@ import useNotifications from "../../hooks/useNotifications";
 import { NOTIFICATION_TYPE } from "../../constants/notifications";
 import AlertMessage from "../common/AlertMessage";
 import useAlertMessage from "../../hooks/useAlertMessage";
+import useSignUp from "../../hooks/queries/users/useSignUp";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -20,32 +19,36 @@ const SignUpForm = () => {
 
   const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
 
-  const signUpMutation = useMutation(signUp, {
-    onSuccess: () => {
-      addNotification({
-        type: NOTIFICATION_TYPE.SUCCESS,
-        content: "계정이 생성되었습니다. 로그인 해주세요.",
-        isAutoClose: true
-      });
-      navigate("/login");
-    },
-    onError: (error) => {
-      const { code } = error.response.data;
-      if(code === "user-001") {
-        setAlertMessage("이미 사용중인 유저이름입니다.");
-      } else if(code === "user-002") {
-        setAlertMessage("이미 사용중인 이메일입니다.");
-      }
-    }
-  });
+  const signUpMutation = useSignUp();
 
   const { register, handleSubmit, getValues, formState: { errors } } = useForm({
     mode: "onChange"
   });
 
-  const onValidationSucceeded = useCallback((data) => {
-    const { username, email, password } = data;
-    signUpMutation.mutate({ username, email, password });
+  const onValidationSucceeded = useCallback(({ username, email, password }) => {
+    signUpMutation.mutate(
+      { username, email, password },
+      {
+        onSuccess: () => {
+          addNotification({
+            type: NOTIFICATION_TYPE.SUCCESS,
+            content: "계정이 생성되었습니다. 로그인 해주세요.",
+            isAutoClose: true
+          });
+          navigate("/login");
+        },
+        onError: (error) => {
+          if(error.response) {
+            const { code } = error.response.data;
+            if(code === "user-001") {
+              setAlertMessage("이미 사용중인 유저이름입니다.");
+            } else if(code === "user-002") {
+              setAlertMessage("이미 사용중인 이메일입니다.");
+            }
+          }
+        }
+      }
+    );
   }, []);
 
   return (
