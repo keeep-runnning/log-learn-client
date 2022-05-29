@@ -1,8 +1,20 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import useCurrentUserQuery from "../hooks/queries/auth/useCurrentUserQuery";
+import SettingsTabs, { settingsTabType } from "../components/settings/SettingsTabs";
+
+function isTabQueryStringValid(tab) {
+  return Object.values(settingsTabType).includes(tab);
+}
+
+function getSelectedTabFromTabQueryString(tab) {
+  if(!tab || !isTabQueryStringValid(tab)) {
+    return settingsTabType.MAIN;
+  }
+  return tab;
+}
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -15,12 +27,33 @@ const Settings = () => {
     }
   }, [isLoggedIn]);
 
+  const [searchParams] = useSearchParams();
+  const tab = searchParams.get("tab");
+
+  const [selectedTab, setSelectedTab] = useState(getSelectedTabFromTabQueryString(tab));
+
+  useEffect(() => {
+    if (tab && !isTabQueryStringValid(tab)) {
+      navigate("/settings");
+    } else {
+      setSelectedTab(getSelectedTabFromTabQueryString(tab));
+    }
+  }, [tab]);
+
+  const handleTabClick = useCallback(clickedTabType => {
+    setSelectedTab(clickedTabType);
+  }, []);
+
   return (
     <div css={theme => css`
+      display: flex;
+      flex-direction: column;
+      row-gap: ${theme.spacing[6]};
       padding: ${theme.spacing[4]};
       ${theme.mq.md} {
         max-width: ${theme.bp.md};
         margin: 0 auto;
+        row-gap: ${theme.spacing[8]};
       }
     `}>
       <h1 css={theme => css`
@@ -29,6 +62,7 @@ const Settings = () => {
       `}>
         설정
       </h1>
+      <SettingsTabs selectedTab={selectedTab} onTabClick={handleTabClick} />
     </div>
   );
 };
