@@ -8,6 +8,7 @@ import UserHome from "./pages/UserHome";
 import PostPublication from "./pages/PostPublication";
 import PostDetail from "./pages/PostDetail";
 import NotFound from "./pages/NotFound";
+import Settings from "./pages/Settings";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="login" element={<Login />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
       <Route path="/@:username" element={<Layout />}>
         <Route index element={<UserHome />} />
