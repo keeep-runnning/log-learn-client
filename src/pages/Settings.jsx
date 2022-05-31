@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 import useCurrentUserQuery from "../hooks/queries/auth/useCurrentUserQuery";
 import SettingsTabs, { settingsTabType } from "../components/settings/SettingsTabs";
 import MainSettingsForms from "../components/settings/MainSettingsForms";
+import PasswordSettingsForm from "../components/settings/PasswordSettingsForm";
 
 function isTabQueryStringValid(tabQueryString) {
   return Object.values(settingsTabType).includes(tabQueryString);
@@ -61,6 +62,7 @@ const Settings = () => {
       </h1>
       <SettingsTabs selectedTab={selectedTab} />
       {selectedTab === settingsTabType.MAIN && <MainSettingsForms />}
+      {selectedTab === settingsTabType.PASSWORD && <PasswordSettingsForm />}
     </div>
   );
 };

@@ -60,10 +60,12 @@ const defaultValues = {
     `
   },
   bp: {
+    sm: breakpoints.sm,
     md: breakpoints.md,
     lg: breakpoints.lg
   },
   mq: {
+    sm: `@media(min-width: ${breakpoints.sm})`,
     md: `@media(min-width: ${breakpoints.md})`,
     lg: `@media(min-width: ${breakpoints.lg})`
   }
