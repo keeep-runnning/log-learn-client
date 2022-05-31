@@ -6,6 +6,7 @@ import useCurrentUserQuery from "../hooks/queries/auth/useCurrentUserQuery";
 import SettingsTabs, { settingsTabType } from "../components/settings/SettingsTabs";
 import MainSettingsForms from "../components/settings/MainSettingsForms";
 import PasswordSettingsForm from "../components/settings/PasswordSettingsForm";
+import IntroductionSettingsForm from "../components/settings/IntroductionSettingsForm";
 
 function isTabQueryStringValid(tabQueryString) {
   return Object.values(settingsTabType).includes(tabQueryString);
@@ -44,6 +45,7 @@ const Settings = () => {
 
   return (
     <div css={theme => css`
+      height: 100%;
       display: flex;
       flex-direction: column;
       row-gap: ${theme.spacing[6]};
@@ -53,16 +55,21 @@ const Settings = () => {
         margin: 0 auto;
         row-gap: ${theme.spacing[8]};
       }
-    `}>
-      <h1 css={theme => css`
+      & > section {
+        flex-grow: 1;
+      }
+      & > h1 {
         font-weight: ${theme.textWeight.bold};
         ${theme.textSize["2xl"]}
-      `}>
-        설정
-      </h1>
+      }
+    `}>
+      <h1>설정</h1>
       <SettingsTabs selectedTab={selectedTab} />
-      {selectedTab === settingsTabType.MAIN && <MainSettingsForms />}
-      {selectedTab === settingsTabType.PASSWORD && <PasswordSettingsForm />}
+      <section>
+        {selectedTab === settingsTabType.MAIN && <MainSettingsForms />}
+        {selectedTab === settingsTabType.PASSWORD && <PasswordSettingsForm />}
+        {selectedTab === settingsTabType.INTRODUCTION && <IntroductionSettingsForm />}
+      </section>
     </div>
   );
 };
