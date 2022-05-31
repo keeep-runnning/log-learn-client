@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { css } from "@emotion/react";
 
@@ -6,15 +6,15 @@ import useCurrentUserQuery from "../hooks/queries/auth/useCurrentUserQuery";
 import SettingsTabs, { settingsTabType } from "../components/settings/SettingsTabs";
 import MainSettingsForms from "../components/settings/MainSettingsForms";
 
-function isTabQueryStringValid(tab) {
-  return Object.values(settingsTabType).includes(tab);
+function isTabQueryStringValid(tabQueryString) {
+  return Object.values(settingsTabType).includes(tabQueryString);
 }
 
-function getSelectedTabFromTabQueryString(tab) {
-  if(!tab || !isTabQueryStringValid(tab)) {
+function getSelectedTabFromTabQueryString(tabQueryString) {
+  if(!tabQueryString || !isTabQueryStringValid(tabQueryString)) {
     return settingsTabType.MAIN;
   }
-  return tab;
+  return tabQueryString;
 }
 
 const Settings = () => {
@@ -29,21 +29,17 @@ const Settings = () => {
   }, [isLoggedIn]);
 
   const [searchParams] = useSearchParams();
-  const tab = searchParams.get("tab");
+  const tabQueryString = searchParams.get("tab");
 
-  const [selectedTab, setSelectedTab] = useState(getSelectedTabFromTabQueryString(tab));
+  const [selectedTab, setSelectedTab] = useState(getSelectedTabFromTabQueryString(tabQueryString));
 
   useEffect(() => {
-    if (tab && !isTabQueryStringValid(tab)) {
+    if (tabQueryString && !isTabQueryStringValid(tabQueryString)) {
       navigate("/settings");
     } else {
-      setSelectedTab(getSelectedTabFromTabQueryString(tab));
+      setSelectedTab(getSelectedTabFromTabQueryString(tabQueryString));
     }
-  }, [tab]);
-
-  const handleTabClick = useCallback(clickedTabType => {
-    setSelectedTab(clickedTabType);
-  }, []);
+  }, [tabQueryString]);
 
   return (
     <div css={theme => css`
@@ -63,7 +59,7 @@ const Settings = () => {
       `}>
         설정
       </h1>
-      <SettingsTabs selectedTab={selectedTab} onTabClick={handleTabClick} />
+      <SettingsTabs selectedTab={selectedTab} />
       {selectedTab === settingsTabType.MAIN && <MainSettingsForms />}
     </div>
   );

@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -15,12 +15,7 @@ const settingsTabLabel = Object.freeze({
   [settingsTabType.INTRODUCTION]: "소개 수정"
 });
 
-const SettingsTabs = ({ selectedTab, onTabClick }) => {
-  const handleTabClick = useCallback(
-    clickedTabType => () => onTabClick(clickedTabType),
-    [onTabClick]
-  );
-
+const SettingsTabs = ({ selectedTab }) => {
   return (
     <ul css={theme => css`
       padding: ${theme.spacing[2]};
@@ -28,7 +23,7 @@ const SettingsTabs = ({ selectedTab, onTabClick }) => {
       column-gap: ${theme.spacing[4]};
     `}>
       {Object.entries(settingsTabLabel).map(([type, label]) => (
-        <li key={type} onClick={handleTabClick(type)}>
+        <li key={type}>
           <Link to={`/settings?tab=${type}`}
             css={theme => css`
               display: block;
@@ -52,7 +47,6 @@ const SettingsTabs = ({ selectedTab, onTabClick }) => {
 
 SettingsTabs.propTypes = {
   selectedTab: PropTypes.oneOf(Object.values(settingsTabType)).isRequired,
-  onTabClick: PropTypes.func.isRequired
 };
 
 export default memo(SettingsTabs);
