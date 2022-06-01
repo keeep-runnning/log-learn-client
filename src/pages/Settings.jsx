@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import useCurrentUserQuery from "../hooks/queries/auth/useCurrentUserQuery";
 import SettingsTabs, { settingsTabType } from "../components/settings/SettingsTabs";
 import MainSettingsForms from "../components/settings/MainSettingsForms";
 import PasswordSettingsForm from "../components/settings/PasswordSettingsForm";
@@ -21,14 +20,6 @@ function getSelectedTabFromTabQueryString(tabQueryString) {
 
 const Settings = () => {
   const navigate = useNavigate();
-
-  const { isLoggedIn } = useCurrentUserQuery();
-
-  useEffect(() => {
-    if(!isLoggedIn) {
-      navigate("/login");
-    }
-  }, [isLoggedIn]);
 
   const [searchParams] = useSearchParams();
   const tabQueryString = searchParams.get("tab");
