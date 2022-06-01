@@ -2,17 +2,16 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
 const RowForm = styled.form`
-  display: flex;
-  align-items: flex-start;
   ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    row-gap: ${theme.spacing[3]};
     padding: ${theme.spacing[2]};
     & > label {
-      width: 25%;
       color: ${theme.textColor[4]};
       ${theme.textSize.sm}
     }
     & > section {
-      flex-grow: 1;
       display: flex;
       flex-direction: column;
       row-gap: ${theme.spacing[2]};
@@ -34,6 +33,16 @@ const RowForm = styled.form`
     }
     & > section > textarea {
       resize: vertical;
+    }
+    ${theme.mq.sm} {
+      flex-direction: row;
+      align-items: flex-start;
+      & > label {
+        width: 25%;
+      }
+      & > section {
+        flex-grow: 1;
+      }
     }
   `}
 `;
