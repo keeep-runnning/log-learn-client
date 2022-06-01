@@ -20,25 +20,34 @@ const SettingsTabs = ({ selectedTab }) => {
     <ul css={theme => css`
       padding: ${theme.spacing[2]};
       display: flex;
-      column-gap: ${theme.spacing[4]};
+      flex-direction: column;
+      row-gap: ${theme.spacing[1]};
+      ${theme.mq.sm} {
+        flex-direction: row;
+        column-gap: ${theme.spacing[2]};
+      }
     `}>
       {Object.entries(settingsTabLabel).map(([type, label]) => (
-        <li key={type}>
-          <Link to={`/settings?tab=${type}`}
+        <li key={type}
             css={theme => css`
-              display: block;
               padding: ${theme.spacing[2]} ${theme.spacing[4]};
               color: ${theme.textColor[4]};
               ${theme.textSize.sm}
-              ${theme.borderRound.full}
-              ${selectedTab === type && css`
+              ${theme.borderRound.normal}
+              ${selectedTab === type ? css`
                 color: ${theme.textColor[1]};
                 background-color: ${theme.primaryColor[3]};
+              `: css`
+                &:hover {
+                  background-color: ${theme.primaryColor[1]};
+                }
               `}
+              ${theme.mq.sm} {
+                ${theme.borderRound.full}
+              }
             `}
-          >
-            {label}
-          </Link>
+        >
+          <Link css={css`display: block; `} to={`/settings?tab=${type}`}>{label}</Link>
         </li>
       ))}
     </ul>
