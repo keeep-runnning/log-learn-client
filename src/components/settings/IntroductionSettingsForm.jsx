@@ -3,10 +3,11 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import { css } from "@emotion/react";
+import PropTypes from "prop-types";
 
 import PrimaryButton from "../common/buttons/PrimaryButton";
 
-const IntroductionSettingsForm = () => {
+const IntroductionSettingsForm = ({ data }) => {
   const editorRef = useRef();
 
   return (
@@ -26,6 +27,7 @@ const IntroductionSettingsForm = () => {
       <PrimaryButton type="submit">수정하기</PrimaryButton>
       <div>
         <Editor
+          initialValue={data}
           autofocus={false}
           ref={editorRef}
           height="100%"
@@ -44,6 +46,10 @@ const IntroductionSettingsForm = () => {
       </div>
     </form>
   );
+};
+
+IntroductionSettingsForm.propTypes = {
+  data: PropTypes.string.isRequired
 };
 
 export default IntroductionSettingsForm;

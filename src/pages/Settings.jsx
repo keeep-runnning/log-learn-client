@@ -6,6 +6,7 @@ import SettingsTabs, { settingsTabType } from "../components/settings/SettingsTa
 import MainSettingsForms from "../components/settings/MainSettingsForms";
 import PasswordSettingsForm from "../components/settings/PasswordSettingsForm";
 import IntroductionSettingsForm from "../components/settings/IntroductionSettingsForm";
+import useSettingsQuery from "../hooks/queries/settings/useSettingsQuery";
 
 function isTabQueryStringValid(tabQueryString) {
   return Object.values(settingsTabType).includes(tabQueryString);
@@ -34,6 +35,8 @@ const Settings = () => {
     }
   }, [tabQueryString]);
 
+  const { data, isLoading, isError } = useSettingsQuery();
+
   return (
     <div css={theme => css`
       height: 100%;
@@ -57,9 +60,13 @@ const Settings = () => {
       <h1>설정</h1>
       <SettingsTabs selectedTab={selectedTab} />
       <section>
-        {selectedTab === settingsTabType.MAIN && <MainSettingsForms />}
-        {selectedTab === settingsTabType.PASSWORD && <PasswordSettingsForm />}
-        {selectedTab === settingsTabType.INTRODUCTION && <IntroductionSettingsForm />}
+        {isLoading && <div>loading...</div>}
+        {isError && <div>설정 정보를 가져오는 동안 문제가 발생했습니다.</div>}
+        {data && (
+          selectedTab === settingsTabType.MAIN ? <MainSettingsForms data={data} /> :
+            selectedTab === settingsTabType.PASSWORD ? <PasswordSettingsForm /> :
+              <IntroductionSettingsForm data={data.introduction} />
+        )}
       </section>
     </div>
   );

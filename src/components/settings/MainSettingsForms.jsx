@@ -1,10 +1,11 @@
 import { css } from "@emotion/react";
+import PropTypes from "prop-types";
 
 import UsernameSettingsForm from "./UsernameSettingsForm";
 import EmailSettingsForm from "./EmailSettingsForm";
 import ShortIntroductionSettingsForm from "./ShortIntroductionSettingsForm";
 
-const MainSettingsForms = () => {
+const MainSettingsForms = ({ data }) => {
   return (
     <div css={theme => css`
       display: flex;
@@ -23,11 +24,19 @@ const MainSettingsForms = () => {
         }
       }
     `}>
-      <UsernameSettingsForm />
-      <EmailSettingsForm />
-      <ShortIntroductionSettingsForm />
+      <UsernameSettingsForm data={data.username} />
+      <EmailSettingsForm data={data.email} />
+      <ShortIntroductionSettingsForm data={data.shortIntroduction} />
     </div>
   );
 };
+
+MainSettingsForms.propTypes = {
+  data: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    shortIntroduction: PropTypes.string.isRequired
+  }).isRequired
+}
 
 export default MainSettingsForms;

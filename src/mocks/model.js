@@ -19,6 +19,8 @@ const db = factory({
     username: String,
     email: String,
     password: String,
+    shortIntroduction: String,
+    introduction: String
   },
   post: {
     id: primaryKey(() => String(idGenerator.getNextId())),
