@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import apiClient from "../apiClient";
-import { currentUserKey } from "./queryKeys";
+import { currentUserKey } from "../queryKeys";
 
 const fetchCurrentUser = async () => {
   const response = await apiClient.get("/api/auth/current-user");

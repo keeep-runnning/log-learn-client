@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 
 import apiClient from "../apiClient";
-import { currentUserKey } from "./queryKeys";
+import { currentUserKey } from "../queryKeys";
 
 const logout = async () => {
   const response = await apiClient.post("/api/auth/logout");

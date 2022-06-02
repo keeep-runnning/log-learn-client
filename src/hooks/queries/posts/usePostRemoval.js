@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 
 import apiClient from "../apiClient";
-import { postKeys } from "./queryKeys";
+import { postKeys } from "../queryKeys";
 
 const removePost = async (postId) => {
   const response = await apiClient.delete(`/api/posts/${postId}`);

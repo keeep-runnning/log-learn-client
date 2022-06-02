@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import apiClient from "../apiClient";
-import { settingsKey } from "./queryKeys";
+import { settingsKey } from "../queryKeys";
 
 const fetchSettings = async () => {
   const response = await apiClient.get("/api/settings");

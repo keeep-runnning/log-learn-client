@@ -1,3 +1,7 @@
+export const currentUserKey = ["currentUser"];
+
+export const settingsKey = ["settings"];
+
 export const postKeys = {
   all: ["posts"],
   lists: () => [...postKeys.all, "list"],

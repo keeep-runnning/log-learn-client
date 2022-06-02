@@ -1,6 +1,6 @@
 import { rest } from "msw";
 
-import { getLoggedInUsername } from "../utils";
+import { getLoggedInUsername, saveLoggedInUsername } from "../utils";
 import db from "../model";
 import delayedResponse from "../response/delayedResponse";
 
@@ -24,6 +24,20 @@ const handlers = [
         introduction
       })
     );
+  }),
+  rest.patch("/api/settings/username", (req, res, ctx) => {
+    const { username } = req.body;
+    const currentUsername = getLoggedInUsername();
+    const updatedUser = db.user.update({
+      where: {
+        username: {
+          equals: currentUsername
+        }
+      },
+      data: { username }
+    });
+    saveLoggedInUsername(updatedUser);
+    return delayedResponse(ctx.status(204));
   })
 ];
 

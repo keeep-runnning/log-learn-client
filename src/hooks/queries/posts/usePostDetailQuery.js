@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import apiClient from "../apiClient";
-import { postKeys } from "./queryKeys";
+import { postKeys } from "../queryKeys";
 
 const fetchPost = async (postId) => {
   const response = await apiClient.get(`/api/posts/${postId}`);

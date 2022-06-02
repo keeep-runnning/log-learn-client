@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 
 import apiClient from "../apiClient";
-import { postKeys } from "./queryKeys";
+import { postKeys } from "../queryKeys";
 
 const editPost = async ({ postId, title, content }) => {
   const response = await apiClient.patch(`/api/posts/${postId}`, { title, content });
