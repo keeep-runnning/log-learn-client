@@ -1,18 +1,20 @@
 import { useCallback } from "react";
 import PropTypes from "prop-types";
 
-import useNotifications from "../../hooks/useNotifications";
 import useLogout from "../../hooks/queries/auth/useLogout";
+import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 
 const LogoutButton = ({ children }) => {
-  const { notifySuccess } = useNotifications();
-
+  const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
   const logoutMutation = useLogout();
 
   const handleLogoutButtonClick = useCallback(() => {
     logoutMutation.mutate(null, {
       onSuccess: () => {
-        notifySuccess({ content: "로그아웃 되었습니다." });
+        redirectThenNotifySuccess({
+          to: "/",
+          content: "로그아웃 되었습니다."
+        });
       }
     });
   }, []);

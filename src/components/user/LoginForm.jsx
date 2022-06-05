@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/react";
 
@@ -7,19 +6,14 @@ import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import AlertMessage from "../common/AlertMessage";
 import TextInputWrapper from "./TextInputWrapper";
 import PrimaryButton from "../common/buttons/PrimaryButton";
-import useNotifications from "../../hooks/useNotifications";
 import useAlertMessage from "../../hooks/useAlertMessage";
 import useLogin from "../../hooks/queries/auth/useLogin";
+import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
-
-  const { notifySuccess } = useNotifications();
-
+  const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
   const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
-
   const loginMutation = useLogin();
-
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const handleLoginFormSubmit = useCallback(
@@ -27,8 +21,11 @@ const LoginForm = () => {
       loginMutation.mutate({ email, password }, {
         onSuccess: ({ isLoggedIn, username }) => {
           if(!isLoggedIn) return;
-          notifySuccess({ content: "로그인 되었습니다." });
-          navigate(`/@${username}`);
+          redirectThenNotifySuccess({
+            to: `/@${username}`,
+            replace: true,
+            content: "로그인 되었습니다."
+          });
         },
         onError: error => {
           if(error.response) {

@@ -1,25 +1,19 @@
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import TextInputWrapper from "./TextInputWrapper";
-import useNotifications from "../../hooks/useNotifications";
 import AlertMessage from "../common/AlertMessage";
 import useAlertMessage from "../../hooks/useAlertMessage";
 import useSignUp from "../../hooks/queries/users/useSignUp";
+import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 
 const SignUpForm = () => {
-  const navigate = useNavigate();
-
-  const { notifySuccess } = useNotifications();
-
+  const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
   const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
-
   const signUpMutation = useSignUp();
-
   const { register, handleSubmit, getValues, formState: { errors } } = useForm({
     mode: "onChange"
   });
@@ -29,8 +23,11 @@ const SignUpForm = () => {
       { username, email, password },
       {
         onSuccess: () => {
-          notifySuccess({ content: "계정이 생성되었습니다. 로그인 해주세요." });
-          navigate("/login");
+          redirectThenNotifySuccess({
+            to: "/login",
+            replace: true,
+            content: "계정이 생성되었습니다. 로그인 해주세요."
+          });
         },
         onError: (error) => {
           if(error.response) {

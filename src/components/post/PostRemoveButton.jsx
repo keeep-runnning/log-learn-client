@@ -1,23 +1,22 @@
 import { memo, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import DefaultButton from "../common/buttons/DefaultButton";
-import useNotifications from "../../hooks/useNotifications";
 import usePostRemoval from "../../hooks/queries/posts/usePostRemoval";
+import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 
 const PostRemoveButton = ({ post }) => {
-  const navigate = useNavigate();
-
-  const { notifySuccess } = useNotifications();
-
+  const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
   const postRemoveMutation = usePostRemoval();
 
   const handlePostRemoveButtonClick = useCallback(() => {
     postRemoveMutation.mutate(post, {
       onSuccess: () => {
-        notifySuccess({ content: `블로그 포스트[${post.title}]가 삭제되었습니다.` });
-        navigate(`/@${post.author}`, { replace: true });
+        redirectThenNotifySuccess({
+          to: `/@${post.author}`,
+          content: `블로그 포스트[${post.title}]가 삭제되었습니다.`,
+          replace: true
+        });
       }
     });
   }, [post]);

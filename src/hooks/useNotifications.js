@@ -45,7 +45,11 @@ const useNotifications = () => {
     });
   }, []);
 
-  return ({ notify, notifyInfo, notifySuccess, notifyWarning, notifyDanger });
+  const clearNotifications = useCallback(() => {
+    setNotifications([]);
+  }, []);
+
+  return ({ notify, notifyInfo, notifySuccess, notifyWarning, notifyDanger, clearNotifications });
 };
 
 export default useNotifications;
