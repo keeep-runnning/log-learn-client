@@ -7,7 +7,6 @@ import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import TextInputWrapper from "./TextInputWrapper";
 import useNotifications from "../../hooks/useNotifications";
-import { NOTIFICATION_TYPE } from "../../constants/notifications";
 import AlertMessage from "../common/AlertMessage";
 import useAlertMessage from "../../hooks/useAlertMessage";
 import useSignUp from "../../hooks/queries/users/useSignUp";
@@ -15,7 +14,7 @@ import useSignUp from "../../hooks/queries/users/useSignUp";
 const SignUpForm = () => {
   const navigate = useNavigate();
 
-  const { addNotification } = useNotifications();
+  const { notifySuccess } = useNotifications();
 
   const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
 
@@ -30,11 +29,7 @@ const SignUpForm = () => {
       { username, email, password },
       {
         onSuccess: () => {
-          addNotification({
-            type: NOTIFICATION_TYPE.SUCCESS,
-            content: "계정이 생성되었습니다. 로그인 해주세요.",
-            isAutoClose: true
-          });
+          notifySuccess({ content: "계정이 생성되었습니다. 로그인 해주세요." });
           navigate("/login");
         },
         onError: (error) => {

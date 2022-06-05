@@ -8,14 +8,13 @@ import AlertMessage from "../common/AlertMessage";
 import TextInputWrapper from "./TextInputWrapper";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import useNotifications from "../../hooks/useNotifications";
-import { NOTIFICATION_TYPE } from "../../constants/notifications";
 import useAlertMessage from "../../hooks/useAlertMessage";
 import useLogin from "../../hooks/queries/auth/useLogin";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const { addNotification } = useNotifications();
+  const { notifySuccess } = useNotifications();
 
   const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
 
@@ -28,10 +27,7 @@ const LoginForm = () => {
       loginMutation.mutate({ email, password }, {
         onSuccess: ({ isLoggedIn, username }) => {
           if(!isLoggedIn) return;
-          addNotification({
-            type: NOTIFICATION_TYPE.SUCCESS,
-            content: "로그인 되었습니다."
-          });
+          notifySuccess({ content: "로그인 되었습니다." });
           navigate(`/@${username}`);
         },
         onError: error => {
