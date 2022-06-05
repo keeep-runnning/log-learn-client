@@ -11,7 +11,6 @@ import { RecoilRoot } from "recoil";
 import App from "./App";
 import { theme } from "./styles/theme";
 import GlobalStyles from "./styles/GlobalStyles";
-import GlobalNotifications from "./components/common/notifications/GlobalNotifications";
 
 function prepareMSW() {
   if (import.meta.env.DEV && import.meta.env.VITE_WITH_MSW) {
@@ -32,7 +31,6 @@ prepareMSW().then(() => {
           <QueryClientProvider client={queryClient}>
             <RecoilRoot>
               <App />
-              <GlobalNotifications />
             </RecoilRoot>
             <ReactQueryDevtools />
           </QueryClientProvider>

@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import useCurrentUserQuery from "./hooks/queries/auth/useCurrentUserQuery";
 import AuthChecker from "./components/router/AuthChecker";
+import GlobalNotifications from "./components/common/notifications/GlobalNotifications";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -16,34 +17,37 @@ const App = () => {
   const { isLoggedIn } = useCurrentUserQuery();
 
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="signup" element={<SignUp />} />
-        <Route path="login" element={<Login />} />
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="login" element={<Login />} />
+          <Route
+            path="settings"
+            element={
+              <AuthChecker isLoggedIn={isLoggedIn}>
+                <Settings />
+              </AuthChecker>
+            }
+          />
+        </Route>
+        <Route path="/@:username" element={<Layout />}>
+          <Route index element={<UserHome />} />
+          <Route path="posts/:postId" element={<PostDetail />} />
+        </Route>
         <Route
-          path="settings"
+          path="/write"
           element={
             <AuthChecker isLoggedIn={isLoggedIn}>
-              <Settings />
+              <PostPublication />
             </AuthChecker>
           }
         />
-      </Route>
-      <Route path="/@:username" element={<Layout />}>
-        <Route index element={<UserHome />} />
-        <Route path="posts/:postId" element={<PostDetail />} />
-      </Route>
-      <Route
-        path="/write"
-        element={
-          <AuthChecker isLoggedIn={isLoggedIn}>
-            <PostPublication />
-          </AuthChecker>
-        }
-      />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <GlobalNotifications />
+    </>
   );
 };
 
