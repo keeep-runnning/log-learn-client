@@ -5,6 +5,7 @@ import UserMenuPopover from "./UserMenuPopover";
 import Logo from "./Logo";
 import PrimaryButton from "./buttons/PrimaryButton";
 import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
+import pageUrl from "../../utils/pageUrl";
 
 const HeaderBar = () => {
   const currentUser = useCurrentUserQuery();
@@ -22,7 +23,7 @@ const HeaderBar = () => {
       </Link>
       {currentUser.isLoggedIn ?
         <UserMenuPopover username={currentUser.username} /> :
-        <PrimaryButton as={Link} to="/login">로그인</PrimaryButton>
+        <PrimaryButton as={Link} to={pageUrl.getLoginPageUrl()}>로그인</PrimaryButton>
       }
     </header>
   );

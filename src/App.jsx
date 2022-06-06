@@ -23,6 +23,8 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
+          <Route path="users/:username" element={<UserHome />} />
+          <Route path="posts/:postId" element={<PostDetail />} />
           <Route
             path="settings"
             element={
@@ -32,12 +34,8 @@ const App = () => {
             }
           />
         </Route>
-        <Route path="/@:username" element={<Layout />}>
-          <Route index element={<UserHome />} />
-          <Route path="posts/:postId" element={<PostDetail />} />
-        </Route>
         <Route
-          path="/write"
+          path="/posts/new"
           element={
             <AuthChecker isLoggedIn={isLoggedIn}>
               <PostPublication />

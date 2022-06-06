@@ -7,6 +7,7 @@ import MainSettingsForms from "../components/settings/MainSettingsForms";
 import PasswordSettingsForm from "../components/settings/PasswordSettingsForm";
 import IntroductionSettingsForm from "../components/settings/IntroductionSettingsForm";
 import useSettingsQuery from "../hooks/queries/settings/useSettingsQuery";
+import pageUrl from "../utils/pageUrl";
 
 function isTabQueryStringValid(tabQueryString) {
   return Object.values(settingsTabType).includes(tabQueryString);
@@ -29,7 +30,7 @@ const Settings = () => {
 
   useEffect(() => {
     if (tabQueryString && !isTabQueryStringValid(tabQueryString)) {
-      navigate("/settings");
+      navigate(pageUrl.getSettingsPageUrl());
     } else {
       setSelectedTab(getSelectedTabFromTabQueryString(tabQueryString));
     }

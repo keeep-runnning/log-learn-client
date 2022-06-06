@@ -3,6 +3,8 @@ import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import pageUrl from "../../utils/pageUrl";
+
 export const settingsTabType = Object.freeze({
   MAIN: "main",
   PASSWORD: "password",
@@ -47,7 +49,7 @@ const SettingsTabs = ({ selectedTab }) => {
               }
             `}
         >
-          <Link css={css`display: block; `} to={`/settings?tab=${type}`}>{label}</Link>
+          <Link css={css`display: block; `} to={pageUrl.getSettingsPageUrl(type)}>{label}</Link>
         </li>
       ))}
     </ul>

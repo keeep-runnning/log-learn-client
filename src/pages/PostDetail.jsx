@@ -6,7 +6,7 @@ import NotFound from "./NotFound";
 import usePostDetailQuery from "../hooks/queries/posts/usePostDetailQuery";
 
 const PostDetail = () => {
-  const { username: authorName, postId } = useParams();
+  const { postId } = useParams();
 
   const { data: post, error, isLoading, isError } = usePostDetailQuery(postId);
 
@@ -19,10 +19,6 @@ const PostDetail = () => {
       return <NotFound />;
     }
     return null;
-  }
-
-  if(post.author !== authorName) {
-    return <NotFound />;
   }
 
   return (

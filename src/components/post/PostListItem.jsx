@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 
 import DateTime from "../common/DateTime";
+import pageUrl from "../../utils/pageUrl";
 
 const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
   return (
@@ -20,7 +21,7 @@ const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
         ${theme.textSize.base}
       }
     `}>
-      <Link to={`/@${authorName}/posts/${postId}`} css={theme => css`
+      <Link to={pageUrl.getPostDetailPageUrl(postId)} css={theme => css`
         font-weight: ${theme.textWeight.bold};
         ${theme.textSize.lg}
         &:hover {
@@ -35,7 +36,7 @@ const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
         align-items: center;
         column-gap: ${theme.spacing[2]};
       `}>
-        <Link to={`/@${authorName}`} css={theme => css`
+        <Link to={pageUrl.getUserHomePageUrl(authorName)} css={theme => css`
           ${theme.textSize.sm}
           font-weight: ${theme.textWeight.bold};
           &:hover {

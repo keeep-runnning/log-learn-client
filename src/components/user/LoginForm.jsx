@@ -9,6 +9,7 @@ import PrimaryButton from "../common/buttons/PrimaryButton";
 import useAlertMessage from "../../hooks/useAlertMessage";
 import useLogin from "../../hooks/queries/auth/useLogin";
 import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
+import pageUrl from "../../utils/pageUrl";
 
 const LoginForm = () => {
   const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
@@ -22,7 +23,7 @@ const LoginForm = () => {
         onSuccess: ({ isLoggedIn, username }) => {
           if(!isLoggedIn) return;
           redirectThenNotifySuccess({
-            to: `/@${username}`,
+            to: pageUrl.getUserHomePageUrl(username),
             replace: true,
             content: "로그인 되었습니다."
           });

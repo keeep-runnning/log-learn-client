@@ -9,6 +9,7 @@ import AlertMessage from "../common/AlertMessage";
 import useAlertMessage from "../../hooks/useAlertMessage";
 import useSignUp from "../../hooks/queries/users/useSignUp";
 import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
+import pageUrl from "../../utils/pageUrl";
 
 const SignUpForm = () => {
   const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
@@ -24,7 +25,7 @@ const SignUpForm = () => {
       {
         onSuccess: () => {
           redirectThenNotifySuccess({
-            to: "/login",
+            to: pageUrl.getLoginPageUrl(),
             replace: true,
             content: "계정이 생성되었습니다. 로그인 해주세요."
           });

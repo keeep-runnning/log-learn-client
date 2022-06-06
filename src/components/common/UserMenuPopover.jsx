@@ -7,10 +7,11 @@ import PropTypes from "prop-types";
 import LogoutButton from "../user/LogoutButton";
 import UserMenuItem from "./UserMenuItem";
 import UserNameIcon from "./UserNameIcon";
+import pageUrl from "../../utils/pageUrl";
 
 const userMenuData = [
-  { name: "설정", link: "/settings", icon: <IoSettingsOutline /> },
-  { name: "글쓰기", link: "/write", icon: <IoPencil /> }
+  { name: "설정", link: pageUrl.getSettingsPageUrl(), icon: <IoSettingsOutline /> },
+  { name: "글쓰기", link: pageUrl.getPostPublicationPageUrl(), icon: <IoPencil /> }
 ];
 
 const UserMenuPopover = ({ username }) => {
@@ -32,7 +33,7 @@ const UserMenuPopover = ({ username }) => {
   }, []);
 
   const userMenuListData = useMemo(() => [
-    { name: "내 블로그로 이동", link: `/@${username}`, icon: <IoHomeOutline /> },
+    { name: "내 블로그로 이동", link: pageUrl.getUserHomePageUrl(username), icon: <IoHomeOutline /> },
     ...userMenuData
   ], [username]);
 

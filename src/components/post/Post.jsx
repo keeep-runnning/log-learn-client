@@ -11,6 +11,7 @@ import PostEditForm from "./PostEditForm";
 import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
 import PostRemoveButton from "./PostRemoveButton";
 import DateTime from "../common/DateTime";
+import pageUrl from "../../utils/pageUrl";
 
 const SLIDE_ANIMATION_TIME_IN_MS = 200;
 
@@ -98,7 +99,7 @@ const Post = ({ post }) => {
               align-items: center;
               column-gap: ${theme.spacing[2]};
             `}>
-              <Link to={`/@${post.author}`} css={theme => css`
+              <Link to={pageUrl.getUserHomePageUrl(post.author)} css={theme => css`
                 ${theme.textSize.sm}
                 font-weight: ${theme.textWeight.bold};
                 &:hover {

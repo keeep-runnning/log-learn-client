@@ -11,6 +11,7 @@ import PostTitleTextArea from "./PostTitleTextArea";
 import PostForm from "./PostForm";
 import DefaultButton from "../common/buttons/DefaultButton";
 import usePostPublication from "../../hooks/queries/posts/usePostPublication";
+import pageUrl from "../../utils/pageUrl";
 
 const PostPublicationForm = () => {
   const navigate = useNavigate();
@@ -27,8 +28,8 @@ const PostPublicationForm = () => {
     const { title } = data;
     const content = editorRef.current.getInstance().getMarkdown();
     postPublicationMutation.mutate({ title, content }, {
-      onSuccess: ({ author, id: postId }) => {
-        navigate(`/@${author}/posts/${postId}`);
+      onSuccess: ({ id: postId }) => {
+        navigate(pageUrl.getPostDetailPageUrl(postId));
       }
     });
   }), []);

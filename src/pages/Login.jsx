@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 
 import LoginForm from "../components/user/LoginForm";
 import AccountFormHeader from "../components/user/AccountFormHeader";
+import pageUrl from "../utils/pageUrl";
 
 const Login = () => {
   return (
@@ -26,7 +27,7 @@ const Login = () => {
           }
         }
       `}>
-        아직 계정이 없으신가요? <Link to="/signup">계정 만들기 ></Link>
+        아직 계정이 없으신가요? <Link to={pageUrl.getSignUpPageUrl()}>계정 만들기 ></Link>
       </p>
     </section>
   );

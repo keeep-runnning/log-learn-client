@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 
 import Button from "../common/buttons/Button";
+import pageUrl from "../../utils/pageUrl";
 
 const AppIntroduction = () => {
   return (
@@ -29,7 +30,7 @@ const AppIntroduction = () => {
       `}>
         쉽고 간단한 블로그 서비스, log learn 을 이용해 학습한 내용을 정리해 보세요
       </p>
-      <Button as={Link} to="/signup"
+      <Button as={Link} to={pageUrl.getSignUpPageUrl()}
         css={theme => css`
           background-color: ${theme.primaryColor[4]};
           color: ${theme.textColor[1]};

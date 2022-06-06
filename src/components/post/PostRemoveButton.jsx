@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import DefaultButton from "../common/buttons/DefaultButton";
 import usePostRemoval from "../../hooks/queries/posts/usePostRemoval";
 import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
+import pageUrl from "../../utils/pageUrl";
 
 const PostRemoveButton = ({ post }) => {
   const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
@@ -13,7 +14,7 @@ const PostRemoveButton = ({ post }) => {
     postRemoveMutation.mutate(post, {
       onSuccess: () => {
         redirectThenNotifySuccess({
-          to: `/@${post.author}`,
+          to: pageUrl.getUserHomePageUrl(post.author),
           content: `블로그 포스트[${post.title}]가 삭제되었습니다.`,
           replace: true
         });
