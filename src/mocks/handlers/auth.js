@@ -2,17 +2,34 @@ import { rest } from "msw";
 
 import db from "../model";
 import delayedResponse from "../response/delayedResponse";
-import { deleteLoggedInUsername, getLoggedInUsername, saveLoggedInUsername } from "../utils";
+import mockSession from "../mockSession";
 
 const handlers = [
   rest.get("/api/auth/current-user", (req, res, ctx) => {
-    const currentUsername = getLoggedInUsername();
+    const currentUserId = mockSession.getUserId();
+    if(!currentUserId) {
+      return delayedResponse(
+        ctx.status(200),
+        ctx.json({
+          isLoggedIn: false,
+          username: ""
+        })
+      );
+    }
+
+    const currentUser = db.user.findFirst({
+      where: {
+        id: {
+          equals: currentUserId
+        }
+      }
+    });
 
     return delayedResponse(
       ctx.status(200),
       ctx.json({
-        isLoggedIn: Boolean(currentUsername),
-        username: currentUsername ?? ""
+        isLoggedIn: true,
+        username: currentUser.username
       })
     );
   }),
@@ -38,7 +55,7 @@ const handlers = [
         })
       );
     }
-    saveLoggedInUsername(user);
+    mockSession.saveUserId(user.id);
 
     return delayedResponse(
       ctx.status(200),
@@ -49,10 +66,7 @@ const handlers = [
     );
   }),
   rest.post("/api/auth/logout", (req, res, ctx) => {
-    const currentUsername = getLoggedInUsername();
-    if(currentUsername) {
-      deleteLoggedInUsername();
-    }
+    mockSession.removeUserId();
 
     return delayedResponse(ctx.status(200));
   }),

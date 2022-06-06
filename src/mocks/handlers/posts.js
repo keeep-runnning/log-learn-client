@@ -2,15 +2,15 @@ import { rest } from "msw";
 
 import db from "../model";
 import delayedResponse from "../response/delayedResponse";
-import { getLoggedInUsername } from "../utils";
+import mockSession from "../mockSession";
 
 const handlers = [
   rest.post("/api/posts", (req, res, ctx) => {
-    const currentUsername = getLoggedInUsername();
+    const currentUserId = mockSession.getUserId();
     const author = db.user.findFirst({
       where: {
-        username: {
-          equals: currentUsername
+        id: {
+          equals: currentUserId
         }
       }
     });
