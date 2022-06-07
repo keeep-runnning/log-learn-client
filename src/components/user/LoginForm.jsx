@@ -10,6 +10,7 @@ import useAlertMessage from "../../hooks/useAlertMessage";
 import useLogin from "../../hooks/queries/auth/useLogin";
 import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 import pageUrl from "../../utils/pageUrl";
+import { emailValidation, passwordValidation } from "../../utils/formValidation";
 
 const LoginForm = () => {
   const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
@@ -52,19 +53,19 @@ const LoginForm = () => {
       {alertMessage && <AlertMessage message={alertMessage} onCloseButtonClicked={removeAlertMessage} />}
       <TextInputWrapper>
         <label htmlFor="email">이메일</label>
-        <input id="email" type="email"
-               {...register("email", {
-                 required: "이메일을 입력해주세요."
-               })}
+        <input
+          id="email"
+          type="email"
+          {...register("email", { required: emailValidation.required })}
         />
         {errors.email && <FormFieldErrorMessage>{errors.email.message}</FormFieldErrorMessage>}
       </TextInputWrapper>
       <TextInputWrapper>
         <label htmlFor="password">비밀번호</label>
-        <input id="password" type="password"
-               {...register("password", {
-                 required: "비밀번호를 입력해주세요."
-               })}
+        <input
+          id="password"
+          type="password"
+          {...register("password", { required: passwordValidation.required })}
         />
         {errors.password && <FormFieldErrorMessage>{errors.password.message}</FormFieldErrorMessage>}
       </TextInputWrapper>
