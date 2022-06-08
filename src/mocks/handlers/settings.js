@@ -27,6 +27,23 @@ const handlers = [
   }),
   rest.patch("/api/settings/username", (req, res, ctx) => {
     const { username } = req.body;
+    const userFoundByUsername = db.user.findFirst({
+      where: {
+        username: {
+          equals: username
+        }
+      }
+    });
+    if(userFoundByUsername) {
+      return delayedResponse(
+        ctx.status(409),
+        ctx.json({
+          code: "user-001",
+          errorMessage: "이미 사용중인 유저이름입니다.",
+          errors: []
+        })
+      );
+    }
     const currentUserId = mockSession.getUserId();
     db.user.update({
       where: {

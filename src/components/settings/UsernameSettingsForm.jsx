@@ -11,7 +11,7 @@ import useNotifications from "../../hooks/useNotifications";
 
 const UsernameSettingsForm = ({ data }) => {
   const { notifySuccess } = useNotifications();
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, setError } = useForm({
     defaultValues: {
       username: data
     },
@@ -24,6 +24,14 @@ const UsernameSettingsForm = ({ data }) => {
     usernameSettingsMutation.mutate(username, {
       onSuccess: () => {
         notifySuccess({ content: "유저이름이 변경되었습니다." });
+      },
+      onError: error => {
+        if(error.response) {
+          const { code } = error.response.data;
+          if(code === "user-001") {
+            setError("username", { type: "unique", message: "이미 사용중인 유저이름 입니다." });
+          }
+        }
       }
     });
   }, []);
