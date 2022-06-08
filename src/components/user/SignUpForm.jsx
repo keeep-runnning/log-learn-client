@@ -72,7 +72,7 @@ const SignUpForm = () => {
           id="username"
           placeholder="username"
         />
-        {errors.username && <FormFieldErrorMessage>{errors.username.message}</FormFieldErrorMessage>}
+        <FormFieldErrorMessage message={errors.username?.message} />
       </TextInputWrapper>
       <TextInputWrapper>
         <label htmlFor="email">이메일</label>
@@ -85,7 +85,7 @@ const SignUpForm = () => {
           id="email"
           placeholder="example@example.com"
         />
-        {errors.email && <FormFieldErrorMessage>{errors.email.message}</FormFieldErrorMessage>}
+        <FormFieldErrorMessage message={errors.email?.message} />
       </TextInputWrapper>
       <TextInputWrapper>
         <label htmlFor="password">비밀번호</label>
@@ -100,7 +100,7 @@ const SignUpForm = () => {
           id="password"
           placeholder="********"
         />
-        {errors.password && <FormFieldErrorMessage>{errors.password.message}</FormFieldErrorMessage>}
+        <FormFieldErrorMessage message={errors.password?.message} />
       </TextInputWrapper>
       <TextInputWrapper>
         <label htmlFor="passwordCheck">비밀번호 확인</label>
@@ -115,7 +115,7 @@ const SignUpForm = () => {
           id="passwordCheck"
           placeholder="********"
         />
-        {errors.passwordCheck && <FormFieldErrorMessage>{errors.passwordCheck.message}</FormFieldErrorMessage>}
+        <FormFieldErrorMessage message={errors.passwordCheck?.message} />
       </TextInputWrapper>
       <PrimaryButton disabled={signUpMutation.isLoading} type="submit">
         계정 만들기

@@ -58,7 +58,7 @@ const LoginForm = () => {
           type="email"
           {...register("email", { required: emailValidation.required })}
         />
-        {errors.email && <FormFieldErrorMessage>{errors.email.message}</FormFieldErrorMessage>}
+        <FormFieldErrorMessage message={errors.email?.message} />
       </TextInputWrapper>
       <TextInputWrapper>
         <label htmlFor="password">비밀번호</label>
@@ -67,7 +67,7 @@ const LoginForm = () => {
           type="password"
           {...register("password", { required: passwordValidation.required })}
         />
-        {errors.password && <FormFieldErrorMessage>{errors.password.message}</FormFieldErrorMessage>}
+        <FormFieldErrorMessage message={errors.password?.message} />
       </TextInputWrapper>
       <PrimaryButton disabled={loginMutation.isLoading} type="submit">
         로그인

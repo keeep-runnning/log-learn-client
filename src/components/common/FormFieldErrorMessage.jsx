@@ -1,13 +1,25 @@
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
+import PropTypes from "prop-types";
 
-const FormFieldErrorMessage = styled.p`
-  ${({theme}) => css`
-    color: ${theme.dangerColor[3]};
-    padding: ${theme.spacing[1]};
-    font-weight: ${theme.textWeight.bold};
-    ${theme.textSize.xs}    
-  `}
-`;
+const FormFieldErrorMessage = ({ message }) => {
+  if(!message) {
+    return null;
+  }
+
+  return (
+    <p css={theme => css`
+      color: ${theme.dangerColor[3]};
+      padding: ${theme.spacing[1]};
+      font-weight: ${theme.textWeight.bold};
+      ${theme.textSize.xs}
+    `}>
+      {message}
+    </p>
+  );
+};
+
+FormFieldErrorMessage.propTypes = {
+  message: PropTypes.string
+};
 
 export default FormFieldErrorMessage;
