@@ -5,12 +5,15 @@ import { useForm } from "react-hook-form";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import RowForm from "./RowForm";
 import useUsernameSettings from "../../hooks/queries/settings/useUsernameSettings";
+import { usernameValidation } from "../../utils/formValidation";
+import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 
 const UsernameSettingsForm = ({ data }) => {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       username: data
-    }
+    },
+    mode: "onChange"
   });
 
   const usernameSettingsMutation = useUsernameSettings();
@@ -23,7 +26,20 @@ const UsernameSettingsForm = ({ data }) => {
     <RowForm onSubmit={handleSubmit(onValid)}>
       <label htmlFor="username">유저이름</label>
       <section>
-        <input id="username" type="text" {...register("username")} />
+        <input
+          id="username"
+          type="text"
+          {...register("username", {
+            required: usernameValidation.required,
+            minLength: usernameValidation.minLength,
+            maxLength: usernameValidation.maxLength,
+            pattern: usernameValidation.pattern,
+            validate: {
+              changed: usernameValidation.changed(data)
+            }
+          })}
+        />
+        <FormFieldErrorMessage message={errors.username?.message} />
         <PrimaryButton type="submit" disabled={usernameSettingsMutation.isLoading}>
           수정하기
         </PrimaryButton>

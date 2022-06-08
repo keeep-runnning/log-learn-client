@@ -11,6 +11,9 @@ export const usernameValidation = {
   pattern: {
     value: /^[ㄱ-ㅎ가-힣\w-]+$/,
     message: "한글/영문 대소문자/숫자/언더바(_)/하이픈(-)만을 이용해 유저이름을 입력해주세요."
+  },
+  changed(oldUsername) {
+    return newUsername => newUsername !== oldUsername || "입력하신 유저이름이 기존 유저이름과 동일합니다.";
   }
 };
 
