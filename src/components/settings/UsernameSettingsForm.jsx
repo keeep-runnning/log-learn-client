@@ -7,8 +7,10 @@ import RowForm from "./RowForm";
 import useUsernameSettings from "../../hooks/queries/settings/useUsernameSettings";
 import { usernameValidation } from "../../utils/formValidation";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
+import useNotifications from "../../hooks/useNotifications";
 
 const UsernameSettingsForm = ({ data }) => {
+  const { notifySuccess } = useNotifications();
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       username: data
@@ -19,8 +21,12 @@ const UsernameSettingsForm = ({ data }) => {
   const usernameSettingsMutation = useUsernameSettings();
 
   const onValid = useCallback(({ username }) => {
-    usernameSettingsMutation.mutate(username);
-  }, [usernameSettingsMutation]);
+    usernameSettingsMutation.mutate(username, {
+      onSuccess: () => {
+        notifySuccess({ content: "유저이름이 변경되었습니다." });
+      }
+    });
+  }, []);
 
   return (
     <RowForm onSubmit={handleSubmit(onValid)}>
