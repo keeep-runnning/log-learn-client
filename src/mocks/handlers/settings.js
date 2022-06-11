@@ -69,6 +69,22 @@ const handlers = [
     });
 
     return delayedResponse(ctx.status(204));
+  }),
+  rest.patch("/api/settings/password", (req, res, ctx) => {
+    const { newPassword } = req.body;
+    const currentUserId = mockSession.getUserId();
+    db.user.update({
+      where: {
+        id: {
+          equals: currentUserId
+        }
+      },
+      data: {
+        password: newPassword
+      }
+    });
+
+    return delayedResponse(ctx.status(204));
   })
 ];
 
