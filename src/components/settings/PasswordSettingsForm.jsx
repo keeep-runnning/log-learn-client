@@ -4,6 +4,8 @@ import { useCallback } from "react";
 
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import usePasswordSettings from "../../hooks/queries/settings/usePasswordSettings";
+import { passwordCheckValidation, passwordValidation } from "../../utils/formValidation";
+import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 
 const passwordSettingsFormFieldName = Object.freeze({
   PASSWORD: "password",
@@ -12,12 +14,13 @@ const passwordSettingsFormFieldName = Object.freeze({
 });
 
 const PasswordSettingsForm = () => {
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, formState: { errors }, getValues } = useForm({
     defaultValues: {
       [passwordSettingsFormFieldName.PASSWORD]: "",
       [passwordSettingsFormFieldName.NEW_PASSWORD]: "",
       [passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]: ""
-    }
+    },
+    mode: "onChange"
   });
 
   const passwordSettingsMutation = usePasswordSettings();
@@ -74,25 +77,42 @@ const PasswordSettingsForm = () => {
         <input
           id="password"
           type="password"
-          {...register(passwordSettingsFormFieldName.PASSWORD)}
+          {...register(passwordSettingsFormFieldName.PASSWORD, {
+            required: passwordValidation.required
+          })}
         />
       </div>
+      <FormFieldErrorMessage message={errors[passwordSettingsFormFieldName.PASSWORD]?.message} />
       <div>
         <label htmlFor="new-password">새 비밀번호</label>
         <input
           id="new-password"
           type="password"
-          {...register(passwordSettingsFormFieldName.NEW_PASSWORD)}
+          {...register(passwordSettingsFormFieldName.NEW_PASSWORD, {
+            required: passwordValidation.required,
+            minLength: passwordValidation.minLength,
+            maxLength: passwordValidation.maxLength,
+            pattern: passwordValidation.pattern
+          })}
         />
       </div>
+      <FormFieldErrorMessage message={errors[passwordSettingsFormFieldName.NEW_PASSWORD]?.message} />
       <div>
         <label htmlFor="new-password-check">새 비밀번호 확인</label>
         <input
           id="new-password-check"
           type="password"
-          {...register(passwordSettingsFormFieldName.NEW_PASSWORD_CHECK)}
+          {...register(passwordSettingsFormFieldName.NEW_PASSWORD_CHECK, {
+            required: passwordCheckValidation.required,
+            validate: {
+              equalsToPassword: passwordCheckValidation.equalsToPassword(
+                getValues(passwordSettingsFormFieldName.NEW_PASSWORD)
+              )
+            }
+          })}
         />
       </div>
+      <FormFieldErrorMessage message={errors[passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]?.message} />
       <PrimaryButton type="submit" disabled={passwordSettingsMutation.isLoading}>수정하기</PrimaryButton>
     </form>
   );
