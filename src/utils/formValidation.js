@@ -46,4 +46,14 @@ export const passwordCheckValidation = {
   equalsToPassword(password) {
     return passwordCheck => (passwordCheck === password) || "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
   }
-}
+};
+
+export const shortIntroductionValidation = {
+  maxLength: {
+    value: 120,
+    message: "짧은 소개를 120자 이하로 입력해주세요."
+  },
+  changed(oldShortIntroduction) {
+    return newShortIntroduction => (newShortIntroduction !== oldShortIntroduction) || "변경사항이 없습니다.";
+  }
+};
