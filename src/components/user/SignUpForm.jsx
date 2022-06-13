@@ -16,6 +16,11 @@ import {
   passwordValidation,
   usernameValidation
 } from "../../utils/formValidation";
+import {
+  emailValidationErrorMessage, passwordCheckValidationErrorMessage,
+  passwordValidationErrorMessage,
+  usernameValidationErrorMessage
+} from "../../utils/formValidationErrorMessage";
 
 const SignUpForm = () => {
   const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
@@ -63,10 +68,19 @@ const SignUpForm = () => {
         <label htmlFor="username">유저이름</label>
         <input
           {...register("username", {
-            required: usernameValidation.required,
-            minLength: usernameValidation.minLength,
-            maxLength: usernameValidation.maxLength,
-            pattern: usernameValidation.pattern
+            required: usernameValidationErrorMessage.required,
+            minLength: {
+              value: usernameValidation.minLength,
+              message: usernameValidationErrorMessage.length
+            },
+            maxLength: {
+              value: usernameValidation.maxLength,
+              message: usernameValidationErrorMessage.length
+            },
+            pattern: {
+              value: usernameValidation.pattern,
+              message: usernameValidationErrorMessage.pattern
+            }
           })}
           type="text"
           id="username"
@@ -78,8 +92,11 @@ const SignUpForm = () => {
         <label htmlFor="email">이메일</label>
         <input
           {...register("email", {
-            required: emailValidation.required,
-            pattern: emailValidation.pattern
+            required: emailValidationErrorMessage.required,
+            pattern: {
+              value: emailValidation.pattern,
+              message: emailValidationErrorMessage.pattern
+            }
           })}
           type="email"
           id="email"
@@ -91,10 +108,19 @@ const SignUpForm = () => {
         <label htmlFor="password">비밀번호</label>
         <input
           {...register("password", {
-            required: passwordValidation.required,
-            minLength: passwordValidation.minLength,
-            maxLength: passwordValidation.maxLength,
-            pattern: passwordValidation.pattern
+            required: passwordValidationErrorMessage.required,
+            minLength: {
+              value: passwordValidation.minLength,
+              message: passwordValidationErrorMessage.length
+            },
+            maxLength: {
+              value: passwordValidation.maxLength,
+              message: passwordValidationErrorMessage.length
+            },
+            pattern: {
+              value: passwordValidation.pattern,
+              message: passwordValidationErrorMessage.pattern
+            }
           })}
           type="password"
           id="password"
@@ -106,9 +132,12 @@ const SignUpForm = () => {
         <label htmlFor="passwordCheck">비밀번호 확인</label>
         <input
           {...register("passwordCheck", {
-            required: passwordCheckValidation.required,
+            required: passwordCheckValidationErrorMessage.required,
             validate: {
-              equalsToPassword: passwordCheckValidation.equalsToPassword(getValues("password"))
+              equalsToPassword: passwordCheck => passwordCheckValidation.equalsToPassword({
+                password: getValues("password"),
+                passwordCheck
+              }) || passwordCheckValidationErrorMessage.equalsToPassword
             }
           })}
           type="password"

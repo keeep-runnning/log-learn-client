@@ -8,6 +8,7 @@ import useShortIntroductionSettings from "../../hooks/queries/settings/useShortI
 import useNotifications from "../../hooks/useNotifications";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import { shortIntroductionValidation } from "../../utils/formValidation";
+import { shortIntroductionValidationErrorMessage } from "../../utils/formValidationErrorMessage";
 
 const SHORT_INTRODUCTION_FIELD_NAME = "shortIntroduction";
 
@@ -39,9 +40,15 @@ const ShortIntroductionSettingsForm = ({ data }) => {
           id="short-introduction"
           rows="4"
           {...register(SHORT_INTRODUCTION_FIELD_NAME, {
-            maxLength: shortIntroductionValidation.maxLength,
+            maxLength: {
+              value: shortIntroductionValidation.maxLength,
+              message: shortIntroductionValidationErrorMessage.maxLength
+            },
             validate: {
-              changed: shortIntroductionValidation.changed(data)
+              isChanged: newShortIntroduction => shortIntroductionValidation.isChanged({
+                oldShortIntroduction: data,
+                newShortIntroduction
+              }) || shortIntroductionValidationErrorMessage.isChanged
             }
           })}
         />

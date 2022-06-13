@@ -6,6 +6,10 @@ import PrimaryButton from "../common/buttons/PrimaryButton";
 import usePasswordSettings from "../../hooks/queries/settings/usePasswordSettings";
 import { passwordCheckValidation, passwordValidation } from "../../utils/formValidation";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
+import {
+  newPasswordCheckValidationErrorMessage,
+  newPasswordValidationErrorMessage, passwordValidationErrorMessage
+} from "../../utils/formValidationErrorMessage";
 
 const passwordSettingsFormFieldName = Object.freeze({
   PASSWORD: "password",
@@ -78,7 +82,7 @@ const PasswordSettingsForm = () => {
           id="password"
           type="password"
           {...register(passwordSettingsFormFieldName.PASSWORD, {
-            required: passwordValidation.required
+            required: passwordValidationErrorMessage.required
           })}
         />
       </div>
@@ -89,10 +93,19 @@ const PasswordSettingsForm = () => {
           id="new-password"
           type="password"
           {...register(passwordSettingsFormFieldName.NEW_PASSWORD, {
-            required: passwordValidation.required,
-            minLength: passwordValidation.minLength,
-            maxLength: passwordValidation.maxLength,
-            pattern: passwordValidation.pattern
+            required: newPasswordValidationErrorMessage.required,
+            minLength: {
+              value: passwordValidation.minLength,
+              message: newPasswordValidationErrorMessage.length
+            },
+            maxLength: {
+              value: passwordValidation.maxLength,
+              message: newPasswordValidationErrorMessage.length
+            },
+            pattern: {
+              value: passwordValidation.pattern,
+              message: newPasswordValidationErrorMessage.pattern
+            }
           })}
         />
       </div>
@@ -103,11 +116,12 @@ const PasswordSettingsForm = () => {
           id="new-password-check"
           type="password"
           {...register(passwordSettingsFormFieldName.NEW_PASSWORD_CHECK, {
-            required: passwordCheckValidation.required,
+            required: newPasswordCheckValidationErrorMessage.required,
             validate: {
-              equalsToPassword: passwordCheckValidation.equalsToPassword(
-                getValues(passwordSettingsFormFieldName.NEW_PASSWORD)
-              )
+              equalsToPassword: newPasswordCheck => passwordCheckValidation.equalsToPassword({
+                password: getValues(passwordSettingsFormFieldName.NEW_PASSWORD),
+                passwordCheck: newPasswordCheck
+              }) || newPasswordCheckValidationErrorMessage.equalsToPassword
             }
           })}
         />

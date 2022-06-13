@@ -10,7 +10,10 @@ import useAlertMessage from "../../hooks/useAlertMessage";
 import useLogin from "../../hooks/queries/auth/useLogin";
 import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 import pageUrl from "../../utils/pageUrl";
-import { emailValidation, passwordValidation } from "../../utils/formValidation";
+import {
+  emailValidationErrorMessage,
+  passwordCheckValidationErrorMessage
+} from "../../utils/formValidationErrorMessage";
 
 const LoginForm = () => {
   const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
@@ -56,7 +59,7 @@ const LoginForm = () => {
         <input
           id="email"
           type="email"
-          {...register("email", { required: emailValidation.required })}
+          {...register("email", { required: emailValidationErrorMessage.required })}
         />
         <FormFieldErrorMessage message={errors.email?.message} />
       </TextInputWrapper>
@@ -65,7 +68,7 @@ const LoginForm = () => {
         <input
           id="password"
           type="password"
-          {...register("password", { required: passwordValidation.required })}
+          {...register("password", { required: passwordCheckValidationErrorMessage.required })}
         />
         <FormFieldErrorMessage message={errors.password?.message} />
       </TextInputWrapper>

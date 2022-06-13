@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form";
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import RowForm from "./RowForm";
 import useUsernameSettings from "../../hooks/queries/settings/useUsernameSettings";
-import { usernameValidation } from "../../utils/formValidation";
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import useNotifications from "../../hooks/useNotifications";
+import { usernameValidation } from "../../utils/formValidation";
+import { usernameValidationErrorMessage } from "../../utils/formValidationErrorMessage";
 
 const UsernameSettingsForm = ({ data }) => {
   const { notifySuccess } = useNotifications();
@@ -44,12 +45,24 @@ const UsernameSettingsForm = ({ data }) => {
           id="username"
           type="text"
           {...register("username", {
-            required: usernameValidation.required,
-            minLength: usernameValidation.minLength,
-            maxLength: usernameValidation.maxLength,
-            pattern: usernameValidation.pattern,
+            required: usernameValidationErrorMessage.required,
+            minLength: {
+              value: usernameValidation.minLength,
+              message: usernameValidationErrorMessage.length
+            },
+            maxLength: {
+              value: usernameValidation.maxLength,
+              message: usernameValidationErrorMessage.length
+            },
+            pattern: {
+              value: usernameValidation.pattern,
+              message: usernameValidationErrorMessage.pattern
+            },
             validate: {
-              changed: usernameValidation.changed(data)
+              isChanged: newUsername => usernameValidation.isChanged({
+                oldUsername: data,
+                newUsername
+              }) || usernameValidationErrorMessage.isChanged
             }
           })}
         />
