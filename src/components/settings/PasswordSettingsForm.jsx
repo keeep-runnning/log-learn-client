@@ -10,6 +10,7 @@ import {
   newPasswordCheckValidationErrorMessage,
   newPasswordValidationErrorMessage, passwordValidationErrorMessage
 } from "../../utils/formValidationErrorMessage";
+import useNotifications from "../../hooks/useNotifications";
 
 const passwordSettingsFormFieldName = Object.freeze({
   PASSWORD: "password",
@@ -29,8 +30,14 @@ const PasswordSettingsForm = () => {
 
   const passwordSettingsMutation = usePasswordSettings();
 
+  const { notifySuccess } = useNotifications();
+
   const onValid = useCallback(({ password, newPassword }) => {
-    passwordSettingsMutation.mutate({ password, newPassword });
+    passwordSettingsMutation.mutate({ password, newPassword }, {
+      onSuccess: () => {
+        notifySuccess({ content: "비밀번호가 수정되었습니다." });
+      }
+    });
   }, []);
 
   return (
