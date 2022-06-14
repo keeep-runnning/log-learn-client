@@ -16,6 +16,11 @@ export const passwordValidationErrorMessage = Object.freeze({
   pattern: "영문 대소문자/숫자/특수문자를 각각 1자 이상 포함해주세요."
 });
 
+export const oldPasswordValidationErrorMessage = Object.freeze({
+  required: "기존 비밀번호를 입력해주세요.",
+  isValid: "기존 비밀번호가 올바르지 않습니다."
+});
+
 export const newPasswordValidationErrorMessage = Object.freeze({
   required: "새 비밀번호를 입력해주세요.",
   length: "새 비밀번호를 8자 이상 32자 이하로 입력해주세요.",

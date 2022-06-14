@@ -8,7 +8,7 @@ import { passwordCheckValidation, passwordValidation } from "../../utils/formVal
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import {
   newPasswordCheckValidationErrorMessage,
-  newPasswordValidationErrorMessage, passwordValidationErrorMessage
+  newPasswordValidationErrorMessage, oldPasswordValidationErrorMessage
 } from "../../utils/formValidationErrorMessage";
 import useNotifications from "../../hooks/useNotifications";
 
@@ -25,7 +25,7 @@ const passwordSettingsFormDefaultValues = Object.freeze({
 });
 
 const PasswordSettingsForm = () => {
-  const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm({
+  const { register, handleSubmit, formState: { errors }, getValues, reset, setError } = useForm({
     defaultValues: passwordSettingsFormDefaultValues,
     mode: "onChange"
   });
@@ -39,6 +39,17 @@ const PasswordSettingsForm = () => {
       onSuccess: () => {
         notifySuccess({ content: "비밀번호가 수정되었습니다." });
         reset(passwordSettingsFormDefaultValues);
+      },
+      onError: error => {
+        if(error.response) {
+          const { code } = error.response.data;
+          if(code === "user-003") {
+            setError(passwordSettingsFormFieldName.PASSWORD, {
+              type: "isValid",
+              message: oldPasswordValidationErrorMessage.isValid
+            });
+          }
+        }
       }
     });
   }, []);
@@ -92,7 +103,7 @@ const PasswordSettingsForm = () => {
           id="password"
           type="password"
           {...register(passwordSettingsFormFieldName.PASSWORD, {
-            required: passwordValidationErrorMessage.required
+            required: oldPasswordValidationErrorMessage.required
           })}
         />
       </div>

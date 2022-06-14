@@ -71,8 +71,27 @@ const handlers = [
     return delayedResponse(ctx.status(204));
   }),
   rest.patch("/api/settings/password", (req, res, ctx) => {
-    const { newPassword } = req.body;
+    const { password, newPassword } = req.body;
     const currentUserId = mockSession.getUserId();
+    const currentUser = db.user.findFirst({
+      where: {
+        id: {
+          equals: currentUserId
+        }
+      }
+    });
+
+    if(password !== currentUser.password) {
+      return delayedResponse(
+        ctx.status(409),
+        ctx.json({
+          code: "user-003",
+          errorMessage: "비밀번호가 올바르지 않습니다.",
+          errors: []
+        })
+      );
+    }
+
     db.user.update({
       where: {
         id: {
