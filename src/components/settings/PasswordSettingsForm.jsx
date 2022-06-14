@@ -18,13 +18,15 @@ const passwordSettingsFormFieldName = Object.freeze({
   NEW_PASSWORD_CHECK: "newPasswordCheck"
 });
 
+const passwordSettingsFormDefaultValues = Object.freeze({
+  [passwordSettingsFormFieldName.PASSWORD]: "",
+  [passwordSettingsFormFieldName.NEW_PASSWORD]: "",
+  [passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]: ""
+});
+
 const PasswordSettingsForm = () => {
-  const { register, handleSubmit, formState: { errors }, getValues } = useForm({
-    defaultValues: {
-      [passwordSettingsFormFieldName.PASSWORD]: "",
-      [passwordSettingsFormFieldName.NEW_PASSWORD]: "",
-      [passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]: ""
-    },
+  const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm({
+    defaultValues: passwordSettingsFormDefaultValues,
     mode: "onChange"
   });
 
@@ -36,6 +38,7 @@ const PasswordSettingsForm = () => {
     passwordSettingsMutation.mutate({ password, newPassword }, {
       onSuccess: () => {
         notifySuccess({ content: "비밀번호가 수정되었습니다." });
+        reset(passwordSettingsFormDefaultValues);
       }
     });
   }, []);
