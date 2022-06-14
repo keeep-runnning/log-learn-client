@@ -14,7 +14,10 @@ export const emailValidation = Object.freeze({
 export const passwordValidation = Object.freeze({
   minLength: 8,
   maxLength: 32,
-  pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/
+  pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/,
+  isChanged({ oldPassword, newPassword }) {
+    return oldPassword !== newPassword;
+  }
 });
 
 export const passwordCheckValidation = Object.freeze({

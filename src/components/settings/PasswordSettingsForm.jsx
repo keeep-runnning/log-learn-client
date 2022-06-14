@@ -115,6 +115,12 @@ const PasswordSettingsForm = () => {
             pattern: {
               value: passwordValidation.pattern,
               message: newPasswordValidationErrorMessage.pattern
+            },
+            validate: {
+              isChanged: newPassword => passwordValidation.isChanged({
+                oldPassword: getValues(passwordSettingsFormFieldName.PASSWORD),
+                newPassword
+              }) || newPasswordValidationErrorMessage.isChanged
             }
           })}
         />
