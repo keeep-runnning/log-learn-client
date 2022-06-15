@@ -104,6 +104,20 @@ const handlers = [
     });
 
     return delayedResponse(ctx.status(204));
+  }),
+  rest.patch("/api/settings/introduction", (req, res, ctx) => {
+    const { introduction } = req.body;
+    const currentUserId = mockSession.getUserId();
+    db.user.update({
+      where: {
+        id: {
+          equals: currentUserId
+        }
+      },
+      data: { introduction }
+    });
+
+    return delayedResponse(ctx.status(204));
   })
 ];
 
