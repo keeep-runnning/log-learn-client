@@ -7,16 +7,23 @@ import PropTypes from "prop-types";
 
 import PrimaryButton from "../common/buttons/PrimaryButton";
 import useIntroductionSettings from "../../hooks/queries/settings/useIntroductionSettings";
+import useNotifications from "../../hooks/useNotifications";
 
 const IntroductionSettingsForm = ({ data }) => {
   const editorRef = useRef();
 
   const introductionSettingsMutation = useIntroductionSettings();
 
+  const { notifySuccess } = useNotifications();
+
   const handleSubmit = useCallback(event => {
     event.preventDefault();
     const introduction = editorRef.current.getInstance().getMarkdown();
-    introductionSettingsMutation.mutate(introduction);
+    introductionSettingsMutation.mutate(introduction, {
+      onSuccess: () => {
+        notifySuccess({ content: "소개가 수정되었습니다." });
+      }
+    });
   }, []);
 
   return (
