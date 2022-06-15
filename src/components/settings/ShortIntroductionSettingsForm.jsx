@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 import RowForm from "./RowForm";
 import PrimaryButton from "../common/buttons/PrimaryButton";
@@ -13,12 +13,16 @@ import { shortIntroductionValidationErrorMessage } from "../../utils/formValidat
 const SHORT_INTRODUCTION_FIELD_NAME = "shortIntroduction";
 
 const ShortIntroductionSettingsForm = ({ data }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
     defaultValues: {
       [SHORT_INTRODUCTION_FIELD_NAME]: data
     },
     mode: "onChange"
   });
+
+  useEffect(() => {
+    reset({ [SHORT_INTRODUCTION_FIELD_NAME]: data });
+  }, [data]);
 
   const shortIntroductionSettingsMutation = useShortIntroductionSettings();
 

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 
@@ -12,12 +12,17 @@ import { usernameValidationErrorMessage } from "../../utils/formValidationErrorM
 
 const UsernameSettingsForm = ({ data }) => {
   const { notifySuccess } = useNotifications();
-  const { register, handleSubmit, formState: { errors }, setError } = useForm({
+
+  const { register, handleSubmit, formState: { errors }, setError, reset } = useForm({
     defaultValues: {
       username: data
     },
     mode: "onChange"
   });
+
+  useEffect(() => {
+    reset({ username: data });
+  }, [data]);
 
   const usernameSettingsMutation = useUsernameSettings();
 
