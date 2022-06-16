@@ -9,3 +9,9 @@ export const postKeys = {
   details: () => [...postKeys.all, "detail"],
   detail: (postId) => [...postKeys.details(), postId]
 };
+
+export const userKeys = {
+  all: ["users"],
+  details: () => [...userKeys.all, "detail"],
+  detail: (username) => [...userKeys.details(), username]
+};

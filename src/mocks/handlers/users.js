@@ -47,6 +47,36 @@ const handlers = [
 
     return delayedResponse(ctx.status(200));
   }),
+  rest.get("/api/users/:username", (req, res, ctx) => {
+    const { username } = req.params;
+    const userFoundByUsername = db.user.findFirst({
+      where: {
+        username: {
+          equals: username
+        }
+      }
+    });
+
+    if(!userFoundByUsername) {
+      return delayedResponse(
+        ctx.status(404),
+        ctx.json({
+          code: "user-004",
+          errorMessage: "존재하지 않는 유저입니다.",
+          errors: []
+        })
+      );
+    }
+
+    return delayedResponse(
+      ctx.status(200),
+      ctx.json({
+        username: userFoundByUsername.username,
+        shortIntroduction: userFoundByUsername.shortIntroduction,
+        introduction: userFoundByUsername.introduction
+      })
+    );
+  })
 ];
 
 export default handlers;
