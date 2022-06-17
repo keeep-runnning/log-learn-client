@@ -11,7 +11,6 @@ const UserProfileCard = ({ userData }) => {
       align-items: center;
       border: ${theme.lineThickness[1]} solid ${theme.lineColor[2]};
       ${theme.borderRound.normal};
-      margin: ${theme.spacing[4]};
       padding: ${theme.spacing[6]};
       ${theme.mq.md} {
         flex-direction: row;

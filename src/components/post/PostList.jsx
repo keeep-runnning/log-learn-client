@@ -39,7 +39,6 @@ const PostList = ({ authorName }) => {
         : isError? <div>{error.message}</div>
         : (
             <div css={theme => css`
-              padding: ${theme.spacing[4]};
               & > * + * {
                 margin-top: ${theme.spacing[8]};
                 border-top: ${theme.lineThickness[2]} solid ${theme.lineColor[2]};

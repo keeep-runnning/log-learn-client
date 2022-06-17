@@ -17,6 +17,9 @@ const pageUrl = {
   getUserHomePageUrl(usernameParam) {
     return `/${this.USERS}/${usernameParam}`;
   },
+  getUserIntroductionPageUrl(usernameParam) {
+    return `/${this.USERS}/${usernameParam}/introduction`;
+  },
   getPostDetailPageUrl(postIdParam) {
     return `/${this.POSTS}/${postIdParam}`;
   },
