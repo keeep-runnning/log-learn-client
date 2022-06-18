@@ -18,6 +18,7 @@ const LinkMenuTabs = ({ menuList }) => {
       {menuList.map(({ name, link }) => (
         <li key={link}>
           <NavLink
+            end
             to={link}
             css={theme => css`
               display: block;

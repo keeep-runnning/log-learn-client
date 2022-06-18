@@ -1,7 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams, Outlet } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import PostList from "../components/post/PostList";
 import useUserQuery from "../hooks/queries/users/useUserQuery";
 import NotFound from "./NotFound";
 import UserProfileCard from "../components/user/UserProfileCard";
@@ -20,6 +19,8 @@ const UserHome = () => {
     if(error.response?.status === 404) {
       return <NotFound />;
     }
+
+    return null;
   }
 
   return (
@@ -33,7 +34,7 @@ const UserHome = () => {
     `}>
       <UserProfileCard userData={userData} />
       <UserHomeMenuTabs username={userData.username} />
-      <PostList authorName={userData.username} />
+      <Outlet context={{ userData }} />
     </main>
   );
 };

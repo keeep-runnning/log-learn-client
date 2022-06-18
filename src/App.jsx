@@ -12,6 +12,8 @@ import PostPublication from "./pages/PostPublication";
 import PostDetail from "./pages/PostDetail";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
+import PostList from "./components/post/PostList";
+import UserIntroductionViewer from "./components/user/UserIntroductionViewer";
 
 const App = () => {
   const { isLoggedIn } = useCurrentUserQuery();
@@ -23,7 +25,10 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
-          <Route path="users/:username" element={<UserHome />} />
+          <Route path="users/:username" element={<UserHome />}>
+            <Route index element={<PostList />} />
+            <Route path="introduction" element={<UserIntroductionViewer />} />
+          </Route>
           <Route path="posts/:postId" element={<PostDetail />} />
           <Route
             path="settings"

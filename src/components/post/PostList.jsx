@@ -1,12 +1,15 @@
 import { Fragment, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
-import PropTypes from "prop-types";
+import { useOutletContext } from "react-router-dom";
 
 import PostListItem from "./PostListItem";
 import usePostsByAuthorInfiniteQuery from "../../hooks/queries/posts/usePostsByAuthorInfiniteQuery";
+import MessageBox from "../common/MessageBox";
 
-const PostList = ({ authorName }) => {
+const PostList = () => {
   const targetRef = useRef();
+
+  const { userData } = useOutletContext();
 
   const {
     isLoading,
@@ -16,7 +19,7 @@ const PostList = ({ authorName }) => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage
-  } = usePostsByAuthorInfiniteQuery(authorName);
+  } = usePostsByAuthorInfiniteQuery(userData.username);
 
   useEffect(() => {
     const io = new IntersectionObserver((entries) => {
@@ -35,34 +38,33 @@ const PostList = ({ authorName }) => {
 
   return (
     <>
-      {isLoading? <div>loading...</div>
-        : isError? <div>{error.message}</div>
-        : (
-            <div css={theme => css`
-              & > * + * {
-                margin-top: ${theme.spacing[8]};
-                border-top: ${theme.lineThickness[2]} solid ${theme.lineColor[2]};
-                padding-top: ${theme.spacing[8]};
-              }
-            `}>
-              {data.pages.map(page => (
-                <Fragment key={page.nextCursor}>
-                  {page.posts.map(post => (
-                    <PostListItem key={post.id} postId={post.id} authorName={post.author} preview={post.content}
-                                  createdAt={post.createdAt} title={post.title} />
-                  ))}
-                </Fragment>
+      {isLoading ? (
+        <div>loading...</div>
+      ) : isError ? (
+        <div>{error.message}</div>
+      ) : (data.pages.length === 1 && data.pages[0].posts.length === 0) ? (
+        <MessageBox message="작성된 블로그 포스트가 없습니다." />
+      ) : (
+        <div css={theme => css`
+          & > * + * {
+            margin-top: ${theme.spacing[8]};
+            border-top: ${theme.lineThickness[2]} solid ${theme.lineColor[2]};
+            padding-top: ${theme.spacing[8]};
+          }
+        `}>
+          {data.pages.map(page => (
+            <Fragment key={page.nextCursor}>
+              {page.posts.map(post => (
+                <PostListItem key={post.id} postId={post.id} authorName={post.author} preview={post.content}
+                              createdAt={post.createdAt} title={post.title} />
               ))}
-            </div>
-          )
-      }
+            </Fragment>
+          ))}
+        </div>
+      )}
       <div ref={targetRef} />
     </>
   );
-};
-
-PostList.propTypes = {
-  authorName: PropTypes.string.isRequired
 };
 
 export default PostList;
