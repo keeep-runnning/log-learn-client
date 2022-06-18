@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import { memo } from "react";
 
-const LinkMenuTab = ({ menuList }) => {
+const LinkMenuTabs = ({ menuList }) => {
   return (
     <ul css={theme => css`
       display: flex;
@@ -45,11 +45,11 @@ const LinkMenuTab = ({ menuList }) => {
   );
 };
 
-LinkMenuTab.propTypes = {
+LinkMenuTabs.propTypes = {
   menuList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired
   })).isRequired
 };
 
-export default memo(LinkMenuTab);
+export default memo(LinkMenuTabs);

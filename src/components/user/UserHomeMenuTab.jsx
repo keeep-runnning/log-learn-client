@@ -1,7 +1,7 @@
 import { memo } from "react";
 import PropTypes from "prop-types";
 
-import LinkMenuTab from "../common/LinkMenuTab";
+import LinkMenuTabs from "../common/LinkMenuTabs";
 import pageUrl from "../../utils/pageUrl";
 
 const UserHomeMenuTab = ({ username }) => {
@@ -10,7 +10,7 @@ const UserHomeMenuTab = ({ username }) => {
     { name: "소개", link: pageUrl.getUserIntroductionPageUrl(username) }
   ];
 
-  return <LinkMenuTab menuList={menuList} />;
+  return <LinkMenuTabs menuList={menuList} />;
 };
 
 UserHomeMenuTab.propTypes = {
