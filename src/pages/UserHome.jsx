@@ -5,7 +5,7 @@ import PostList from "../components/post/PostList";
 import useUserQuery from "../hooks/queries/users/useUserQuery";
 import NotFound from "./NotFound";
 import UserProfileCard from "../components/user/UserProfileCard";
-import UserHomeMenuTab from "../components/user/UserHomeMenuTab";
+import UserHomeMenuTabs from "../components/user/UserHomeMenuTabs";
 
 const UserHome = () => {
   const { username } = useParams();
@@ -32,7 +32,7 @@ const UserHome = () => {
       row-gap: ${theme.spacing[8]};
     `}>
       <UserProfileCard userData={userData} />
-      <UserHomeMenuTab username={userData.username} />
+      <UserHomeMenuTabs username={userData.username} />
       <PostList authorName={userData.username} />
     </main>
   );
