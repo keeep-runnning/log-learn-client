@@ -4,7 +4,7 @@ import apiClient from "../apiClient";
 import { userKeys } from "../queryKeys";
 
 const fetchUser = async (username) => {
-  const response = await apiClient.get(`/api/users/${username}`);
+  const response = await apiClient.get(`/api/users/${encodeURIComponent(username)}`);
   return response.data;
 };
 

@@ -15,10 +15,10 @@ const pageUrl = {
     return `/${this.SETTINGS}${queryString}`;
   },
   getUserHomePageUrl(usernameParam) {
-    return `/${this.USERS}/${usernameParam}`;
+    return `/${this.USERS}/${encodeURIComponent(usernameParam)}`;
   },
   getUserIntroductionPageUrl(usernameParam) {
-    return `/${this.USERS}/${usernameParam}/introduction`;
+    return `/${this.USERS}/${encodeURIComponent(usernameParam)}/introduction`;
   },
   getPostDetailPageUrl(postIdParam) {
     return `/${this.POSTS}/${postIdParam}`;

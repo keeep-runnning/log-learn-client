@@ -4,7 +4,7 @@ import apiClient from "../apiClient";
 import { postKeys } from "../queryKeys";
 
 const fetchPostsByAuthorName = async ({ cursor = "-1", authorName }) => {
-  const response = await apiClient.get(`/api/posts?cursor=${cursor}&authorName=${authorName}`);
+  const response = await apiClient.get(`/api/posts?cursor=${cursor}&authorName=${encodeURIComponent(authorName)}`);
   return response.data;
 };
 
