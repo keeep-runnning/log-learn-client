@@ -1,11 +1,13 @@
 import { css } from "@emotion/react";
-import PropTypes from "prop-types";
+import { useOutletContext } from "react-router-dom";
 
 import UsernameSettingsForm from "./UsernameSettingsForm";
 import EmailSettingsForm from "./EmailSettingsForm";
 import ShortIntroductionSettingsForm from "./ShortIntroductionSettingsForm";
 
-const MainSettingsForms = ({ data }) => {
+const MainSettingsForms = () => {
+  const { settingsData } = useOutletContext();
+
   return (
     <div css={theme => css`
       display: flex;
@@ -24,19 +26,11 @@ const MainSettingsForms = ({ data }) => {
         }
       }
     `}>
-      <UsernameSettingsForm data={data.username} />
-      <EmailSettingsForm data={data.email} />
-      <ShortIntroductionSettingsForm data={data.shortIntroduction} />
+      <UsernameSettingsForm data={settingsData.username} />
+      <EmailSettingsForm data={settingsData.email} />
+      <ShortIntroductionSettingsForm data={settingsData.shortIntroduction} />
     </div>
   );
 };
-
-MainSettingsForms.propTypes = {
-  data: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    shortIntroduction: PropTypes.string.isRequired
-  }).isRequired
-}
 
 export default MainSettingsForms;

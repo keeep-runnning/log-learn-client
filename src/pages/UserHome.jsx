@@ -33,7 +33,14 @@ const UserHome = () => {
       row-gap: ${theme.spacing[8]};
     `}>
       <UserProfileCard userData={userData} />
-      <UserHomeMenuTabs username={userData.username} />
+      <div css={theme => css`
+        ${theme.mq.sm} {
+          display: flex;
+          justify-content: center;        
+        }
+      `}>
+        <UserHomeMenuTabs username={userData.username} />
+      </div>
       <Outlet context={{ userData }} />
     </main>
   );

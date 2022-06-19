@@ -11,7 +11,6 @@ const LinkMenuTabs = ({ menuList }) => {
       row-gap: ${theme.spacing[2]};
       ${theme.mq.sm} {
         flex-direction: row;
-        justify-content: center;
         column-gap: ${theme.spacing[4]};
       }
     `}>

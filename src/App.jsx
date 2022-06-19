@@ -14,6 +14,9 @@ import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import PostList from "./components/post/PostList";
 import UserIntroductionViewer from "./components/user/UserIntroductionViewer";
+import MainSettingsForms from "./components/settings/MainSettingsForms";
+import PasswordSettingsForm from "./components/settings/PasswordSettingsForm";
+import IntroductionSettingsForm from "./components/settings/IntroductionSettingsForm";
 
 const App = () => {
   const { isLoggedIn } = useCurrentUserQuery();
@@ -37,7 +40,11 @@ const App = () => {
                 <Settings />
               </AuthChecker>
             }
-          />
+          >
+            <Route index element={<MainSettingsForms />} />
+            <Route path="password" element={<PasswordSettingsForm />} />
+            <Route path="introduction" element={<IntroductionSettingsForm />} />
+          </Route>
         </Route>
         <Route
           path="/posts/new"

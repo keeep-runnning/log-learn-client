@@ -1,42 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { css } from "@emotion/react";
 
-import SettingsTabs, { settingsTabType } from "../components/settings/SettingsTabs";
-import MainSettingsForms from "../components/settings/MainSettingsForms";
-import PasswordSettingsForm from "../components/settings/PasswordSettingsForm";
-import IntroductionSettingsForm from "../components/settings/IntroductionSettingsForm";
+import SettingsTabs from "../components/settings/SettingsTabs";
 import useSettingsQuery from "../hooks/queries/settings/useSettingsQuery";
-import pageUrl from "../utils/pageUrl";
-
-function isTabQueryStringValid(tabQueryString) {
-  return Object.values(settingsTabType).includes(tabQueryString);
-}
-
-function getSelectedTabFromTabQueryString(tabQueryString) {
-  if(!tabQueryString || !isTabQueryStringValid(tabQueryString)) {
-    return settingsTabType.MAIN;
-  }
-  return tabQueryString;
-}
 
 const Settings = () => {
-  const navigate = useNavigate();
+  const { data: settingsData, isLoading, isError } = useSettingsQuery();
 
-  const [searchParams] = useSearchParams();
-  const tabQueryString = searchParams.get("tab");
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
 
-  const [selectedTab, setSelectedTab] = useState(getSelectedTabFromTabQueryString(tabQueryString));
-
-  useEffect(() => {
-    if (tabQueryString && !isTabQueryStringValid(tabQueryString)) {
-      navigate(pageUrl.getSettingsPageUrl());
-    } else {
-      setSelectedTab(getSelectedTabFromTabQueryString(tabQueryString));
-    }
-  }, [tabQueryString]);
-
-  const { data, isLoading, isError } = useSettingsQuery();
+  if (isError) {
+    return <div>설정 정보를 가져오는 동안 문제가 발생했습니다.</div>;
+  }
 
   return (
     <div css={theme => css`
@@ -50,24 +27,16 @@ const Settings = () => {
         margin: 0 auto;
         row-gap: ${theme.spacing[8]};
       }
-      & > section {
-        flex-grow: 1;
-      }
-      & > h1 {
+    `}>
+      <h1 css={theme => css`
         font-weight: ${theme.textWeight.bold};
         ${theme.textSize["2xl"]}
-      }
-    `}>
-      <h1>설정</h1>
-      <SettingsTabs selectedTab={selectedTab} />
-      <section>
-        {isLoading && <div>loading...</div>}
-        {isError && <div>설정 정보를 가져오는 동안 문제가 발생했습니다.</div>}
-        {data && (
-          selectedTab === settingsTabType.MAIN ? <MainSettingsForms data={data} /> :
-            selectedTab === settingsTabType.PASSWORD ? <PasswordSettingsForm /> :
-              <IntroductionSettingsForm data={data.introduction} />
-        )}
+      `}>
+        설정
+      </h1>
+      <SettingsTabs />
+      <section css={css`flex-grow: 1; `}>
+        <Outlet context={{ settingsData }} />
       </section>
     </div>
   );

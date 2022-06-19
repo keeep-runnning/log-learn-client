@@ -4,27 +4,33 @@ const pageUrl = {
   SETTINGS: "settings",
   USERS: "users",
   POSTS: "posts",
+  NEW: "new",
+  INTRODUCTION: "introduction",
+  PASSWORD: "password",
   getSignUpPageUrl() {
     return `/${this.SIGN_UP}`;
   },
   getLoginPageUrl() {
     return `/${this.LOGIN}`;
   },
-  getSettingsPageUrl(tabSearchParam) {
-    const queryString = tabSearchParam ? `?tab=${tabSearchParam}` : "";
-    return `/${this.SETTINGS}${queryString}`;
+  getSettingsPageUrl(selectedTab = "") {
+    if (selectedTab && ![this.INTRODUCTION, this.PASSWORD].includes(selectedTab)) {
+      selectedTab = "";
+    }
+
+    return selectedTab ? `/${this.SETTINGS}/${selectedTab}` : `/${this.SETTINGS}`;
   },
   getUserHomePageUrl(usernameParam) {
     return `/${this.USERS}/${encodeURIComponent(usernameParam)}`;
   },
   getUserIntroductionPageUrl(usernameParam) {
-    return `/${this.USERS}/${encodeURIComponent(usernameParam)}/introduction`;
+    return `/${this.USERS}/${encodeURIComponent(usernameParam)}/${this.INTRODUCTION}`;
   },
   getPostDetailPageUrl(postIdParam) {
     return `/${this.POSTS}/${postIdParam}`;
   },
   getPostPublicationPageUrl() {
-    return `/${this.POSTS}/new`;
+    return `/${this.POSTS}/${this.NEW}`;
   }
 };
 
