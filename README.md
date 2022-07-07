@@ -2,6 +2,7 @@
 
 > 공부한 내용을 정리할 수 있는 블로그 서비스입니다.
 
+서비스를 개발하면서, 공부하거나 고민한 내용은 [wiki](https://github.com/rookie7my/log-learn-client/wiki)에 정리하고 있습니다.
 
 ## 기술 스택
 <div>
