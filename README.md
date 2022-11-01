@@ -16,9 +16,6 @@
     <img src="https://img.shields.io/badge/emotion-FE74D0?style=flat" />
 </div>
 <div>
-    <img src="https://img.shields.io/badge/msw-FF3E00?style=flat" />
-</div>
-<div>
     <img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white" />
 </div>
 
