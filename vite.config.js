@@ -9,5 +9,9 @@ export default defineConfig({
         plugins: ["@emotion/babel-plugin"]
       }
     })
-  ]
+  ],
+  server: {
+    port: 3000,
+    open: true
+  }
 });
