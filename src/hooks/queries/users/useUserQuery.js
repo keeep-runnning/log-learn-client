@@ -9,17 +9,14 @@ const fetchUser = async (username) => {
 };
 
 const useUserQuery = (username) => {
-  return useQuery(
-    userKeys.detail(username),
-    () => fetchUser(username),
-    {
-      retry: (failureCount, error) => {
-        if(error.response) {
-          return error.response.status !== 404 && failureCount <= 3;
-        }
-        return failureCount <= 3;
+  return useQuery(userKeys.detail(username), () => fetchUser(username), {
+    retry: (failureCount, error) => {
+      if (error.response) {
+        return error.response.status !== 404 && failureCount <= 3;
       }
-    });
+      return failureCount <= 3;
+    },
+  });
 };
 
 export default useUserQuery;

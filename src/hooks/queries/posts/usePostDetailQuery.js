@@ -9,18 +9,14 @@ const fetchPost = async (postId) => {
 };
 
 const usePostDetailQuery = (postId) => {
-  return useQuery(
-    postKeys.detail(postId),
-    () => fetchPost(postId),
-    {
-      retry: (failureCount, error) => {
-        if(error.response) {
-          return error.response.status !== 404 && failureCount <= 3;
-        }
-        return failureCount <= 3;
+  return useQuery(postKeys.detail(postId), () => fetchPost(postId), {
+    retry: (failureCount, error) => {
+      if (error.response) {
+        return error.response.status !== 404 && failureCount <= 3;
       }
-    }
-  );
+      return failureCount <= 3;
+    },
+  });
 };
 
 export default usePostDetailQuery;

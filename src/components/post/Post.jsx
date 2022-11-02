@@ -35,7 +35,7 @@ const Post = ({ post }) => {
   }, [post]);
 
   useEffect(() => {
-    if(isEditFormClosing) {
+    if (isEditFormClosing) {
       const timerId = setTimeout(() => {
         setIsEditFormDisplayed(false);
         setIsEditFormClosing(false);
@@ -43,12 +43,12 @@ const Post = ({ post }) => {
 
       return () => {
         clearTimeout(timerId);
-      }
+      };
     }
   }, [isEditFormClosing]);
 
   useLayoutEffect(() => {
-    if(isEditFormDisplayed) {
+    if (isEditFormDisplayed) {
       document.body.style.overflowY = "hidden";
 
       return () => {
@@ -65,87 +65,102 @@ const Post = ({ post }) => {
     setIsEditFormClosing(true);
   }, []);
 
-  const postData = useMemo(() => ({
-    id: post.id,
-    title: post.title,
-    content: post.content
-  }), [post]);
+  const postData = useMemo(
+    () => ({
+      id: post.id,
+      title: post.title,
+      content: post.content,
+    }),
+    [post]
+  );
 
   return (
     <>
-      <article css={theme => css`
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[6]};      
-      `}>
-        <header css={theme => css`
+      <article
+        css={(theme) => css`
           display: flex;
           flex-direction: column;
-          row-gap: ${theme.spacing[4]};
-          h1 {
-            font-weight: ${theme.textWeight.bold};
-            ${theme.textSize["2xl"]}
-          }
-        `}>
-          <h1>{post.title}</h1>
-          <div css={theme => css`
+          row-gap: ${theme.spacing[6]};
+        `}
+      >
+        <header
+          css={(theme) => css`
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            ${theme.textSize.sm}
-          `}>
-            <div css={theme => css`
+            flex-direction: column;
+            row-gap: ${theme.spacing[4]};
+            h1 {
+              font-weight: ${theme.textWeight.bold};
+              ${theme.textSize["2xl"]}
+            }
+          `}
+        >
+          <h1>{post.title}</h1>
+          <div
+            css={(theme) => css`
               display: flex;
               align-items: center;
-              column-gap: ${theme.spacing[2]};
-            `}>
-              <Link to={pageUrl.getUserHomePageUrl(post.author)} css={theme => css`
-                ${theme.textSize.sm}
-                font-weight: ${theme.textWeight.bold};
-                &:hover {
-                  text-decoration: underline;
-                }
-              `}>
+              justify-content: space-between;
+              ${theme.textSize.sm}
+            `}
+          >
+            <div
+              css={(theme) => css`
+                display: flex;
+                align-items: center;
+                column-gap: ${theme.spacing[2]};
+              `}
+            >
+              <Link
+                to={pageUrl.getUserHomePageUrl(post.author)}
+                css={(theme) => css`
+                  ${theme.textSize.sm}
+                  font-weight: ${theme.textWeight.bold};
+                  &:hover {
+                    text-decoration: underline;
+                  }
+                `}
+              >
                 {post.author}
               </Link>
               &middot;
               <DateTime dateTimeStr={post.createdAt} />
             </div>
-            {(currentUser.isLoggedIn && currentUser.username === post.author) && (
-              <div css={theme => css`
-                display: flex;
-                column-gap: ${theme.spacing[2]};
-              `}>
+            {currentUser.isLoggedIn && currentUser.username === post.author && (
+              <div
+                css={(theme) => css`
+                  display: flex;
+                  column-gap: ${theme.spacing[2]};
+                `}
+              >
                 <DefaultButton onClick={displayEditForm}>수정</DefaultButton>
                 <PostRemoveButton post={post} />
               </div>
             )}
           </div>
         </header>
-        <Viewer
-          ref={viewerRef}
-          initialValue={post.content}
-          usageStatistics={false}
-        />
+        <Viewer ref={viewerRef} initialValue={post.content} usageStatistics={false} />
       </article>
 
-      {isEditFormDisplayed &&
-        <section css={theme => css`
-          background-color: ${theme.bgColor[2]};
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          animation: ${slideUpAnimation} ${SLIDE_ANIMATION_TIME_IN_MS}ms ease-in;
-          transition: transform ${SLIDE_ANIMATION_TIME_IN_MS}ms ease-in;
-          ${isEditFormClosing && css`
-            transform: translateY(100%);
+      {isEditFormDisplayed && (
+        <section
+          css={(theme) => css`
+            background-color: ${theme.bgColor[2]};
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: ${slideUpAnimation} ${SLIDE_ANIMATION_TIME_IN_MS}ms ease-in;
+            transition: transform ${SLIDE_ANIMATION_TIME_IN_MS}ms ease-in;
+            ${isEditFormClosing &&
+            css`
+              transform: translateY(100%);
+            `}
           `}
-        `}>
+        >
           <PostEditForm postData={postData} onClose={closeEditForm} />
         </section>
-      }
+      )}
     </>
   );
 };
@@ -156,8 +171,8 @@ Post.propTypes = {
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    content: PropTypes.string
-  }).isRequired
+    content: PropTypes.string,
+  }).isRequired,
 };
 
 export default Post;

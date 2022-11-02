@@ -1,4 +1,4 @@
-import '@toast-ui/editor/dist/toastui-editor.css';
+import "@toast-ui/editor/dist/toastui-editor.css";
 
 import { css } from "@emotion/react";
 import { useOutletContext } from "react-router-dom";
@@ -14,9 +14,11 @@ const UserIntroductionViewer = () => {
   }
 
   return (
-    <div css={theme => css`
-      padding: ${theme.spacing[4]};  
-    `}>
+    <div
+      css={(theme) => css`
+        padding: ${theme.spacing[4]};
+      `}
+    >
       <Viewer initialValue={userData.introduction} usageStatistics={false} />
     </div>
   );

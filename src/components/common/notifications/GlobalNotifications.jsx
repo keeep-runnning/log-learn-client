@@ -13,7 +13,7 @@ const GlobalNotifications = () => {
   useEffect(() => {
     const { state, pathname, search } = location;
     const notification = state?.notification;
-    if(notification) {
+    if (notification) {
       notify(notification);
       navigate(pathname + search, { replace: true });
       return;

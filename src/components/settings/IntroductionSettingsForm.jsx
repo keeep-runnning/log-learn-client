@@ -18,20 +18,20 @@ const IntroductionSettingsForm = () => {
 
   const { notifySuccess } = useNotifications();
 
-  const handleSubmit = useCallback(event => {
+  const handleSubmit = useCallback((event) => {
     event.preventDefault();
     const introduction = editorRef.current.getInstance().getMarkdown();
     introductionSettingsMutation.mutate(introduction, {
       onSuccess: () => {
         notifySuccess({ content: "소개가 수정되었습니다." });
-      }
+      },
     });
   }, []);
 
   return (
     <form
       onSubmit={handleSubmit}
-      css={theme => css`
+      css={(theme) => css`
         padding: ${theme.spacing[2]};
         height: 100%;
         display: flex;
@@ -45,7 +45,9 @@ const IntroductionSettingsForm = () => {
         }
       `}
     >
-      <PrimaryButton type="submit" disabled={introductionSettingsMutation.isLoading}>수정하기</PrimaryButton>
+      <PrimaryButton type="submit" disabled={introductionSettingsMutation.isLoading}>
+        수정하기
+      </PrimaryButton>
       <div>
         <Editor
           initialValue={settingsData.introduction}
@@ -59,7 +61,7 @@ const IntroductionSettingsForm = () => {
             ["hr", "quote"],
             ["ul", "ol", "task", "indent", "outdent"],
             ["table", "link"],
-            ["code", "codeblock"]
+            ["code", "codeblock"],
           ]}
           useCommandShortcut={true}
           usageStatistics={false}

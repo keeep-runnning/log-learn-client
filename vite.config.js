@@ -6,12 +6,12 @@ export default defineConfig({
     react({
       jsxImportSource: "@emotion/react",
       babel: {
-        plugins: ["@emotion/babel-plugin"]
-      }
-    })
+        plugins: ["@emotion/babel-plugin"],
+      },
+    }),
   ],
   server: {
     port: 3000,
-    open: true
-  }
+    open: true,
+  },
 });

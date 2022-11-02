@@ -17,8 +17,8 @@ const PostEditForm = ({ postData, onClose }) => {
 
   const { register, handleSubmit, setFocus } = useForm({
     defaultValues: {
-      title: postData.title
-    }
+      title: postData.title,
+    },
   });
 
   const editMutation = usePostEdit();
@@ -27,37 +27,56 @@ const PostEditForm = ({ postData, onClose }) => {
     setFocus("title");
   }, [setFocus]);
 
-  const handlePostEdit = useCallback(handleSubmit((data) => {
-    const { title } = data;
-    const content = editorRef.current.getInstance().getMarkdown();
-    editMutation.mutate({
-      postId: postData.id,
-      title,
-      content
-    }, {
-      onSuccess: () => {
-        onClose();
-      }
-    });
-  }), [postData]);
+  const handlePostEdit = useCallback(
+    handleSubmit((data) => {
+      const { title } = data;
+      const content = editorRef.current.getInstance().getMarkdown();
+      editMutation.mutate(
+        {
+          postId: postData.id,
+          title,
+          content,
+        },
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        }
+      );
+    }),
+    [postData]
+  );
 
   return (
     <PostForm onSubmit={handlePostEdit}>
-      <ul css={theme => css`
-        display: flex;
-        justify-content: flex-end;
-        column-gap: ${theme.spacing[2]};
-      `}>
+      <ul
+        css={(theme) => css`
+          display: flex;
+          justify-content: flex-end;
+          column-gap: ${theme.spacing[2]};
+        `}
+      >
         <li>
-          <DefaultButton type="button" onClick={onClose}>나가기</DefaultButton>
+          <DefaultButton type="button" onClick={onClose}>
+            나가기
+          </DefaultButton>
         </li>
         <li>
-          <PrimaryButton disabled={editMutation.isLoading} type="submit">글 수정하기</PrimaryButton>
+          <PrimaryButton disabled={editMutation.isLoading} type="submit">
+            글 수정하기
+          </PrimaryButton>
         </li>
       </ul>
-      <PostTitleTextArea placeholder="제목을 입력하세요." rows={1}
-        {...register("title", { required: true })} />
-      <div css={css`flex-grow: 1;`}>
+      <PostTitleTextArea
+        placeholder="제목을 입력하세요."
+        rows={1}
+        {...register("title", { required: true })}
+      />
+      <div
+        css={css`
+          flex-grow: 1;
+        `}
+      >
         <Editor
           initialValue={postData.content}
           autofocus={false}
@@ -70,7 +89,7 @@ const PostEditForm = ({ postData, onClose }) => {
             ["hr", "quote"],
             ["ul", "ol", "task", "indent", "outdent"],
             ["table", "link"],
-            ["code", "codeblock"]
+            ["code", "codeblock"],
           ]}
           useCommandShortcut={true}
           usageStatistics={false}
@@ -84,9 +103,9 @@ PostEditForm.propTypes = {
   postData: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    content: PropTypes.string
+    content: PropTypes.string,
   }).isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 export default PostEditForm;

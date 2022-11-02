@@ -16,26 +16,34 @@ const Settings = () => {
   }
 
   return (
-    <div css={theme => css`
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      row-gap: ${theme.spacing[6]};
-      padding: ${theme.spacing[4]};
-      ${theme.mq.md} {
-        max-width: ${theme.bp.md};
-        margin: 0 auto;
-        row-gap: ${theme.spacing[8]};
-      }
-    `}>
-      <h1 css={theme => css`
-        font-weight: ${theme.textWeight.bold};
-        ${theme.textSize["2xl"]}
-      `}>
+    <div
+      css={(theme) => css`
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: ${theme.spacing[6]};
+        padding: ${theme.spacing[4]};
+        ${theme.mq.md} {
+          max-width: ${theme.bp.md};
+          margin: 0 auto;
+          row-gap: ${theme.spacing[8]};
+        }
+      `}
+    >
+      <h1
+        css={(theme) => css`
+          font-weight: ${theme.textWeight.bold};
+          ${theme.textSize["2xl"]}
+        `}
+      >
         설정
       </h1>
       <SettingsTabs />
-      <section css={css`flex-grow: 1; `}>
+      <section
+        css={css`
+          flex-grow: 1;
+        `}
+      >
         <Outlet context={{ settingsData }} />
       </section>
     </div>

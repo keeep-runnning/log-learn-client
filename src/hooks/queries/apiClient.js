@@ -4,7 +4,7 @@ const baseURL = import.meta.env.DEV ? "http://localhost:8080" : import.meta.env.
 
 const apiClient = axios.create({
   baseURL,
-  withCredentials: true
+  withCredentials: true,
 });
 
 export default apiClient;

@@ -10,14 +10,11 @@ const removePost = async (postId) => {
 
 const usePostRemoval = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    post => removePost(post.id),
-    {
-      onSuccess: (data, { author }) => {
-        queryClient.invalidateQueries(postKeys.list(author));
-      }
-    }
-  );
+  return useMutation((post) => removePost(post.id), {
+    onSuccess: (data, { author }) => {
+      queryClient.invalidateQueries(postKeys.list(author));
+    },
+  });
 };
 
 export default usePostRemoval;

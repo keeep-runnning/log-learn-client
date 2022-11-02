@@ -24,15 +24,21 @@ const PostPublicationForm = () => {
 
   const postPublicationMutation = usePostPublication();
 
-  const handlePostPublication = useCallback(handleSubmit((data) => {
-    const { title } = data;
-    const content = editorRef.current.getInstance().getMarkdown();
-    postPublicationMutation.mutate({ title, content }, {
-      onSuccess: ({ id: postId }) => {
-        navigate(pageUrl.getPostDetailPageUrl(postId));
-      }
-    });
-  }), []);
+  const handlePostPublication = useCallback(
+    handleSubmit((data) => {
+      const { title } = data;
+      const content = editorRef.current.getInstance().getMarkdown();
+      postPublicationMutation.mutate(
+        { title, content },
+        {
+          onSuccess: ({ id: postId }) => {
+            navigate(pageUrl.getPostDetailPageUrl(postId));
+          },
+        }
+      );
+    }),
+    []
+  );
 
   const handleGoBackButtonClick = useCallback(() => {
     navigate(-1);
@@ -40,11 +46,13 @@ const PostPublicationForm = () => {
 
   return (
     <PostForm onSubmit={handlePostPublication}>
-      <ul css={theme => css`
-        display: flex;
-        justify-content: flex-end;
-        column-gap: ${theme.spacing[2]};
-      `}>
+      <ul
+        css={(theme) => css`
+          display: flex;
+          justify-content: flex-end;
+          column-gap: ${theme.spacing[2]};
+        `}
+      >
         <li>
           <DefaultButton onClick={handleGoBackButtonClick} type="button">
             뒤로가기
@@ -56,8 +64,16 @@ const PostPublicationForm = () => {
           </PrimaryButton>
         </li>
       </ul>
-      <PostTitleTextArea {...register("title", {required: true})} placeholder="제목을 입력하세요." rows={1} />
-      <div css={css`flex-grow: 1;`}>
+      <PostTitleTextArea
+        {...register("title", { required: true })}
+        placeholder="제목을 입력하세요."
+        rows={1}
+      />
+      <div
+        css={css`
+          flex-grow: 1;
+        `}
+      >
         <Editor
           autofocus={false}
           ref={editorRef}
@@ -69,7 +85,7 @@ const PostPublicationForm = () => {
             ["hr", "quote"],
             ["ul", "ol", "task", "indent", "outdent"],
             ["table", "link"],
-            ["code", "codeblock"]
+            ["code", "codeblock"],
           ]}
           useCommandShortcut={true}
           usageStatistics={false}

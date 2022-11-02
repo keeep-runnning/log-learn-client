@@ -13,11 +13,16 @@ import { shortIntroductionValidationErrorMessage } from "../../utils/formValidat
 const SHORT_INTRODUCTION_FIELD_NAME = "shortIntroduction";
 
 const ShortIntroductionSettingsForm = ({ data }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
     defaultValues: {
-      [SHORT_INTRODUCTION_FIELD_NAME]: data
+      [SHORT_INTRODUCTION_FIELD_NAME]: data,
     },
-    mode: "onChange"
+    mode: "onChange",
   });
 
   useEffect(() => {
@@ -32,7 +37,7 @@ const ShortIntroductionSettingsForm = ({ data }) => {
     shortIntroductionSettingsMutation.mutate(shortIntroduction, {
       onSuccess: () => {
         notifySuccess({ content: "짧은 소개가 수정되었습니다." });
-      }
+      },
     });
   }, []);
 
@@ -46,25 +51,28 @@ const ShortIntroductionSettingsForm = ({ data }) => {
           {...register(SHORT_INTRODUCTION_FIELD_NAME, {
             maxLength: {
               value: shortIntroductionValidation.maxLength,
-              message: shortIntroductionValidationErrorMessage.maxLength
+              message: shortIntroductionValidationErrorMessage.maxLength,
             },
             validate: {
-              isChanged: newShortIntroduction => shortIntroductionValidation.isChanged({
-                oldShortIntroduction: data,
-                newShortIntroduction
-              }) || shortIntroductionValidationErrorMessage.isChanged
-            }
+              isChanged: (newShortIntroduction) =>
+                shortIntroductionValidation.isChanged({
+                  oldShortIntroduction: data,
+                  newShortIntroduction,
+                }) || shortIntroductionValidationErrorMessage.isChanged,
+            },
           })}
         />
         <FormFieldErrorMessage message={errors[SHORT_INTRODUCTION_FIELD_NAME]?.message} />
-        <PrimaryButton type="submit" disabled={shortIntroductionSettingsMutation.isLoading}>수정하기</PrimaryButton>
+        <PrimaryButton type="submit" disabled={shortIntroductionSettingsMutation.isLoading}>
+          수정하기
+        </PrimaryButton>
       </section>
     </RowForm>
   );
 };
 
 ShortIntroductionSettingsForm.propTypes = {
-  data: PropTypes.string.isRequired
+  data: PropTypes.string.isRequired,
 };
 
 export default ShortIntroductionSettingsForm;

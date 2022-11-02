@@ -11,7 +11,7 @@ const PostForm = styled.form`
     ${theme.mq.md} {
       padding: ${theme.spacing[6]};
       row-gap: ${theme.spacing[6]};
-    }  
+    }
   `}
 `;
 

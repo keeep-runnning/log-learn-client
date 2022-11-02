@@ -13,9 +13,9 @@ const LogoutButton = ({ children }) => {
       onSuccess: () => {
         redirectThenNotifySuccess({
           to: "/",
-          content: "로그아웃 되었습니다."
+          content: "로그아웃 되었습니다.",
         });
-      }
+      },
     });
   }, []);
 
@@ -23,11 +23,11 @@ const LogoutButton = ({ children }) => {
     <button disabled={logoutMutation.isLoading} onClick={handleLogoutButtonClick}>
       {children}
     </button>
-  )
+  );
 };
 
 LogoutButton.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default LogoutButton;

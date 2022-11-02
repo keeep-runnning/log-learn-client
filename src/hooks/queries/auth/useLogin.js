@@ -13,7 +13,7 @@ const useLogin = () => {
   return useMutation(login, {
     onSuccess: () => {
       queryClient.invalidateQueries(currentUserKey);
-    }
+    },
   });
 };
 

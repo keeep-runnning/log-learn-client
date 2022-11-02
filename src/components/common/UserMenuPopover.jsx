@@ -11,7 +11,7 @@ import pageUrl from "../../utils/pageUrl";
 
 const userMenuData = [
   { name: "설정", link: pageUrl.getSettingsPageUrl(), icon: <IoSettingsOutline /> },
-  { name: "글쓰기", link: pageUrl.getPostPublicationPageUrl(), icon: <IoPencil /> }
+  { name: "글쓰기", link: pageUrl.getPostPublicationPageUrl(), icon: <IoPencil /> },
 ];
 
 const UserMenuPopover = ({ username }) => {
@@ -19,7 +19,7 @@ const UserMenuPopover = ({ username }) => {
   const timerId = useRef();
 
   const togglePopover = useCallback(() => {
-    setIsOpen(prevIsOpen => !prevIsOpen);
+    setIsOpen((prevIsOpen) => !prevIsOpen);
   }, []);
 
   const handlePopoverBlur = useCallback(() => {
@@ -32,17 +32,31 @@ const UserMenuPopover = ({ username }) => {
     clearTimeout(timerId.current);
   }, []);
 
-  const userMenuListData = useMemo(() => [
-    { name: "내 블로그로 이동", link: pageUrl.getUserHomePageUrl(username), icon: <IoHomeOutline /> },
-    ...userMenuData
-  ], [username]);
+  const userMenuListData = useMemo(
+    () => [
+      {
+        name: "내 블로그로 이동",
+        link: pageUrl.getUserHomePageUrl(username),
+        icon: <IoHomeOutline />,
+      },
+      ...userMenuData,
+    ],
+    [username]
+  );
 
   return (
-    <div onBlur={handlePopoverBlur} onFocus={handlePopoverFocus} css={css`position: relative;`}>
+    <div
+      onBlur={handlePopoverBlur}
+      onFocus={handlePopoverFocus}
+      css={css`
+        position: relative;
+      `}
+    >
       <button onClick={togglePopover}>
         <UserNameIcon username={username} />
       </button>
-      <nav css={theme => css`
+      <nav
+        css={(theme) => css`
           position: absolute;
           min-width: max-content;
           right: ${theme.spacing[1]};
@@ -54,18 +68,21 @@ const UserMenuPopover = ({ username }) => {
           opacity: 0;
           visibility: hidden;
           transition: transform 150ms ease-in, opacity 150ms ease-in, visibility 150ms ease-in;
-          ${isOpen && css`
+          ${isOpen &&
+          css`
             transform: translateY(15%);
             opacity: 1;
             visibility: visible;
           `}
         `}
       >
-        <ul css={theme => css`
-          display: flex;
-          flex-direction: column;
-          row-gap: ${theme.spacing[3]};
-        `}>
+        <ul
+          css={(theme) => css`
+            display: flex;
+            flex-direction: column;
+            row-gap: ${theme.spacing[3]};
+          `}
+        >
           {userMenuListData.map(({ name, link, icon }) => (
             <li key={name}>
               <Link to={link}>
@@ -89,7 +106,7 @@ const UserMenuPopover = ({ username }) => {
 };
 
 UserMenuPopover.propTypes = {
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
 };
 
 export default UserMenuPopover;

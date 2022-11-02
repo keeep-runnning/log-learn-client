@@ -6,7 +6,7 @@ import AppIntroduction from "../components/home/AppIntroduction";
 const Home = () => {
   return (
     <div
-      css={theme => css`
+      css={(theme) => css`
         padding: ${theme.spacing[4]};
         & > * + * {
           margin-top: ${theme.spacing[4]};
@@ -16,7 +16,8 @@ const Home = () => {
             margin-top: ${theme.spacing[8]};
           }
         }
-    `}>
+      `}
+    >
       <AppKeywords />
       <AppIntroduction />
     </div>

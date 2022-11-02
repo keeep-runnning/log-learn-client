@@ -11,12 +11,12 @@ const UserHome = () => {
 
   const { data: userData, error, isLoading, isError } = useUserQuery(username);
 
-  if(isLoading) {
-    return <div>loading...</div>
+  if (isLoading) {
+    return <div>loading...</div>;
   }
 
-  if(isError) {
-    if(error.response?.status === 404) {
+  if (isError) {
+    if (error.response?.status === 404) {
       return <NotFound />;
     }
 
@@ -24,21 +24,25 @@ const UserHome = () => {
   }
 
   return (
-    <main css={theme => css`
-      margin: 0 auto;
-      max-width: ${theme.bp.md};
-      padding: ${theme.spacing[4]};
-      display: flex;
-      flex-direction: column;
-      row-gap: ${theme.spacing[8]};
-    `}>
+    <main
+      css={(theme) => css`
+        margin: 0 auto;
+        max-width: ${theme.bp.md};
+        padding: ${theme.spacing[4]};
+        display: flex;
+        flex-direction: column;
+        row-gap: ${theme.spacing[8]};
+      `}
+    >
       <UserProfileCard userData={userData} />
-      <div css={theme => css`
-        ${theme.mq.sm} {
-          display: flex;
-          justify-content: center;        
-        }
-      `}>
+      <div
+        css={(theme) => css`
+          ${theme.mq.sm} {
+            display: flex;
+            justify-content: center;
+          }
+        `}
+      >
         <UserHomeMenuTabs username={userData.username} />
       </div>
       <Outlet context={{ userData }} />

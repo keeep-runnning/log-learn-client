@@ -4,7 +4,9 @@ import apiClient from "../apiClient";
 import { postKeys } from "../queryKeys";
 
 const fetchPostsByAuthorName = async ({ cursor = "-1", authorName }) => {
-  const response = await apiClient.get(`/api/posts?cursor=${cursor}&authorName=${encodeURIComponent(authorName)}`);
+  const response = await apiClient.get(
+    `/api/posts?cursor=${cursor}&authorName=${encodeURIComponent(authorName)}`
+  );
   return response.data;
 };
 
@@ -13,7 +15,7 @@ const usePostsByAuthorInfiniteQuery = (authorName) => {
     postKeys.list(authorName),
     ({ pageParam: cursor }) => fetchPostsByAuthorName({ cursor, authorName }),
     {
-      getNextPageParam: lastPage => lastPage.nextCursor ?? undefined
+      getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     }
   );
 };

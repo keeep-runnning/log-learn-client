@@ -14,7 +14,7 @@ const EmailSettingsForm = ({ data }) => {
 };
 
 EmailSettingsForm.propTypes = {
-  data: PropTypes.string.isRequired
+  data: PropTypes.string.isRequired,
 };
 
 export default EmailSettingsForm;

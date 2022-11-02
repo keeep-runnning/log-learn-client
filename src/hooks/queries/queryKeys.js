@@ -7,11 +7,11 @@ export const postKeys = {
   lists: () => [...postKeys.all, "list"],
   list: (authorName) => [...postKeys.lists(), { authorName }],
   details: () => [...postKeys.all, "detail"],
-  detail: (postId) => [...postKeys.details(), postId]
+  detail: (postId) => [...postKeys.details(), postId],
 };
 
 export const userKeys = {
   all: ["users"],
   details: () => [...userKeys.all, "detail"],
-  detail: (username) => [...userKeys.details(), username]
+  detail: (username) => [...userKeys.details(), username],
 };

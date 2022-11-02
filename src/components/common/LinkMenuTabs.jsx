@@ -5,21 +5,23 @@ import { memo } from "react";
 
 const LinkMenuTabs = ({ menuList }) => {
   return (
-    <ul css={theme => css`
-      display: flex;
-      flex-direction: column;
-      row-gap: ${theme.spacing[2]};
-      ${theme.mq.sm} {
-        flex-direction: row;
-        column-gap: ${theme.spacing[4]};
-      }
-    `}>
+    <ul
+      css={(theme) => css`
+        display: flex;
+        flex-direction: column;
+        row-gap: ${theme.spacing[2]};
+        ${theme.mq.sm} {
+          flex-direction: row;
+          column-gap: ${theme.spacing[4]};
+        }
+      `}
+    >
       {menuList.map(({ name, link }) => (
         <li key={link}>
           <NavLink
             end
             to={link}
-            css={theme => css`
+            css={(theme) => css`
               display: block;
               padding: ${theme.spacing[2]} ${theme.spacing[4]};
               color: ${theme.textColor[4]};
@@ -46,10 +48,12 @@ const LinkMenuTabs = ({ menuList }) => {
 };
 
 LinkMenuTabs.propTypes = {
-  menuList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired
-  })).isRequired
+  menuList: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default memo(LinkMenuTabs);

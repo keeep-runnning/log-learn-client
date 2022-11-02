@@ -7,7 +7,7 @@ const useNotificationsWithRedirect = () => {
   const navigate = useNavigate();
 
   const redirectThenNotify = useCallback(
-    ({ notificationType, content, isAutoClose = true, to, replace = false , state }) => {
+    ({ notificationType, content, isAutoClose = true, to, replace = false, state }) => {
       navigate(to, {
         replace,
         state: {
@@ -15,9 +15,9 @@ const useNotificationsWithRedirect = () => {
           notification: {
             type: notificationType,
             content,
-            isAutoClose
-          }
-        }
+            isAutoClose,
+          },
+        },
       });
     },
     []
@@ -31,7 +31,7 @@ const useNotificationsWithRedirect = () => {
         isAutoClose,
         to,
         replace,
-        state
+        state,
       });
     },
     []
@@ -45,7 +45,7 @@ const useNotificationsWithRedirect = () => {
         isAutoClose,
         to,
         replace,
-        state
+        state,
       });
     },
     []
@@ -59,7 +59,7 @@ const useNotificationsWithRedirect = () => {
         isAutoClose,
         to,
         replace,
-        state
+        state,
       });
     },
     []
@@ -73,18 +73,18 @@ const useNotificationsWithRedirect = () => {
         isAutoClose,
         to,
         replace,
-        state
+        state,
       });
     },
     []
   );
 
-  return ({
+  return {
     redirectThenNotifyInfo,
     redirectThenNotifySuccess,
     redirectThenNotifyWarning,
-    redirectThenNotifyDanger
-  });
+    redirectThenNotifyDanger,
+  };
 };
 
 export default useNotificationsWithRedirect;

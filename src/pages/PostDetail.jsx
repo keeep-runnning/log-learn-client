@@ -10,25 +10,27 @@ const PostDetail = () => {
 
   const { data: post, error, isLoading, isError } = usePostDetailQuery(postId);
 
-  if(isLoading) {
-    return <div>loading...</div>
+  if (isLoading) {
+    return <div>loading...</div>;
   }
 
-  if(isError) {
-    if(error.response?.status === 404) {
+  if (isError) {
+    if (error.response?.status === 404) {
       return <NotFound />;
     }
     return null;
   }
 
   return (
-    <main css={theme => css`
-      padding: ${theme.spacing[4]};
-      ${theme.mq.md} {
-        max-width: ${theme.bp.md};
-        margin: 0 auto;
-      }
-    `}>
+    <main
+      css={(theme) => css`
+        padding: ${theme.spacing[4]};
+        ${theme.mq.md} {
+          max-width: ${theme.bp.md};
+          margin: 0 auto;
+        }
+      `}
+    >
       <Post post={post} />
     </main>
   );

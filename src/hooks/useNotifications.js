@@ -10,14 +10,14 @@ const useNotifications = () => {
 
   const notify = useCallback(({ content, type, isAutoClose = true }) => {
     const newNotification = { content, type, isAutoClose, id: nanoid() };
-    setNotifications(notifications => [...notifications, newNotification]);
+    setNotifications((notifications) => [...notifications, newNotification]);
   }, []);
 
   const notifyInfo = useCallback(({ content, isAutoClose = true }) => {
     notify({
       type: notificationType.INFO,
       content,
-      isAutoClose
+      isAutoClose,
     });
   }, []);
 
@@ -25,7 +25,7 @@ const useNotifications = () => {
     notify({
       type: notificationType.SUCCESS,
       content,
-      isAutoClose
+      isAutoClose,
     });
   }, []);
 
@@ -33,7 +33,7 @@ const useNotifications = () => {
     notify({
       type: notificationType.WARNING,
       content,
-      isAutoClose
+      isAutoClose,
     });
   }, []);
 
@@ -41,7 +41,7 @@ const useNotifications = () => {
     notify({
       type: notificationType.DANGER,
       content,
-      isAutoClose
+      isAutoClose,
     });
   }, []);
 
@@ -49,7 +49,7 @@ const useNotifications = () => {
     setNotifications([]);
   }, []);
 
-  return ({ notify, notifyInfo, notifySuccess, notifyWarning, notifyDanger, clearNotifications });
+  return { notify, notifyInfo, notifySuccess, notifyWarning, notifyDanger, clearNotifications };
 };
 
 export default useNotifications;

@@ -5,6 +5,7 @@
 서비스를 개발하면서, 공부하거나 고민한 내용은 [wiki](https://github.com/rookie7my/log-learn-client/wiki)에 정리하고 있습니다.
 
 ## 기술 스택
+
 <div>
     <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" />
 </div>
@@ -19,18 +20,19 @@
     <img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white" />
 </div>
 
-
 ## 주요 기능
 
 ### 🧑‍💻 계정 관리 기능
+
 - 계정 만들기(회원 가입)
 - 로그인, 로그아웃
 - 계정 설정
-    - 유저 이름 변경
-    - 비밀번호 변경
-    - 짧은 소개 및 소개 변경
+  - 유저 이름 변경
+  - 비밀번호 변경
+  - 짧은 소개 및 소개 변경
 
 ### 📄 블로그 포스트 관리 기능
+
 - 블로그 포스트 생성/수정/삭제
 - 블로그 포스트 목록 조회
 - 블로그 포스트 상세 조회

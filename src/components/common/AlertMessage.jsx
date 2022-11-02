@@ -8,7 +8,7 @@ import Button from "./buttons/Button";
 const AlertMessage = ({ message, onCloseButtonClicked }) => {
   return (
     <div
-      css={theme => css`
+      css={(theme) => css`
         display: flex;
         align-items: center;
         column-gap: ${theme.spacing[2]};
@@ -18,32 +18,36 @@ const AlertMessage = ({ message, onCloseButtonClicked }) => {
         ${theme.borderRound.normal}
       `}
     >
-      <div css={theme => css`
-        padding: ${theme.spacing[1]};
-        color: ${theme.textColor[1]};
-        background-color: ${theme.warningColor[3]};
-        ${theme.borderRound.normal}
-      `}>
+      <div
+        css={(theme) => css`
+          padding: ${theme.spacing[1]};
+          color: ${theme.textColor[1]};
+          background-color: ${theme.warningColor[3]};
+          ${theme.borderRound.normal}
+        `}
+      >
         <IoWarning size={24} />
       </div>
-      <p css={theme => css`
+      <p
+        css={(theme) => css`
           flex-grow: 1;
           font-weight: ${theme.textWeight.bold};
-          ${theme.textSize.xs}  
+          ${theme.textSize.xs}
         `}
       >
         {message}
       </p>
-      <Button onClick={onCloseButtonClicked}
-              css={theme => css`
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                ${theme.borderRound.full}
-                &:hover {
-                  background-color: ${theme.warningColor[3]};
-                }
-              `}
+      <Button
+        onClick={onCloseButtonClicked}
+        css={(theme) => css`
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          ${theme.borderRound.full}
+          &:hover {
+            background-color: ${theme.warningColor[3]};
+          }
+        `}
       >
         <IoClose size={16} />
       </Button>
@@ -53,7 +57,7 @@ const AlertMessage = ({ message, onCloseButtonClicked }) => {
 
 AlertMessage.propTypes = {
   message: PropTypes.string.isRequired,
-  onCloseButtonClicked: PropTypes.func.isRequired
+  onCloseButtonClicked: PropTypes.func.isRequired,
 };
 
 export default memo(AlertMessage);

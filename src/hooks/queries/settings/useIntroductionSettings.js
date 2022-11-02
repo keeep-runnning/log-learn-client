@@ -14,7 +14,7 @@ const useIntroductionSettings = () => {
   return useMutation(editIntroduction, {
     onSuccess: () => {
       queryClient.invalidateQueries(settingsKey);
-    }
+    },
   });
 };
 

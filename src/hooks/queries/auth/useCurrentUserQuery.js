@@ -10,13 +10,15 @@ const fetchCurrentUser = async () => {
 
 const initialData = {
   username: "",
-  isLoggedIn: false
+  isLoggedIn: false,
 };
 
 const useCurrentUserQuery = () => {
-  const { data: currentUser, isError } = useQuery(currentUserKey, fetchCurrentUser, { initialData });
+  const { data: currentUser, isError } = useQuery(currentUserKey, fetchCurrentUser, {
+    initialData,
+  });
 
-  if(isError) {
+  if (isError) {
     return initialData;
   }
 

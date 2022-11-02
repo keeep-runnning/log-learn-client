@@ -9,23 +9,25 @@ const MainSettingsForms = () => {
   const { settingsData } = useOutletContext();
 
   return (
-    <div css={theme => css`
-      display: flex;
-      flex-direction: column;
-      row-gap: ${theme.spacing[8]};
-      & > * + * {
-        position: relative;
-        &::before {
-          content: "";
-          background-color: ${theme.lineColor[3]};
-          width: 100%;
-          height: 0.5px;
-          position: absolute;
-          left: 0;
-          top: -${theme.spacing[4]};
+    <div
+      css={(theme) => css`
+        display: flex;
+        flex-direction: column;
+        row-gap: ${theme.spacing[8]};
+        & > * + * {
+          position: relative;
+          &::before {
+            content: "";
+            background-color: ${theme.lineColor[3]};
+            width: 100%;
+            height: 0.5px;
+            position: absolute;
+            left: 0;
+            top: -${theme.spacing[4]};
+          }
         }
-      }
-    `}>
+      `}
+    >
       <UsernameSettingsForm data={settingsData.username} />
       <EmailSettingsForm data={settingsData.email} />
       <ShortIntroductionSettingsForm data={settingsData.shortIntroduction} />

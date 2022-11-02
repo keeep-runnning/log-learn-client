@@ -16,9 +16,9 @@ const PostRemoveButton = ({ post }) => {
         redirectThenNotifySuccess({
           to: pageUrl.getUserHomePageUrl(post.author),
           content: `블로그 포스트[${post.title}]가 삭제되었습니다.`,
-          replace: true
+          replace: true,
         });
-      }
+      },
     });
   }, [post]);
 
@@ -33,8 +33,8 @@ PostRemoveButton.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired
-  }).isRequired
+    author: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default memo(PostRemoveButton);

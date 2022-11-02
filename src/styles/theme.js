@@ -13,13 +13,13 @@ const defaultValues = {
     5: "1.25rem",
     6: "1.5rem",
     7: "1.75rem",
-    8: "2rem"
+    8: "2rem",
   },
   lineThickness: {
     0: "0px",
     1: "1px",
     2: "2px",
-    4: "4px"
+    4: "4px",
   },
   textSize: {
     xs: css`
@@ -49,7 +49,7 @@ const defaultValues = {
   },
   textWeight: {
     normal: "400",
-    bold: "700"
+    bold: "700",
   },
   borderRound: {
     normal: css`
@@ -57,18 +57,18 @@ const defaultValues = {
     `,
     full: css`
       border-radius: 9999px;
-    `
+    `,
   },
   bp: {
     sm: breakpoints.sm,
     md: breakpoints.md,
-    lg: breakpoints.lg
+    lg: breakpoints.lg,
   },
   mq: {
     sm: `@media(min-width: ${breakpoints.sm})`,
     md: `@media(min-width: ${breakpoints.md})`,
-    lg: `@media(min-width: ${breakpoints.lg})`
-  }
+    lg: `@media(min-width: ${breakpoints.lg})`,
+  },
 };
 
 export const theme = {
@@ -78,55 +78,55 @@ export const theme = {
     2: colorPalette.indigo3,
     3: colorPalette.indigo5,
     4: colorPalette.indigo7,
-    5: colorPalette.indigo9
+    5: colorPalette.indigo9,
   },
   successColor: {
     1: colorPalette.green1,
     2: colorPalette.green3,
     3: colorPalette.green5,
     4: colorPalette.green7,
-    5: colorPalette.green9
+    5: colorPalette.green9,
   },
   infoColor: {
     1: colorPalette.blue1,
     2: colorPalette.blue3,
     3: colorPalette.blue5,
     4: colorPalette.blue7,
-    5: colorPalette.blue9
+    5: colorPalette.blue9,
   },
   warningColor: {
     1: colorPalette.yellow1,
     2: colorPalette.yellow3,
     3: colorPalette.yellow5,
     4: colorPalette.yellow7,
-    5: colorPalette.yellow9
+    5: colorPalette.yellow9,
   },
   dangerColor: {
     1: colorPalette.red1,
     2: colorPalette.red3,
     3: colorPalette.red5,
     4: colorPalette.red7,
-    5: colorPalette.red9
+    5: colorPalette.red9,
   },
   textColor: {
     1: colorPalette.white,
     2: colorPalette.gray4,
     3: colorPalette.gray5,
     4: colorPalette.gray6,
-    5: colorPalette.gray9
+    5: colorPalette.gray9,
   },
   lineColor: {
     1: colorPalette.gray1,
     2: colorPalette.gray4,
     3: colorPalette.gray5,
     4: colorPalette.gray6,
-    5: colorPalette.gray9
+    5: colorPalette.gray9,
   },
   bgColor: {
     1: colorPalette.white,
     2: colorPalette.gray1,
     3: colorPalette.gray2,
     4: colorPalette.gray3,
-    5: colorPalette.gray4
-  }
+    5: colorPalette.gray4,
+  },
 };

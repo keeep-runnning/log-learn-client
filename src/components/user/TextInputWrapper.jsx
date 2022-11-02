@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 const TextInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  ${({theme}) => css`
+  ${({ theme }) => css`
     row-gap: ${theme.spacing[2]};
     & label {
       ${theme.textSize.sm}

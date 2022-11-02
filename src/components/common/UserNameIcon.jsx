@@ -5,12 +5,14 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 
 const UserNameIcon = ({ username }) => {
   return (
-    <div css={theme => css`
-      display: flex;
-      column-gap: ${theme.spacing[2]};
-      align-items: center;
-      ${theme.textSize.base}
-    `}>
+    <div
+      css={(theme) => css`
+        display: flex;
+        column-gap: ${theme.spacing[2]};
+        align-items: center;
+        ${theme.textSize.base}
+      `}
+    >
       {username}
       <IoPersonCircleSharp size={24} />
     </div>
@@ -18,7 +20,7 @@ const UserNameIcon = ({ username }) => {
 };
 
 UserNameIcon.propTypes = {
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
 };
 
 export default memo(UserNameIcon);

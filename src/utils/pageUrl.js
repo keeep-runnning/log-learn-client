@@ -31,7 +31,7 @@ const pageUrl = {
   },
   getPostPublicationPageUrl() {
     return `/${this.POSTS}/${this.NEW}`;
-  }
+  },
 };
 
 export default pageUrl;

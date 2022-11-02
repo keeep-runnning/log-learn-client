@@ -13,7 +13,7 @@ const usePostEdit = () => {
   return useMutation(editPost, {
     onSuccess: (data, { postId }) => {
       queryClient.invalidateQueries(postKeys.detail(postId));
-    }
+    },
   });
 };
 

@@ -14,7 +14,7 @@ const useUsernameSettings = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(settingsKey);
       queryClient.invalidateQueries(currentUserKey);
-    }
+    },
   });
 };
 

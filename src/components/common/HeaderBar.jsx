@@ -11,20 +11,25 @@ const HeaderBar = () => {
   const currentUser = useCurrentUserQuery();
 
   return (
-    <header css={theme => css`
-      height: 80px;
-      padding: ${theme.spacing[4]};
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    `}>
+    <header
+      css={(theme) => css`
+        height: 80px;
+        padding: ${theme.spacing[4]};
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      `}
+    >
       <Link to="/">
         <Logo />
       </Link>
-      {currentUser.isLoggedIn ?
-        <UserMenuPopover username={currentUser.username} /> :
-        <PrimaryButton as={Link} to={pageUrl.getLoginPageUrl()}>로그인</PrimaryButton>
-      }
+      {currentUser.isLoggedIn ? (
+        <UserMenuPopover username={currentUser.username} />
+      ) : (
+        <PrimaryButton as={Link} to={pageUrl.getLoginPageUrl()}>
+          로그인
+        </PrimaryButton>
+      )}
     </header>
   );
 };

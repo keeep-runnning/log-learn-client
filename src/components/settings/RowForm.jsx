@@ -17,7 +17,8 @@ const RowForm = styled.form`
       row-gap: ${theme.spacing[2]};
       align-items: flex-end;
     }
-    & > section > input, textarea {
+    & > section > input,
+    textarea {
       width: 100%;
       padding: ${theme.spacing[1]} ${theme.spacing[2]};
       border: ${theme.lineThickness[1]} solid ${theme.lineColor[3]};

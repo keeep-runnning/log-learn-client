@@ -8,7 +8,7 @@ import pageUrl from "../utils/pageUrl";
 
 const SignUpFormMessage = styled.p`
   text-align: center;
-  ${({theme}) => css`
+  ${({ theme }) => css`
     color: ${theme.textColor[4]};
     ${theme.textSize.sm}
     & strong {
@@ -25,13 +25,15 @@ const SignUpFormMessage = styled.p`
 
 const SignUp = () => {
   return (
-    <section css={theme => css`
-      width: 320px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      row-gap: ${theme.spacing[8]};
-    `}>
+    <section
+      css={(theme) => css`
+        width: 320px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        row-gap: ${theme.spacing[8]};
+      `}
+    >
       <AccountFormHeader title="계정 만들기" />
       <SignUpForm />
       <SignUpFormMessage>

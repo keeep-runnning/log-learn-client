@@ -7,42 +7,52 @@ import pageUrl from "../../utils/pageUrl";
 
 const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
   return (
-    <article css={theme => css`
-      padding-left: ${theme.spacing[2]};
-      padding-right: ${theme.spacing[2]};
-      display: flex;
-      flex-direction: column;
-      row-gap: ${theme.spacing[4]};
-      h2 {
-        font-weight: ${theme.textWeight.bold};
-        ${theme.textSize.lg}
-      }
-      p {
-        ${theme.textSize.base}
-      }
-    `}>
-      <Link to={pageUrl.getPostDetailPageUrl(postId)} css={theme => css`
-        font-weight: ${theme.textWeight.bold};
-        ${theme.textSize.lg}
-        &:hover {
-          text-decoration: underline;
-        }
-      `}>
-        {title}
-      </Link>
-      <p>{preview.slice(0, 100)}</p>
-      <div css={theme => css`
+    <article
+      css={(theme) => css`
+        padding-left: ${theme.spacing[2]};
+        padding-right: ${theme.spacing[2]};
         display: flex;
-        align-items: center;
-        column-gap: ${theme.spacing[2]};
-      `}>
-        <Link to={pageUrl.getUserHomePageUrl(authorName)} css={theme => css`
-          ${theme.textSize.sm}
+        flex-direction: column;
+        row-gap: ${theme.spacing[4]};
+        h2 {
           font-weight: ${theme.textWeight.bold};
+          ${theme.textSize.lg}
+        }
+        p {
+          ${theme.textSize.base}
+        }
+      `}
+    >
+      <Link
+        to={pageUrl.getPostDetailPageUrl(postId)}
+        css={(theme) => css`
+          font-weight: ${theme.textWeight.bold};
+          ${theme.textSize.lg}
           &:hover {
             text-decoration: underline;
           }
-        `}>
+        `}
+      >
+        {title}
+      </Link>
+      <p>{preview.slice(0, 100)}</p>
+      <div
+        css={(theme) => css`
+          display: flex;
+          align-items: center;
+          column-gap: ${theme.spacing[2]};
+        `}
+      >
+        <Link
+          to={pageUrl.getUserHomePageUrl(authorName)}
+          css={(theme) => css`
+            ${theme.textSize.sm}
+            font-weight: ${theme.textWeight.bold};
+            &:hover {
+              text-decoration: underline;
+            }
+          `}
+        >
           {authorName}
         </Link>
         &middot;
@@ -57,7 +67,7 @@ PostListItem.propTypes = {
   authorName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   preview: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired
+  createdAt: PropTypes.string.isRequired,
 };
 
 export default PostListItem;

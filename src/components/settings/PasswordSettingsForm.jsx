@@ -8,26 +8,34 @@ import { passwordCheckValidation, passwordValidation } from "../../utils/formVal
 import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import {
   newPasswordCheckValidationErrorMessage,
-  newPasswordValidationErrorMessage, oldPasswordValidationErrorMessage
+  newPasswordValidationErrorMessage,
+  oldPasswordValidationErrorMessage,
 } from "../../utils/formValidationErrorMessage";
 import useNotifications from "../../hooks/useNotifications";
 
 const passwordSettingsFormFieldName = Object.freeze({
   PASSWORD: "password",
   NEW_PASSWORD: "newPassword",
-  NEW_PASSWORD_CHECK: "newPasswordCheck"
+  NEW_PASSWORD_CHECK: "newPasswordCheck",
 });
 
 const passwordSettingsFormDefaultValues = Object.freeze({
   [passwordSettingsFormFieldName.PASSWORD]: "",
   [passwordSettingsFormFieldName.NEW_PASSWORD]: "",
-  [passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]: ""
+  [passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]: "",
 });
 
 const PasswordSettingsForm = () => {
-  const { register, handleSubmit, formState: { errors }, getValues, reset, setError } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    reset,
+    setError,
+  } = useForm({
     defaultValues: passwordSettingsFormDefaultValues,
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const passwordSettingsMutation = usePasswordSettings();
@@ -35,29 +43,32 @@ const PasswordSettingsForm = () => {
   const { notifySuccess } = useNotifications();
 
   const onValid = useCallback(({ password, newPassword }) => {
-    passwordSettingsMutation.mutate({ password, newPassword }, {
-      onSuccess: () => {
-        notifySuccess({ content: "비밀번호가 수정되었습니다." });
-        reset(passwordSettingsFormDefaultValues);
-      },
-      onError: error => {
-        if(error.response) {
-          const { code } = error.response.data;
-          if(code === "user-003") {
-            setError(passwordSettingsFormFieldName.PASSWORD, {
-              type: "isValid",
-              message: oldPasswordValidationErrorMessage.isValid
-            });
+    passwordSettingsMutation.mutate(
+      { password, newPassword },
+      {
+        onSuccess: () => {
+          notifySuccess({ content: "비밀번호가 수정되었습니다." });
+          reset(passwordSettingsFormDefaultValues);
+        },
+        onError: (error) => {
+          if (error.response) {
+            const { code } = error.response.data;
+            if (code === "user-003") {
+              setError(passwordSettingsFormFieldName.PASSWORD, {
+                type: "isValid",
+                message: oldPasswordValidationErrorMessage.isValid,
+              });
+            }
           }
-        }
+        },
       }
-    });
+    );
   }, []);
 
   return (
     <form
       onSubmit={handleSubmit(onValid)}
-      css={theme => css`
+      css={(theme) => css`
         padding: ${theme.spacing[2]};
         display: flex;
         flex-direction: column;
@@ -94,7 +105,7 @@ const PasswordSettingsForm = () => {
               flex-grow: 1;
             }
           }
-        } 
+        }
       `}
     >
       <div>
@@ -103,7 +114,7 @@ const PasswordSettingsForm = () => {
           id="password"
           type="password"
           {...register(passwordSettingsFormFieldName.PASSWORD, {
-            required: oldPasswordValidationErrorMessage.required
+            required: oldPasswordValidationErrorMessage.required,
           })}
         />
       </div>
@@ -117,26 +128,29 @@ const PasswordSettingsForm = () => {
             required: newPasswordValidationErrorMessage.required,
             minLength: {
               value: passwordValidation.minLength,
-              message: newPasswordValidationErrorMessage.length
+              message: newPasswordValidationErrorMessage.length,
             },
             maxLength: {
               value: passwordValidation.maxLength,
-              message: newPasswordValidationErrorMessage.length
+              message: newPasswordValidationErrorMessage.length,
             },
             pattern: {
               value: passwordValidation.pattern,
-              message: newPasswordValidationErrorMessage.pattern
+              message: newPasswordValidationErrorMessage.pattern,
             },
             validate: {
-              isChanged: newPassword => passwordValidation.isChanged({
-                oldPassword: getValues(passwordSettingsFormFieldName.PASSWORD),
-                newPassword
-              }) || newPasswordValidationErrorMessage.isChanged
-            }
+              isChanged: (newPassword) =>
+                passwordValidation.isChanged({
+                  oldPassword: getValues(passwordSettingsFormFieldName.PASSWORD),
+                  newPassword,
+                }) || newPasswordValidationErrorMessage.isChanged,
+            },
           })}
         />
       </div>
-      <FormFieldErrorMessage message={errors[passwordSettingsFormFieldName.NEW_PASSWORD]?.message} />
+      <FormFieldErrorMessage
+        message={errors[passwordSettingsFormFieldName.NEW_PASSWORD]?.message}
+      />
       <div>
         <label htmlFor="new-password-check">새 비밀번호 확인</label>
         <input
@@ -145,16 +159,21 @@ const PasswordSettingsForm = () => {
           {...register(passwordSettingsFormFieldName.NEW_PASSWORD_CHECK, {
             required: newPasswordCheckValidationErrorMessage.required,
             validate: {
-              equalsToPassword: newPasswordCheck => passwordCheckValidation.equalsToPassword({
-                password: getValues(passwordSettingsFormFieldName.NEW_PASSWORD),
-                passwordCheck: newPasswordCheck
-              }) || newPasswordCheckValidationErrorMessage.equalsToPassword
-            }
+              equalsToPassword: (newPasswordCheck) =>
+                passwordCheckValidation.equalsToPassword({
+                  password: getValues(passwordSettingsFormFieldName.NEW_PASSWORD),
+                  passwordCheck: newPasswordCheck,
+                }) || newPasswordCheckValidationErrorMessage.equalsToPassword,
+            },
           })}
         />
       </div>
-      <FormFieldErrorMessage message={errors[passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]?.message} />
-      <PrimaryButton type="submit" disabled={passwordSettingsMutation.isLoading}>수정하기</PrimaryButton>
+      <FormFieldErrorMessage
+        message={errors[passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]?.message}
+      />
+      <PrimaryButton type="submit" disabled={passwordSettingsMutation.isLoading}>
+        수정하기
+      </PrimaryButton>
     </form>
   );
 };

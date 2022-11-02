@@ -5,13 +5,19 @@ import HeaderBar from "../components/common/HeaderBar";
 
 const Layout = () => {
   return (
-    <div css={css`
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    `}>
+    <div
+      css={css`
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      `}
+    >
       <HeaderBar />
-      <div css={css`flex-grow: 1; `}>
+      <div
+        css={css`
+          flex-grow: 1;
+        `}
+      >
         <Outlet />
       </div>
     </div>

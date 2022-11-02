@@ -13,11 +13,17 @@ import { usernameValidationErrorMessage } from "../../utils/formValidationErrorM
 const UsernameSettingsForm = ({ data }) => {
   const { notifySuccess } = useNotifications();
 
-  const { register, handleSubmit, formState: { errors }, setError, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    reset,
+  } = useForm({
     defaultValues: {
-      username: data
+      username: data,
     },
-    mode: "onChange"
+    mode: "onChange",
   });
 
   useEffect(() => {
@@ -31,14 +37,14 @@ const UsernameSettingsForm = ({ data }) => {
       onSuccess: () => {
         notifySuccess({ content: "유저이름이 변경되었습니다." });
       },
-      onError: error => {
-        if(error.response) {
+      onError: (error) => {
+        if (error.response) {
           const { code } = error.response.data;
-          if(code === "user-001") {
+          if (code === "user-001") {
             setError("username", { type: "unique", message: "이미 사용중인 유저이름 입니다." });
           }
         }
-      }
+      },
     });
   }, []);
 
@@ -53,22 +59,23 @@ const UsernameSettingsForm = ({ data }) => {
             required: usernameValidationErrorMessage.required,
             minLength: {
               value: usernameValidation.minLength,
-              message: usernameValidationErrorMessage.length
+              message: usernameValidationErrorMessage.length,
             },
             maxLength: {
               value: usernameValidation.maxLength,
-              message: usernameValidationErrorMessage.length
+              message: usernameValidationErrorMessage.length,
             },
             pattern: {
               value: usernameValidation.pattern,
-              message: usernameValidationErrorMessage.pattern
+              message: usernameValidationErrorMessage.pattern,
             },
             validate: {
-              isChanged: newUsername => usernameValidation.isChanged({
-                oldUsername: data,
-                newUsername
-              }) || usernameValidationErrorMessage.isChanged
-            }
+              isChanged: (newUsername) =>
+                usernameValidation.isChanged({
+                  oldUsername: data,
+                  newUsername,
+                }) || usernameValidationErrorMessage.isChanged,
+            },
           })}
         />
         <FormFieldErrorMessage message={errors.username?.message} />
@@ -81,7 +88,7 @@ const UsernameSettingsForm = ({ data }) => {
 };
 
 UsernameSettingsForm.propTypes = {
-  data: PropTypes.string.isRequired
-}
+  data: PropTypes.string.isRequired,
+};
 
 export default UsernameSettingsForm;

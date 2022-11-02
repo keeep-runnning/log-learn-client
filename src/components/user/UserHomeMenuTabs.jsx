@@ -7,14 +7,14 @@ import pageUrl from "../../utils/pageUrl";
 const UserHomeMenuTabs = ({ username }) => {
   const menuList = [
     { name: "포스트", link: pageUrl.getUserHomePageUrl(username) },
-    { name: "소개", link: pageUrl.getUserIntroductionPageUrl(username) }
+    { name: "소개", link: pageUrl.getUserIntroductionPageUrl(username) },
   ];
 
   return <LinkMenuTabs menuList={menuList} />;
 };
 
 UserHomeMenuTabs.propTypes = {
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
 };
 
 export default memo(UserHomeMenuTabs);
