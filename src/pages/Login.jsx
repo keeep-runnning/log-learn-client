@@ -31,7 +31,7 @@ const Login = () => {
           }
         `}
       >
-        아직 계정이 없으신가요? <Link to={pageUrl.getSignUpPageUrl()}>계정 만들기 ></Link>
+        아직 계정이 없으신가요? <Link to={pageUrl.getSignUpPageUrl()}>계정 만들기 &gt;</Link>
       </p>
     </section>
   );

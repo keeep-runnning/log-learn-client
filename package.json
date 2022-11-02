@@ -6,7 +6,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "lint": "eslint --fix src/**/*.{js,jsx}",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -29,7 +31,19 @@
     "@emotion/babel-plugin": "^11.7.2",
     "@vitejs/plugin-react": "^2.2.0",
     "cross-env": "^7.0.3",
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.31.10",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
     "prettier": "2.7.1",
     "vite": "^3.2.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{md,html,css,json}": "prettier --write"
   }
 }

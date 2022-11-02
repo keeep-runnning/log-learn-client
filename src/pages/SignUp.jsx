@@ -40,7 +40,7 @@ const SignUp = () => {
         가입시, log learn 의 <strong>이용약관</strong>에 동의합니다.
       </SignUpFormMessage>
       <SignUpFormMessage>
-        이미 계정이 있으신가요? <Link to={pageUrl.getLoginPageUrl()}>로그인 하기 ></Link>
+        이미 계정이 있으신가요? <Link to={pageUrl.getLoginPageUrl()}>로그인 하기 &gt;</Link>
       </SignUpFormMessage>
     </section>
   );

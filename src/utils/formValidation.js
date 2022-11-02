@@ -8,7 +8,7 @@ export const usernameValidation = Object.freeze({
 });
 
 export const emailValidation = Object.freeze({
-  pattern: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+  pattern: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
 });
 
 export const passwordValidation = Object.freeze({
