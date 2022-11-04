@@ -10,6 +10,7 @@ import { RecoilRoot } from "recoil";
 import App from "./App";
 import { theme } from "./styles/theme";
 import GlobalStyles from "./styles/GlobalStyles";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,9 @@ ReactDOM.render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
-            <App />
+            <ChakraProvider>
+              <App />
+            </ChakraProvider>
           </RecoilRoot>
           <ReactQueryDevtools />
         </QueryClientProvider>
