@@ -1,37 +1,27 @@
 import { Link } from "react-router-dom";
-import { css } from "@emotion/react";
-
 import UserMenuPopover from "./UserMenuPopover";
 import Logo from "./Logo";
-import PrimaryButton from "./buttons/PrimaryButton";
 import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
 import pageUrl from "../../utils/pageUrl";
+import { Button, Container, Flex } from "@chakra-ui/react";
 
-const HeaderBar = () => {
+export default function HeaderBar() {
   const currentUser = useCurrentUserQuery();
 
   return (
-    <header
-      css={(theme) => css`
-        height: 80px;
-        padding: ${theme.spacing[4]};
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      `}
-    >
-      <Link to="/">
-        <Logo />
-      </Link>
-      {currentUser.isLoggedIn ? (
-        <UserMenuPopover username={currentUser.username} />
-      ) : (
-        <PrimaryButton as={Link} to={pageUrl.getLoginPageUrl()}>
-          로그인
-        </PrimaryButton>
-      )}
-    </header>
+    <Container px={0} maxW={{ base: "container.md", lg: "container.lg", xl: "container.xl" }}>
+      <Flex as="header" h={20} alignItems="center" justifyContent="space-between">
+        <Link to="/">
+          <Logo />
+        </Link>
+        {currentUser.isLoggedIn ? (
+          <UserMenuPopover username={currentUser.username} />
+        ) : (
+          <Button size="sm" colorScheme="main" as={Link} to={pageUrl.getLoginPageUrl()}>
+            로그인
+          </Button>
+        )}
+      </Flex>
+    </Container>
   );
-};
-
-export default HeaderBar;
+}
