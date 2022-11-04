@@ -11,6 +11,7 @@ import App from "./App";
 import { theme } from "./styles/theme";
 import GlobalStyles from "./styles/GlobalStyles";
 import { ChakraProvider } from "@chakra-ui/react";
+import customizedTheme from "./styles/customizedTheme";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,7 @@ ReactDOM.render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
-            <ChakraProvider>
+            <ChakraProvider theme={customizedTheme}>
               <App />
             </ChakraProvider>
           </RecoilRoot>
