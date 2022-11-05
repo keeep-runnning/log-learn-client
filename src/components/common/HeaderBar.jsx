@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import UserMenuPopover from "./UserMenuPopover";
 import Logo from "./Logo";
 import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
 import pageUrl from "../../utils/pageUrl";
 import { Button, Container, Flex } from "@chakra-ui/react";
+import UserMenu from "./UserMenu";
 
 export default function HeaderBar() {
   const currentUser = useCurrentUserQuery();
@@ -15,7 +15,7 @@ export default function HeaderBar() {
           <Logo />
         </Link>
         {currentUser.isLoggedIn ? (
-          <UserMenuPopover username={currentUser.username} />
+          <UserMenu username={currentUser.username} />
         ) : (
           <Button size="sm" colorScheme="main" as={Link} to={pageUrl.getLoginPageUrl()}>
             로그인
