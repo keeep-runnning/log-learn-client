@@ -1,25 +1,12 @@
-import { css } from "@emotion/react";
+import { Flex, Image, Text } from "@chakra-ui/react";
 
-const Logo = () => {
+export default function Logo() {
   return (
-    <div
-      css={(theme) => css`
-        display: flex;
-        align-items: center;
-        column-gap: ${theme.spacing[3]};
-      `}
-    >
-      <img src="/logo.png" alt="logo" width={28} />
-      <h1
-        css={(theme) => css`
-          ${theme.textSize.xl}
-          font-weight: ${theme.textWeight.bold};
-        `}
-      >
+    <Flex alignItems="center" columnGap={2}>
+      <Image src="/logo.png" alt="logo" boxSize="28px" />
+      <Text fontSize="2xl" fontWeight="bold" as="span">
         log learn
-      </h1>
-    </div>
+      </Text>
+    </Flex>
   );
-};
-
-export default Logo;
+}
