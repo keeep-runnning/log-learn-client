@@ -9,7 +9,7 @@ export default function HeaderBar() {
   const currentUser = useCurrentUserQuery();
 
   return (
-    <Container px={0} maxW="container.xl">
+    <Container maxW="container.xl">
       <Flex as="header" h={20} alignItems="center" justifyContent="space-between">
         <Link to="/">
           <Logo />
