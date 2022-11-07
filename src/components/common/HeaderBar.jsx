@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
 import pageUrl from "../../utils/pageUrl";
-import { Button, Container, Flex } from "@chakra-ui/react";
+import { Button, ButtonGroup, Container, Flex } from "@chakra-ui/react";
 import UserMenu from "./UserMenu";
 
 export default function HeaderBar() {
@@ -17,9 +17,14 @@ export default function HeaderBar() {
         {currentUser.isLoggedIn ? (
           <UserMenu username={currentUser.username} />
         ) : (
-          <Button size="sm" colorScheme="main" as={Link} to={pageUrl.getLoginPageUrl()}>
-            로그인
-          </Button>
+          <ButtonGroup colorScheme="main" size="sm">
+            <Button as={Link} to={pageUrl.getLoginPageUrl()} variant="ghost">
+              로그인
+            </Button>
+            <Button as={Link} to={pageUrl.getSignUpPageUrl()}>
+              회원가입
+            </Button>
+          </ButtonGroup>
         )}
       </Flex>
     </Container>
