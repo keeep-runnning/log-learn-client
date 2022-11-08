@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import SignUpForm from "../components/user/SignUpForm";
-import AccountFormHeader from "../components/user/AccountFormHeader";
 import pageUrl from "../utils/pageUrl";
 import { Container, Flex, Text } from "@chakra-ui/react";
+import AuthFormHeader from "../components/user/AuthFormHeader";
 
 export default function SignUp() {
   return (
     <Container maxW="320px">
       <Flex as="section" direction="column" rowGap={6}>
-        <AccountFormHeader title="회원가입" />
+        <AuthFormHeader title="회원가입" />
         <SignUpForm />
         <Text textAlign="center" fontSize="sm">
           가입시, log learn의{" "}
