@@ -1,93 +1,101 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { css } from "@emotion/react";
-
-import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
-import AlertMessage from "../common/AlertMessage";
-import TextInputWrapper from "./TextInputWrapper";
-import PrimaryButton from "../common/buttons/PrimaryButton";
-import useAlertMessage from "../../hooks/useAlertMessage";
 import useLogin from "../../hooks/queries/auth/useLogin";
-import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 import pageUrl from "../../utils/pageUrl";
 import {
-  emailValidationErrorMessage,
-  passwordCheckValidationErrorMessage,
-} from "../../utils/formValidationErrorMessage";
+  Alert,
+  AlertIcon,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  useToast,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
-  const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
-  const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
+export default function LoginForm() {
+  const toast = useToast();
+
+  const navigate = useNavigate();
+
+  const [alertMessage, setAlertMessage] = useState("");
+
   const loginMutation = useLogin();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleLoginFormSubmit = useCallback(
-    handleSubmit(({ email, password }) => {
-      loginMutation.mutate(
-        { email, password },
-        {
-          onSuccess: ({ isLoggedIn, username }) => {
-            if (!isLoggedIn) return;
-            redirectThenNotifySuccess({
-              to: pageUrl.getUserHomePageUrl(username),
-              replace: true,
-              content: "로그인 되었습니다.",
-            });
-          },
-          onError: (error) => {
-            if (error.response) {
-              const { code } = error.response.data;
-              if (code === "auth-001") {
-                setAlertMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
-              }
+  const onValid = useCallback(({ email, password }) => {
+    loginMutation.mutate(
+      { email, password },
+      {
+        onSuccess: ({ isLoggedIn, username }) => {
+          if (!isLoggedIn) return;
+          toast({
+            description: "로그인 되었습니다",
+            status: "success",
+            isClosable: true,
+            position: "top",
+          });
+          navigate(pageUrl.getUserHomePageUrl(username), { replace: true });
+        },
+        onError: (error) => {
+          if (error.response) {
+            const { code } = error.response.data;
+            if (code === "auth-001") {
+              setAlertMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
             }
-          },
-        }
-      );
-    }),
-    []
-  );
+          }
+        },
+      }
+    );
+  }, []);
 
   return (
-    <form
-      noValidate
-      onSubmit={handleLoginFormSubmit}
-      css={(theme) => css`
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[4]};
-      `}
-    >
-      {alertMessage && (
-        <AlertMessage message={alertMessage} onCloseButtonClicked={removeAlertMessage} />
-      )}
-      <TextInputWrapper>
-        <label htmlFor="email">이메일</label>
-        <input
+    <Flex as="form" noValidate onSubmit={handleSubmit(onValid)} direction="column" rowGap={4}>
+      {alertMessage ? (
+        <Alert rounded="md" status="warning">
+          <AlertIcon />
+          {alertMessage}
+        </Alert>
+      ) : null}
+      <FormControl isInvalid={Boolean(errors.email)}>
+        <FormLabel htmlFor="email">이메일</FormLabel>
+        <Input
           id="email"
           type="email"
-          {...register("email", { required: emailValidationErrorMessage.required })}
+          {...register("email", { required: "이메일을 입력해주세요" })}
         />
-        <FormFieldErrorMessage message={errors.email?.message} />
-      </TextInputWrapper>
-      <TextInputWrapper>
-        <label htmlFor="password">비밀번호</label>
-        <input
+        {errors.email ? <FormErrorMessage>{errors.email.message}</FormErrorMessage> : null}
+      </FormControl>
+      <FormControl isInvalid={Boolean(errors.password)}>
+        <FormLabel htmlFor="password">비밀번호</FormLabel>
+        <Input
           id="password"
           type="password"
-          {...register("password", { required: passwordCheckValidationErrorMessage.required })}
+          {...register("password", { required: "비밀번호를 입력해주세요" })}
         />
-        <FormFieldErrorMessage message={errors.password?.message} />
-      </TextInputWrapper>
-      <PrimaryButton disabled={loginMutation.isLoading} type="submit">
+        {errors.password ? <FormErrorMessage>{errors.password.message}</FormErrorMessage> : null}
+      </FormControl>
+      <Button
+        type="submit"
+        colorScheme="main"
+        isDisabled={loginMutation.isLoading}
+        isLoading={loginMutation.isLoading}
+        loadingText="로그인 중..."
+      >
         로그인
-      </PrimaryButton>
-    </form>
+      </Button>
+    </Flex>
   );
-};
-
-export default LoginForm;
+}
