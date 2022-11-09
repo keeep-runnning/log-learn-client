@@ -6,6 +6,7 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
+  useToast,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useCallback } from "react";
@@ -16,22 +17,27 @@ import {
   IoPencil,
   IoSettingsOutline,
 } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useLogout from "../../hooks/queries/auth/useLogout";
-import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 import pageUrl from "../../utils/pageUrl";
 
 export default function UserMenu({ username }) {
-  const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
+  const toast = useToast();
+
+  const navigate = useNavigate();
+
   const logoutMutation = useLogout();
 
   const handleLogoutButtonClick = useCallback(() => {
     logoutMutation.mutate(null, {
       onSuccess: () => {
-        redirectThenNotifySuccess({
-          to: "/",
-          content: "로그아웃 되었습니다.",
+        toast({
+          description: "로그아웃 되었습니다",
+          status: "success",
+          isClosable: true,
+          position: "top",
         });
+        navigate("/");
       },
     });
   }, []);
