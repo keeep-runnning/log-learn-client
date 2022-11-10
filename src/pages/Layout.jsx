@@ -4,7 +4,7 @@ import HeaderBar from "../components/common/HeaderBar";
 
 export default function Layout() {
   return (
-    <Flex direction="column">
+    <Flex direction="column" rowGap={4}>
       <HeaderBar />
       <Outlet />
     </Flex>
