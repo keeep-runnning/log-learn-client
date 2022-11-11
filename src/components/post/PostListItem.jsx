@@ -1,73 +1,36 @@
-import { Link } from "react-router-dom";
-import { css } from "@emotion/react";
+import { Link as ReactRouterLink } from "react-router-dom";
 import PropTypes from "prop-types";
-
 import DateTime from "../common/DateTime";
 import pageUrl from "../../utils/pageUrl";
+import { Flex, Link } from "@chakra-ui/react";
 
-const PostListItem = ({ postId, authorName, title, preview, createdAt }) => {
+export default function PostListItem({ post }) {
   return (
-    <article
-      css={(theme) => css`
-        padding-left: ${theme.spacing[2]};
-        padding-right: ${theme.spacing[2]};
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[4]};
-        h2 {
-          font-weight: ${theme.textWeight.bold};
-          ${theme.textSize.lg}
-        }
-        p {
-          ${theme.textSize.base}
-        }
-      `}
-    >
+    <Flex as="article" direction="column" alignItems="flex-start" rowGap={4} px={2}>
       <Link
-        to={pageUrl.getPostDetailPageUrl(postId)}
-        css={(theme) => css`
-          font-weight: ${theme.textWeight.bold};
-          ${theme.textSize.lg}
-          &:hover {
-            text-decoration: underline;
-          }
-        `}
+        as={ReactRouterLink}
+        to={pageUrl.getPostDetailPageUrl(post.id)}
+        fontWeight="bold"
+        fontSize="2xl"
       >
-        {title}
+        {post.title}
       </Link>
-      <p>{preview.slice(0, 100)}</p>
-      <div
-        css={(theme) => css`
-          display: flex;
-          align-items: center;
-          column-gap: ${theme.spacing[2]};
-        `}
-      >
-        <Link
-          to={pageUrl.getUserHomePageUrl(authorName)}
-          css={(theme) => css`
-            ${theme.textSize.sm}
-            font-weight: ${theme.textWeight.bold};
-            &:hover {
-              text-decoration: underline;
-            }
-          `}
-        >
-          {authorName}
+      <Flex alignItems="center" columnGap={2}>
+        <Link as={ReactRouterLink} to={pageUrl.getUserHomePageUrl(post.author)}>
+          {post.author}
         </Link>
         &middot;
-        <DateTime dateTimeStr={createdAt} />
-      </div>
-    </article>
+        <DateTime dateTimeStr={post.createdAt} />
+      </Flex>
+    </Flex>
   );
-};
+}
 
 PostListItem.propTypes = {
-  postId: PropTypes.string.isRequired,
-  authorName: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  preview: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
+  post: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
 };
-
-export default PostListItem;

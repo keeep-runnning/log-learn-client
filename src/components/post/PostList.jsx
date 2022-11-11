@@ -66,14 +66,7 @@ export default function PostList() {
                 divider={<StackDivider borderColor="gray.300" />}
               >
                 {page.posts.map((post) => (
-                  <PostListItem
-                    key={post.id}
-                    postId={post.id}
-                    authorName={post.author}
-                    preview={post.content}
-                    createdAt={post.createdAt}
-                    title={post.title}
-                  />
+                  <PostListItem key={post.id} post={post} />
                 ))}
               </VStack>
             ) : null
