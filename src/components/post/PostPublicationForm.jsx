@@ -1,98 +1,85 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
-
 import { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
 import { useNavigate } from "react-router-dom";
-import { css } from "@emotion/react";
-
-import PrimaryButton from "../common/buttons/PrimaryButton";
-import PostTitleTextArea from "./PostTitleTextArea";
-import PostForm from "./PostForm";
-import DefaultButton from "../common/buttons/DefaultButton";
 import usePostPublication from "../../hooks/queries/posts/usePostPublication";
 import pageUrl from "../../utils/pageUrl";
+import { Button, ButtonGroup, Flex, Textarea } from "@chakra-ui/react";
 
-const PostPublicationForm = () => {
+export default function PostPublicationForm() {
   const navigate = useNavigate();
+
   const editorRef = useRef();
-  const { register, handleSubmit, setFocus } = useForm();
+
+  const { register, handleSubmit, setFocus } = useForm({
+    defaultValues: {
+      title: "",
+    },
+  });
 
   useEffect(() => {
     setFocus("title");
-  }, [setFocus]);
+  }, []);
 
   const postPublicationMutation = usePostPublication();
 
-  const handlePostPublication = useCallback(
-    handleSubmit((data) => {
-      const { title } = data;
-      const content = editorRef.current.getInstance().getMarkdown();
-      postPublicationMutation.mutate(
-        { title, content },
-        {
-          onSuccess: ({ id: postId }) => {
-            navigate(pageUrl.getPostDetailPageUrl(postId));
-          },
-        }
-      );
-    }),
-    []
-  );
+  const publishPost = useCallback(({ title }) => {
+    const content = editorRef.current.getInstance().getMarkdown();
+    postPublicationMutation.mutate(
+      { title, content },
+      {
+        onSuccess: ({ id: postId }) => {
+          navigate(pageUrl.getPostDetailPageUrl(postId));
+        },
+      }
+    );
+  }, []);
 
   const handleGoBackButtonClick = useCallback(() => {
     navigate(-1);
   }, []);
 
   return (
-    <PostForm onSubmit={handlePostPublication}>
-      <ul
-        css={(theme) => css`
-          display: flex;
-          justify-content: flex-end;
-          column-gap: ${theme.spacing[2]};
-        `}
-      >
-        <li>
-          <DefaultButton onClick={handleGoBackButtonClick} type="button">
-            뒤로가기
-          </DefaultButton>
-        </li>
-        <li>
-          <PrimaryButton disabled={postPublicationMutation.isLoading} type="submit">
-            글 발행하기
-          </PrimaryButton>
-        </li>
-      </ul>
-      <PostTitleTextArea
+    <Flex as="form" onSubmit={handleSubmit(publishPost)} direction="column" rowGap={4}>
+      <ButtonGroup size="sm" justifyContent="flex-end">
+        <Button type="button" onClick={handleGoBackButtonClick}>
+          뒤로가기
+        </Button>
+        <Button
+          colorScheme="main"
+          type="submit"
+          isDisabled={postPublicationMutation.isLoading}
+          isLoading={postPublicationMutation.isLoading}
+          loadingText="글 발행 중..."
+        >
+          글 발행하기
+        </Button>
+      </ButtonGroup>
+      <Textarea
         {...register("title", { required: true })}
-        placeholder="제목을 입력하세요."
+        fontSize="2xl"
+        resize="none"
+        placeholder="제목을 입력하세요"
         rows={1}
+        variant="flushed"
       />
-      <div
-        css={css`
-          flex-grow: 1;
-        `}
-      >
-        <Editor
-          autofocus={false}
-          ref={editorRef}
-          height="100%"
-          previewStyle="vertical"
-          initialEditType="wysiwyg"
-          toolbarItems={[
-            ["heading", "bold", "italic", "strike"],
-            ["hr", "quote"],
-            ["ul", "ol", "task", "indent", "outdent"],
-            ["table", "link"],
-            ["code", "codeblock"],
-          ]}
-          useCommandShortcut={true}
-          usageStatistics={false}
-        />
-      </div>
-    </PostForm>
+      <Editor
+        autofocus={false}
+        ref={editorRef}
+        height="720px"
+        previewStyle="vertical"
+        initialEditType="wysiwyg"
+        toolbarItems={[
+          ["heading", "bold", "italic", "strike"],
+          ["hr", "quote"],
+          ["ul", "ol", "task", "indent", "outdent"],
+          ["table", "link"],
+          ["code", "codeblock"],
+        ]}
+        useCommandShortcut={true}
+        usageStatistics={false}
+      />
+    </Flex>
   );
-};
-
-export default PostPublicationForm;
+}

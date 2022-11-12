@@ -1,18 +1,12 @@
-import { css } from "@emotion/react";
-
+import { Box, Container } from "@chakra-ui/react";
 import PostPublicationForm from "../components/post/PostPublicationForm";
 
-const PostPublication = () => {
+export default function PostPublication() {
   return (
-    <section
-      css={(theme) => css`
-        height: 100vh;
-        background-color: ${theme.bgColor[2]};
-      `}
-    >
-      <PostPublicationForm />
-    </section>
+    <Box minH="100vh" bgColor="gray.50">
+      <Container py={4} maxW="container.xl">
+        <PostPublicationForm />
+      </Container>
+    </Box>
   );
-};
-
-export default PostPublication;
+}
