@@ -2,7 +2,8 @@ import { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import PostListItem from "./PostListItem";
 import usePostsByAuthorInfiniteQuery from "../../hooks/queries/posts/usePostsByAuthorInfiniteQuery";
-import { Box, Center, Skeleton, Stack, StackDivider, Text, VStack } from "@chakra-ui/react";
+import { Box, Skeleton, Stack, StackDivider, Text, VStack } from "@chakra-ui/react";
+import EmptyMessage from "../common/EmptyMessage";
 
 export default function PostList() {
   const targetRef = useRef();
@@ -50,11 +51,7 @@ export default function PostList() {
       ) : isError ? (
         <Text>블로그 포스트 목록을 가져오는 데 문제가 발생했습니다</Text>
       ) : data.pages.length === 1 && data.pages[0].posts.length === 0 ? (
-        <Center h={16} textAlign="center">
-          <Text color="gray.500" fontSize="lg">
-            작성된 블로그 포스트가 없습니다
-          </Text>
-        </Center>
+        <EmptyMessage message="작성된 블로그 포스트가 없습니다" />
       ) : (
         <VStack alignItems="stretch" spacing={6} divider={<StackDivider borderColor="gray.300" />}>
           {data.pages.map((page, idx) =>

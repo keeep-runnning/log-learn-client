@@ -1,5 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import EmptyMessage from "../common/EmptyMessage";
 
 export default function UserProfileCard({ userData }) {
   return (
@@ -19,7 +20,7 @@ export default function UserProfileCard({ userData }) {
       {userData.shortIntroduction ? (
         <Text>{userData.shortIntroduction}</Text>
       ) : (
-        <Text color="gray.500">짧은 소개가 작성되지 않았습니다</Text>
+        <EmptyMessage message="짧은 소개가 작성되지 않았습니다" />
       )}
     </Flex>
   );
