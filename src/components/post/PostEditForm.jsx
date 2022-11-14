@@ -1,18 +1,12 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
-
 import { useCallback, useEffect, useRef } from "react";
-import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { Editor } from "@toast-ui/react-editor";
 import PropTypes from "prop-types";
-
-import DefaultButton from "../common/buttons/DefaultButton";
-import PostForm from "./PostForm";
-import PostTitleTextArea from "./PostTitleTextArea";
-import PrimaryButton from "../common/buttons/PrimaryButton";
 import usePostEdit from "../../hooks/queries/posts/usePostEdit";
+import { Button, ButtonGroup, Flex, Textarea } from "@chakra-ui/react";
 
-const PostEditForm = ({ postData, onClose }) => {
+export default function PostEditForm({ postData, onClose }) {
   const editorRef = useRef();
 
   const { register, handleSubmit, setFocus } = useForm({
@@ -21,15 +15,14 @@ const PostEditForm = ({ postData, onClose }) => {
     },
   });
 
-  const editMutation = usePostEdit();
-
   useEffect(() => {
     setFocus("title");
   }, [setFocus]);
 
-  const handlePostEdit = useCallback(
-    handleSubmit((data) => {
-      const { title } = data;
+  const editMutation = usePostEdit();
+
+  const editPost = useCallback(
+    ({ title }) => {
       const content = editorRef.current.getInstance().getMarkdown();
       editMutation.mutate(
         {
@@ -43,61 +36,54 @@ const PostEditForm = ({ postData, onClose }) => {
           },
         }
       );
-    }),
-    [postData]
+    },
+    [postData.id]
   );
 
   return (
-    <PostForm onSubmit={handlePostEdit}>
-      <ul
-        css={(theme) => css`
-          display: flex;
-          justify-content: flex-end;
-          column-gap: ${theme.spacing[2]};
-        `}
-      >
-        <li>
-          <DefaultButton type="button" onClick={onClose}>
-            나가기
-          </DefaultButton>
-        </li>
-        <li>
-          <PrimaryButton disabled={editMutation.isLoading} type="submit">
-            글 수정하기
-          </PrimaryButton>
-        </li>
-      </ul>
-      <PostTitleTextArea
-        placeholder="제목을 입력하세요."
-        rows={1}
+    <Flex as="form" onSubmit={handleSubmit(editPost)} direction="column" rowGap={4}>
+      <ButtonGroup size="sm" justifyContent="flex-end">
+        <Button type="button" onClick={onClose}>
+          나가기
+        </Button>
+        <Button
+          type="submit"
+          colorScheme="main"
+          isDisabled={editMutation.isLoading}
+          isLoading={editMutation.isLoading}
+          loadingText="수정 중..."
+        >
+          글 수정하기
+        </Button>
+      </ButtonGroup>
+      <Textarea
         {...register("title", { required: true })}
+        fontSize="2xl"
+        resize="none"
+        placeholder="제목을 입력하세요"
+        rows={1}
+        variant="flushed"
       />
-      <div
-        css={css`
-          flex-grow: 1;
-        `}
-      >
-        <Editor
-          initialValue={postData.content}
-          autofocus={false}
-          ref={editorRef}
-          height="100%"
-          previewStyle="vertical"
-          initialEditType="wysiwyg"
-          toolbarItems={[
-            ["heading", "bold", "italic", "strike"],
-            ["hr", "quote"],
-            ["ul", "ol", "task", "indent", "outdent"],
-            ["table", "link"],
-            ["code", "codeblock"],
-          ]}
-          useCommandShortcut={true}
-          usageStatistics={false}
-        />
-      </div>
-    </PostForm>
+      <Editor
+        initialValue={postData.content}
+        autofocus={false}
+        ref={editorRef}
+        height="720px"
+        previewStyle="vertical"
+        initialEditType="wysiwyg"
+        toolbarItems={[
+          ["heading", "bold", "italic", "strike"],
+          ["hr", "quote"],
+          ["ul", "ol", "task", "indent", "outdent"],
+          ["table", "link"],
+          ["code", "codeblock"],
+        ]}
+        useCommandShortcut={true}
+        usageStatistics={false}
+      />
+    </Flex>
   );
-};
+}
 
 PostEditForm.propTypes = {
   postData: PropTypes.shape({
@@ -107,5 +93,3 @@ PostEditForm.propTypes = {
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };
-
-export default PostEditForm;

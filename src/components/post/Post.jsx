@@ -10,6 +10,7 @@ import pageUrl from "../../utils/pageUrl";
 import {
   Button,
   ButtonGroup,
+  Container,
   Drawer,
   DrawerBody,
   DrawerContent,
@@ -104,7 +105,9 @@ export default function Post({ post }) {
         <DrawerOverlay />
         <DrawerContent bgColor="gray.50">
           <DrawerBody>
-            <PostEditForm postData={postToEdit} onClose={onCloseEditForm} />
+            <Container maxW="container.xl" p={4}>
+              <PostEditForm postData={postToEdit} onClose={onCloseEditForm} />
+            </Container>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
