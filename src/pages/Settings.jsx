@@ -1,53 +1,28 @@
 import { Outlet } from "react-router-dom";
-import { css } from "@emotion/react";
-
 import SettingsTabs from "../components/settings/SettingsTabs";
 import useSettingsQuery from "../hooks/queries/settings/useSettingsQuery";
+import { Container, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
 
-const Settings = () => {
+export default function Settings() {
   const { data: settingsData, isLoading, isError } = useSettingsQuery();
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <Spinner color="main.500" size="lg" />;
   }
 
   if (isError) {
-    return <div>설정 정보를 가져오는 동안 문제가 발생했습니다.</div>;
+    return <Text>설정 정보를 가져오는 동안 문제가 발생했습니다</Text>;
   }
 
   return (
-    <div
-      css={(theme) => css`
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[6]};
-        padding: ${theme.spacing[4]};
-        ${theme.mq.md} {
-          max-width: ${theme.bp.md};
-          margin: 0 auto;
-          row-gap: ${theme.spacing[8]};
-        }
-      `}
-    >
-      <h1
-        css={(theme) => css`
-          font-weight: ${theme.textWeight.bold};
-          ${theme.textSize["2xl"]}
-        `}
-      >
-        설정
-      </h1>
-      <SettingsTabs />
-      <section
-        css={css`
-          flex-grow: 1;
-        `}
-      >
+    <Container maxW="container.lg">
+      <Flex direction="column" rowGap={6}>
+        <Heading as="h1" fontSize="2xl" fontWeight="bold">
+          설정
+        </Heading>
+        <SettingsTabs />
         <Outlet context={{ settingsData }} />
-      </section>
-    </div>
+      </Flex>
+    </Container>
   );
-};
-
-export default Settings;
+}
