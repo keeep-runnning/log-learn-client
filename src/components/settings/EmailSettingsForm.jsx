@@ -1,20 +1,21 @@
+import { Box, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-import RowForm from "./RowForm";
-
-const EmailSettingsForm = ({ data }) => {
+export default function EmailSettingsForm({ data }) {
   return (
-    <RowForm>
-      <label htmlFor="email">이메일</label>
-      <section>
-        <input id="email" type="email" disabled value={data} />
-      </section>
-    </RowForm>
+    <Box as="form">
+      <FormControl>
+        <Flex direction={{ base: "column", md: "row" }}>
+          <FormLabel width={{ md: "25%" }} htmlFor="email">
+            이메일
+          </FormLabel>
+          <Input width={{ md: "75%" }} isDisabled id="email" type="email" defaultValue={data} />
+        </Flex>
+      </FormControl>
+    </Box>
   );
-};
+}
 
 EmailSettingsForm.propTypes = {
   data: PropTypes.string.isRequired,
 };
-
-export default EmailSettingsForm;
