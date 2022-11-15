@@ -1,78 +1,95 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { useCallback, useEffect } from "react";
-
-import RowForm from "./RowForm";
-import PrimaryButton from "../common/buttons/PrimaryButton";
+import { useCallback } from "react";
 import useShortIntroductionSettings from "../../hooks/queries/settings/useShortIntroductionSettings";
-import useNotifications from "../../hooks/useNotifications";
-import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
-import { shortIntroductionValidation } from "../../utils/formValidation";
-import { shortIntroductionValidationErrorMessage } from "../../utils/formValidationErrorMessage";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Textarea,
+  useToast,
+} from "@chakra-ui/react";
 
-const SHORT_INTRODUCTION_FIELD_NAME = "shortIntroduction";
-
-const ShortIntroductionSettingsForm = ({ data }) => {
+export default function ShortIntroductionSettingsForm({ data }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
-      [SHORT_INTRODUCTION_FIELD_NAME]: data,
+      shortIntroduction: data,
     },
     mode: "onChange",
   });
 
-  useEffect(() => {
-    reset({ [SHORT_INTRODUCTION_FIELD_NAME]: data });
-  }, [data]);
-
   const shortIntroductionSettingsMutation = useShortIntroductionSettings();
 
-  const { notifySuccess } = useNotifications();
+  const toast = useToast();
 
-  const onValid = useCallback(({ shortIntroduction }) => {
+  const setShortIntroduction = useCallback(({ shortIntroduction }) => {
     shortIntroductionSettingsMutation.mutate(shortIntroduction, {
       onSuccess: () => {
-        notifySuccess({ content: "짧은 소개가 수정되었습니다." });
+        toast({
+          description: "짧은 소개가 수정되었습니다",
+          position: "top",
+          status: "success",
+          isClosable: true,
+        });
       },
     });
   }, []);
 
   return (
-    <RowForm onSubmit={handleSubmit(onValid)}>
-      <label htmlFor="short-introduction">짧은 소개</label>
-      <section>
-        <textarea
-          id="short-introduction"
-          rows="4"
-          {...register(SHORT_INTRODUCTION_FIELD_NAME, {
-            maxLength: {
-              value: shortIntroductionValidation.maxLength,
-              message: shortIntroductionValidationErrorMessage.maxLength,
-            },
-            validate: {
-              isChanged: (newShortIntroduction) =>
-                shortIntroductionValidation.isChanged({
-                  oldShortIntroduction: data,
-                  newShortIntroduction,
-                }) || shortIntroductionValidationErrorMessage.isChanged,
-            },
-          })}
-        />
-        <FormFieldErrorMessage message={errors[SHORT_INTRODUCTION_FIELD_NAME]?.message} />
-        <PrimaryButton type="submit" disabled={shortIntroductionSettingsMutation.isLoading}>
-          수정하기
-        </PrimaryButton>
-      </section>
-    </RowForm>
+    <Flex
+      as="form"
+      onSubmit={handleSubmit(setShortIntroduction)}
+      direction="column"
+      alignItems="flex-end"
+      rowGap={4}
+    >
+      <FormControl isInvalid={Boolean(errors.shortIntroduction)}>
+        <Flex direction={{ base: "column", md: "row" }}>
+          <FormLabel width="25%" htmlFor="shortIntroduction">
+            짧은 소개
+          </FormLabel>
+          <Box flexGrow={1}>
+            <Textarea
+              id="shortIntroduction"
+              rows={4}
+              {...register("shortIntroduction", {
+                maxLength: {
+                  value: 120,
+                  message: "짧은 소개를 120자 이하로 입력해주세요",
+                },
+                validate: {
+                  isChanged: (newShortIntroduction) =>
+                    data !== newShortIntroduction || "변경사항이 없습니다",
+                },
+              })}
+            />
+            {errors.shortIntroduction ? (
+              <FormErrorMessage>{errors.shortIntroduction.message}</FormErrorMessage>
+            ) : null}
+          </Box>
+        </Flex>
+      </FormControl>
+      <Button
+        type="submit"
+        size="sm"
+        colorScheme="main"
+        isDisabled={shortIntroductionSettingsMutation.isLoading}
+        isLoading={shortIntroductionSettingsMutation.isLoading}
+        loadingText="수정 중..."
+      >
+        수정하기
+      </Button>
+    </Flex>
   );
-};
+}
 
 ShortIntroductionSettingsForm.propTypes = {
   data: PropTypes.string.isRequired,
 };
-
-export default ShortIntroductionSettingsForm;
