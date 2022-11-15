@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import useUsernameSettings from "../../hooks/queries/settings/useUsernameSettings";
@@ -21,17 +21,12 @@ export default function UsernameSettingsForm({ data }) {
     handleSubmit,
     formState: { errors },
     setError,
-    reset,
   } = useForm({
     defaultValues: {
       username: data,
     },
     mode: "onChange",
   });
-
-  useEffect(() => {
-    reset({ username: data });
-  }, [data]);
 
   const usernameSettingsMutation = useUsernameSettings();
 
