@@ -7,6 +7,7 @@ export default function NavLinkTabs({ navLinks = [] }) {
     <Box as="nav">
       <Flex
         as="ul"
+        listStyleType="none"
         direction={{ base: "column", md: "row" }}
         justifyContent={{ md: "center" }}
         gap={{ base: 2, md: 4 }}
