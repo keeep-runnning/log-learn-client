@@ -1,18 +1,18 @@
 import { useParams, Outlet } from "react-router-dom";
-import { css } from "@emotion/react";
-
 import useUserQuery from "../hooks/queries/users/useUserQuery";
 import NotFound from "./NotFound";
 import UserProfileCard from "../components/user/UserProfileCard";
-import UserHomeMenuTabs from "../components/user/UserHomeMenuTabs";
+import { Container, Flex, Spinner } from "@chakra-ui/react";
+import pageUrl from "../utils/pageUrl";
+import NavLinkTabs from "../components/common/NavLinkTabs";
 
-const UserHome = () => {
+export default function UserHome() {
   const { username } = useParams();
 
   const { data: userData, error, isLoading, isError } = useUserQuery(username);
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <Spinner size="lg" color="main.500" />;
   }
 
   if (isError) {
@@ -24,30 +24,17 @@ const UserHome = () => {
   }
 
   return (
-    <main
-      css={(theme) => css`
-        margin: 0 auto;
-        max-width: ${theme.bp.md};
-        padding: ${theme.spacing[4]};
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[8]};
-      `}
-    >
-      <UserProfileCard userData={userData} />
-      <div
-        css={(theme) => css`
-          ${theme.mq.sm} {
-            display: flex;
-            justify-content: center;
-          }
-        `}
-      >
-        <UserHomeMenuTabs username={userData.username} />
-      </div>
-      <Outlet context={{ userData }} />
-    </main>
+    <Container maxW="container.lg">
+      <Flex direction="column" rowGap={8}>
+        <UserProfileCard userData={userData} />
+        <NavLinkTabs
+          navLinks={[
+            { name: "포스트", link: pageUrl.getUserHomePageUrl(userData.username) },
+            { name: "소개", link: pageUrl.getUserIntroductionPageUrl(userData.username) },
+          ]}
+        />
+        <Outlet context={{ userData }} />
+      </Flex>
+    </Container>
   );
-};
-
-export default UserHome;
+}

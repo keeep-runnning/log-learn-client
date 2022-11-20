@@ -1,32 +1,29 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { css } from "@emotion/react";
-
-import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
-import PrimaryButton from "../common/buttons/PrimaryButton";
-import TextInputWrapper from "./TextInputWrapper";
-import AlertMessage from "../common/AlertMessage";
-import useAlertMessage from "../../hooks/useAlertMessage";
 import useSignUp from "../../hooks/queries/users/useSignUp";
-import useNotificationsWithRedirect from "../../hooks/useNotificationsWithRedirect";
 import pageUrl from "../../utils/pageUrl";
 import {
-  emailValidation,
-  passwordCheckValidation,
-  passwordValidation,
-  usernameValidation,
-} from "../../utils/formValidation";
-import {
-  emailValidationErrorMessage,
-  passwordCheckValidationErrorMessage,
-  passwordValidationErrorMessage,
-  usernameValidationErrorMessage,
-} from "../../utils/formValidationErrorMessage";
+  Alert,
+  AlertIcon,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  useToast,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-const SignUpForm = () => {
-  const { redirectThenNotifySuccess } = useNotificationsWithRedirect();
-  const { alertMessage, setAlertMessage, removeAlertMessage } = useAlertMessage();
+export default function SignUpForm() {
+  const toast = useToast();
+
+  const navigate = useNavigate();
+
+  const [alertMessage, setAlertMessage] = useState("");
+
   const signUpMutation = useSignUp();
+
   const {
     register,
     handleSubmit,
@@ -36,16 +33,18 @@ const SignUpForm = () => {
     mode: "onChange",
   });
 
-  const onValidationSucceeded = useCallback(({ username, email, password }) => {
+  const onValid = useCallback(({ username, email, password }) => {
     signUpMutation.mutate(
       { username, email, password },
       {
         onSuccess: () => {
-          redirectThenNotifySuccess({
-            to: pageUrl.getLoginPageUrl(),
-            replace: true,
-            content: "계정이 생성되었습니다. 로그인 해주세요.",
+          toast({
+            description: "계정이 생성되었습니다. 로그인 해주세요.",
+            status: "success",
+            isClosable: true,
+            position: "top",
           });
+          navigate(pageUrl.getLoginPageUrl(), { replace: true });
         },
         onError: (error) => {
           if (error.response) {
@@ -62,106 +61,107 @@ const SignUpForm = () => {
   }, []);
 
   return (
-    <form
-      noValidate
-      onSubmit={handleSubmit(onValidationSucceeded)}
-      css={(theme) => css`
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[4]};
-      `}
-    >
-      {alertMessage && (
-        <AlertMessage message={alertMessage} onCloseButtonClicked={removeAlertMessage} />
-      )}
-      <TextInputWrapper>
-        <label htmlFor="username">유저이름</label>
-        <input
-          {...register("username", {
-            required: usernameValidationErrorMessage.required,
-            minLength: {
-              value: usernameValidation.minLength,
-              message: usernameValidationErrorMessage.length,
-            },
-            maxLength: {
-              value: usernameValidation.maxLength,
-              message: usernameValidationErrorMessage.length,
-            },
-            pattern: {
-              value: usernameValidation.pattern,
-              message: usernameValidationErrorMessage.pattern,
-            },
-          })}
-          type="text"
+    <Flex as="form" noValidate onSubmit={handleSubmit(onValid)} direction="column" rowGap={4}>
+      {alertMessage ? (
+        <Alert rounded="md" status="warning">
+          <AlertIcon />
+          {alertMessage}
+        </Alert>
+      ) : null}
+      <FormControl isInvalid={Boolean(errors.username)}>
+        <FormLabel htmlFor="username">유저이름</FormLabel>
+        <Input
           id="username"
-          placeholder="username"
-        />
-        <FormFieldErrorMessage message={errors.username?.message} />
-      </TextInputWrapper>
-      <TextInputWrapper>
-        <label htmlFor="email">이메일</label>
-        <input
-          {...register("email", {
-            required: emailValidationErrorMessage.required,
-            pattern: {
-              value: emailValidation.pattern,
-              message: emailValidationErrorMessage.pattern,
-            },
-          })}
-          type="email"
-          id="email"
-          placeholder="example@example.com"
-        />
-        <FormFieldErrorMessage message={errors.email?.message} />
-      </TextInputWrapper>
-      <TextInputWrapper>
-        <label htmlFor="password">비밀번호</label>
-        <input
-          {...register("password", {
-            required: passwordValidationErrorMessage.required,
+          type="text"
+          placeholder="유저이름"
+          {...register("username", {
+            required: "유저이름을 입력해주세요",
             minLength: {
-              value: passwordValidation.minLength,
-              message: passwordValidationErrorMessage.length,
+              value: 2,
+              message: "유저이름을 2자 이상 20자 이하로 입력해주세요",
             },
             maxLength: {
-              value: passwordValidation.maxLength,
-              message: passwordValidationErrorMessage.length,
+              value: 20,
+              message: "유저이름을 2자 이상 20자 이하로 입력해주세요",
             },
             pattern: {
-              value: passwordValidation.pattern,
-              message: passwordValidationErrorMessage.pattern,
+              value: /^[ㄱ-ㅎ가-힣\w-]+$/,
+              message:
+                "한글/영문 대소문자/숫자/언더바(_)/하이픈(-)만을 이용해 유저이름을 입력해주세요",
             },
           })}
-          type="password"
-          id="password"
-          placeholder="********"
         />
-        <FormFieldErrorMessage message={errors.password?.message} />
-      </TextInputWrapper>
-      <TextInputWrapper>
-        <label htmlFor="passwordCheck">비밀번호 확인</label>
-        <input
+        {errors.username ? <FormErrorMessage>{errors.username.message}</FormErrorMessage> : null}
+      </FormControl>
+      <FormControl isInvalid={Boolean(errors.email)}>
+        <FormLabel htmlFor="email">이메일</FormLabel>
+        <Input
+          id="email"
+          type="email"
+          placeholder="example@example.com"
+          {...register("email", {
+            required: "이메일을 입력해주세요",
+            pattern: {
+              value:
+                /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+              message: "이메일 형식이 올바르지 않습니다",
+            },
+          })}
+        />
+        {errors.email ? <FormErrorMessage>{errors.email.message}</FormErrorMessage> : null}
+      </FormControl>
+      <FormControl isInvalid={Boolean(errors.password)}>
+        <FormLabel htmlFor="password">비밀번호</FormLabel>
+        <Input
+          id="password"
+          type="password"
+          placeholder="********"
+          {...register("password", {
+            required: "비밀번호를 입력해주세요",
+            minLength: {
+              value: 8,
+              message: "비밀번호를 8자 이상 32자 이하로 입력해주세요",
+            },
+            maxLength: {
+              value: 32,
+              message: "비밀번호를 8자 이상 32자 이하로 입력해주세요",
+            },
+            pattern: {
+              value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/,
+              message: "영문 대소문자/숫자/특수문자를 각각 1자 이상 포함해주세요",
+            },
+          })}
+        />
+        {errors.password ? <FormErrorMessage>{errors.password.message}</FormErrorMessage> : null}
+      </FormControl>
+      <FormControl isInvalid={Boolean(errors.passwordCheck)}>
+        <FormLabel htmlFor="passwordCheck">비밀번호 확인</FormLabel>
+        <Input
+          id="passwordCheck"
+          type="password"
+          placeholder="********"
           {...register("passwordCheck", {
-            required: passwordCheckValidationErrorMessage.required,
+            required: "비밀번호 확인을 입력해주세요",
             validate: {
               equalsToPassword: (passwordCheck) =>
-                passwordCheckValidation.equalsToPassword({
-                  password: getValues("password"),
-                  passwordCheck,
-                }) || passwordCheckValidationErrorMessage.equalsToPassword,
+                passwordCheck === getValues("password") ||
+                "비밀번호와 비밀번호 확인이 일치하지 않습니다",
             },
           })}
-          type="password"
-          id="passwordCheck"
-          placeholder="********"
         />
-        <FormFieldErrorMessage message={errors.passwordCheck?.message} />
-      </TextInputWrapper>
-      <PrimaryButton disabled={signUpMutation.isLoading} type="submit">
-        계정 만들기
-      </PrimaryButton>
-    </form>
+        {errors.passwordCheck ? (
+          <FormErrorMessage>{errors.passwordCheck.message}</FormErrorMessage>
+        ) : null}
+      </FormControl>
+      <Button
+        type="submit"
+        colorScheme="main"
+        isDisabled={signUpMutation.isLoading}
+        isLoading={signUpMutation.isLoading}
+        loadingText="회원가입 중..."
+      >
+        회원가입
+      </Button>
+    </Flex>
   );
-};
-
-export default SignUpForm;
+}

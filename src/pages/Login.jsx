@@ -1,40 +1,24 @@
 import { Link } from "react-router-dom";
-import { css } from "@emotion/react";
-
 import LoginForm from "../components/user/LoginForm";
-import AccountFormHeader from "../components/user/AccountFormHeader";
 import pageUrl from "../utils/pageUrl";
+import { Container, Flex, Text } from "@chakra-ui/react";
+import AuthFormHeader from "../components/user/AuthFormHeader";
 
-const Login = () => {
+export default function Login() {
   return (
-    <section
-      css={(theme) => css`
-        width: 320px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[8]};
-      `}
-    >
-      <AccountFormHeader title="로그인" />
-      <LoginForm />
-      <p
-        css={(theme) => css`
-          text-align: center;
-          color: ${theme.textColor[4]};
-          ${theme.textSize.sm}
-          & a {
-            &:hover {
-              color: ${theme.textColor[5]};
-              font-weight: ${theme.textWeight.bold};
-            }
-          }
-        `}
-      >
-        아직 계정이 없으신가요? <Link to={pageUrl.getSignUpPageUrl()}>계정 만들기 &gt;</Link>
-      </p>
-    </section>
+    <Container maxW="320px">
+      <Flex as="section" direction="column" rowGap={6}>
+        <AuthFormHeader title="로그인" />
+        <LoginForm />
+        <Text fontSize="sm" textAlign="center">
+          아직 계정이 없으신가요?{" "}
+          <Link to={pageUrl.getSignUpPageUrl()}>
+            <Text as="span" _hover={{ fontWeight: "bold" }}>
+              회원가입 &gt;
+            </Text>
+          </Link>
+        </Text>
+      </Flex>
+    </Container>
   );
-};
-
-export default Login;
+}

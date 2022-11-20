@@ -1,27 +1,12 @@
-import { css } from "@emotion/react";
+import { Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
-
 import HeaderBar from "../components/common/HeaderBar";
 
-const Layout = () => {
+export default function Layout() {
   return (
-    <div
-      css={css`
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-      `}
-    >
+    <Flex direction="column" rowGap={4}>
       <HeaderBar />
-      <div
-        css={css`
-          flex-grow: 1;
-        `}
-      >
-        <Outlet />
-      </div>
-    </div>
+      <Outlet />
+    </Flex>
   );
-};
-
-export default Layout;
+}

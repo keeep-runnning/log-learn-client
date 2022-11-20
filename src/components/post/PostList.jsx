@@ -1,17 +1,16 @@
-import { Fragment, useEffect, useRef } from "react";
-import { css } from "@emotion/react";
+import { useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
-
 import PostListItem from "./PostListItem";
 import usePostsByAuthorInfiniteQuery from "../../hooks/queries/posts/usePostsByAuthorInfiniteQuery";
-import MessageBox from "../common/MessageBox";
+import { Box, Skeleton, Stack, StackDivider, Text, VStack } from "@chakra-ui/react";
+import EmptyMessage from "../common/EmptyMessage";
 
-const PostList = () => {
+export default function PostList() {
   const targetRef = useRef();
 
   const { userData } = useOutletContext();
 
-  const { isLoading, isError, data, error, hasNextPage, isFetchingNextPage, fetchNextPage } =
+  const { isLoading, isError, data, hasNextPage, isFetchingNextPage, fetchNextPage } =
     usePostsByAuthorInfiniteQuery(userData.username);
 
   useEffect(() => {
@@ -35,40 +34,43 @@ const PostList = () => {
   return (
     <>
       {isLoading ? (
-        <div>loading...</div>
+        <VStack alignItems="stretch" spacing={6} divider={<StackDivider borderColor="gray.300" />}>
+          <Stack>
+            <Skeleton h={5} />
+            <Skeleton h={5} />
+          </Stack>
+          <Stack>
+            <Skeleton h={5} />
+            <Skeleton h={5} />
+          </Stack>
+          <Stack>
+            <Skeleton h={5} />
+            <Skeleton h={5} />
+          </Stack>
+        </VStack>
       ) : isError ? (
-        <div>{error.message}</div>
+        <Text>블로그 포스트 목록을 가져오는 데 문제가 발생했습니다</Text>
       ) : data.pages.length === 1 && data.pages[0].posts.length === 0 ? (
-        <MessageBox message="작성된 블로그 포스트가 없습니다." />
+        <EmptyMessage message="작성된 블로그 포스트가 없습니다" />
       ) : (
-        <div
-          css={(theme) => css`
-            & > * + * {
-              margin-top: ${theme.spacing[8]};
-              border-top: ${theme.lineThickness[2]} solid ${theme.lineColor[2]};
-              padding-top: ${theme.spacing[8]};
-            }
-          `}
-        >
-          {data.pages.map((page) => (
-            <Fragment key={page.nextCursor}>
-              {page.posts.map((post) => (
-                <PostListItem
-                  key={post.id}
-                  postId={post.id}
-                  authorName={post.author}
-                  preview={post.content}
-                  createdAt={post.createdAt}
-                  title={post.title}
-                />
-              ))}
-            </Fragment>
-          ))}
-        </div>
+        <VStack alignItems="stretch" spacing={6} divider={<StackDivider borderColor="gray.300" />}>
+          {data.pages.map((page, idx) =>
+            page.posts.length > 0 ? (
+              <VStack
+                key={idx}
+                alignItems="stretch"
+                spacing={6}
+                divider={<StackDivider borderColor="gray.300" />}
+              >
+                {page.posts.map((post) => (
+                  <PostListItem key={post.id} post={post} />
+                ))}
+              </VStack>
+            ) : null
+          )}
+        </VStack>
       )}
-      <div ref={targetRef} />
+      <Box ref={targetRef} />
     </>
   );
-};
-
-export default PostList;
+}

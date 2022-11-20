@@ -1,37 +1,32 @@
 import { Link } from "react-router-dom";
-import { css } from "@emotion/react";
-
-import UserMenuPopover from "./UserMenuPopover";
 import Logo from "./Logo";
-import PrimaryButton from "./buttons/PrimaryButton";
 import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
 import pageUrl from "../../utils/pageUrl";
+import { Button, ButtonGroup, Container, Flex } from "@chakra-ui/react";
+import UserMenu from "./UserMenu";
 
-const HeaderBar = () => {
+export default function HeaderBar() {
   const currentUser = useCurrentUserQuery();
 
   return (
-    <header
-      css={(theme) => css`
-        height: 80px;
-        padding: ${theme.spacing[4]};
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      `}
-    >
-      <Link to="/">
-        <Logo />
-      </Link>
-      {currentUser.isLoggedIn ? (
-        <UserMenuPopover username={currentUser.username} />
-      ) : (
-        <PrimaryButton as={Link} to={pageUrl.getLoginPageUrl()}>
-          로그인
-        </PrimaryButton>
-      )}
-    </header>
+    <Container maxW="container.xl">
+      <Flex as="header" h={20} alignItems="center" justifyContent="space-between">
+        <Link to="/">
+          <Logo />
+        </Link>
+        {currentUser.isLoggedIn ? (
+          <UserMenu username={currentUser.username} />
+        ) : (
+          <ButtonGroup colorScheme="main" size="sm">
+            <Button as={Link} to={pageUrl.getLoginPageUrl()} variant="ghost">
+              로그인
+            </Button>
+            <Button as={Link} to={pageUrl.getSignUpPageUrl()}>
+              회원가입
+            </Button>
+          </ButtonGroup>
+        )}
+      </Flex>
+    </Container>
   );
-};
-
-export default HeaderBar;
+}

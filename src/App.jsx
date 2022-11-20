@@ -1,8 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-
 import useCurrentUserQuery from "./hooks/queries/auth/useCurrentUserQuery";
 import AuthChecker from "./components/router/AuthChecker";
-import GlobalNotifications from "./components/common/notifications/GlobalNotifications";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -18,47 +16,42 @@ import MainSettingsForms from "./components/settings/MainSettingsForms";
 import PasswordSettingsForm from "./components/settings/PasswordSettingsForm";
 import IntroductionSettingsForm from "./components/settings/IntroductionSettingsForm";
 
-const App = () => {
+export default function App() {
   const { isLoggedIn } = useCurrentUserQuery();
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="signup" element={<SignUp />} />
-          <Route path="login" element={<Login />} />
-          <Route path="users/:username" element={<UserHome />}>
-            <Route index element={<PostList />} />
-            <Route path="introduction" element={<UserIntroductionViewer />} />
-          </Route>
-          <Route path="posts/:postId" element={<PostDetail />} />
-          <Route
-            path="settings"
-            element={
-              <AuthChecker isLoggedIn={isLoggedIn}>
-                <Settings />
-              </AuthChecker>
-            }
-          >
-            <Route index element={<MainSettingsForms />} />
-            <Route path="password" element={<PasswordSettingsForm />} />
-            <Route path="introduction" element={<IntroductionSettingsForm />} />
-          </Route>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="login" element={<Login />} />
+        <Route path="users/:username" element={<UserHome />}>
+          <Route index element={<PostList />} />
+          <Route path="introduction" element={<UserIntroductionViewer />} />
         </Route>
+        <Route path="posts/:postId" element={<PostDetail />} />
         <Route
-          path="/posts/new"
+          path="settings"
           element={
             <AuthChecker isLoggedIn={isLoggedIn}>
-              <PostPublication />
+              <Settings />
             </AuthChecker>
           }
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <GlobalNotifications />
-    </>
+        >
+          <Route index element={<MainSettingsForms />} />
+          <Route path="password" element={<PasswordSettingsForm />} />
+          <Route path="introduction" element={<IntroductionSettingsForm />} />
+        </Route>
+      </Route>
+      <Route
+        path="/posts/new"
+        element={
+          <AuthChecker isLoggedIn={isLoggedIn}>
+            <PostPublication />
+          </AuthChecker>
+        }
+      />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
-};
-
-export default App;
+}

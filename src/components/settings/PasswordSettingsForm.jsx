@@ -1,31 +1,18 @@
-import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useCallback } from "react";
-
-import PrimaryButton from "../common/buttons/PrimaryButton";
 import usePasswordSettings from "../../hooks/queries/settings/usePasswordSettings";
-import { passwordCheckValidation, passwordValidation } from "../../utils/formValidation";
-import FormFieldErrorMessage from "../common/FormFieldErrorMessage";
 import {
-  newPasswordCheckValidationErrorMessage,
-  newPasswordValidationErrorMessage,
-  oldPasswordValidationErrorMessage,
-} from "../../utils/formValidationErrorMessage";
-import useNotifications from "../../hooks/useNotifications";
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  useToast,
+} from "@chakra-ui/react";
 
-const passwordSettingsFormFieldName = Object.freeze({
-  PASSWORD: "password",
-  NEW_PASSWORD: "newPassword",
-  NEW_PASSWORD_CHECK: "newPasswordCheck",
-});
-
-const passwordSettingsFormDefaultValues = Object.freeze({
-  [passwordSettingsFormFieldName.PASSWORD]: "",
-  [passwordSettingsFormFieldName.NEW_PASSWORD]: "",
-  [passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]: "",
-});
-
-const PasswordSettingsForm = () => {
+export default function PasswordSettingsForm() {
   const {
     register,
     handleSubmit,
@@ -34,29 +21,42 @@ const PasswordSettingsForm = () => {
     reset,
     setError,
   } = useForm({
-    defaultValues: passwordSettingsFormDefaultValues,
+    defaultValues: {
+      password: "",
+      newPassword: "",
+      newPasswordCheck: "",
+    },
     mode: "onChange",
   });
 
   const passwordSettingsMutation = usePasswordSettings();
 
-  const { notifySuccess } = useNotifications();
+  const toast = useToast();
 
-  const onValid = useCallback(({ password, newPassword }) => {
+  const setNewPassword = useCallback(({ password, newPassword }) => {
     passwordSettingsMutation.mutate(
       { password, newPassword },
       {
         onSuccess: () => {
-          notifySuccess({ content: "비밀번호가 수정되었습니다." });
-          reset(passwordSettingsFormDefaultValues);
+          toast({
+            description: "비밀번호가 수정되었습니다",
+            status: "success",
+            position: "top",
+            isClosable: true,
+          });
+          reset({
+            password: "",
+            newPassword: "",
+            newPasswordCheck: "",
+          });
         },
         onError: (error) => {
           if (error.response) {
             const { code } = error.response.data;
             if (code === "user-003") {
-              setError(passwordSettingsFormFieldName.PASSWORD, {
+              setError("password", {
                 type: "isValid",
-                message: oldPasswordValidationErrorMessage.isValid,
+                message: "기존 비밀번호가 올바르지 않습니다",
               });
             }
           }
@@ -66,116 +66,102 @@ const PasswordSettingsForm = () => {
   }, []);
 
   return (
-    <form
-      onSubmit={handleSubmit(onValid)}
-      css={(theme) => css`
-        padding: ${theme.spacing[2]};
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        row-gap: ${theme.spacing[6]};
-        & > div {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          row-gap: ${theme.spacing[2]};
-          & > label {
-            color: ${theme.textColor[4]};
-            ${theme.textSize.sm}
-          }
-          & > input {
-            padding: ${theme.spacing[1]} ${theme.spacing[2]};
-            border: ${theme.lineThickness[1]} solid ${theme.lineColor[3]};
-            ${theme.textSize.base}
-            ${theme.borderRound.normal}
-            &:focus {
-              outline: 0;
-              border: ${theme.lineThickness[1]} solid ${theme.primaryColor[3]};
-            }
-          }
-        }
-        ${theme.mq.sm} {
-          & > div {
-            flex-direction: row;
-            align-items: center;
-            & > label {
-              width: 30%;
-            }
-            & > input {
-              flex-grow: 1;
-            }
-          }
-        }
-      `}
+    <Flex
+      as="form"
+      onSubmit={handleSubmit(setNewPassword)}
+      direction="column"
+      rowGap={6}
+      alignItems="flex-end"
     >
-      <div>
-        <label htmlFor="password">기존 비밀번호</label>
-        <input
-          id="password"
-          type="password"
-          {...register(passwordSettingsFormFieldName.PASSWORD, {
-            required: oldPasswordValidationErrorMessage.required,
-          })}
-        />
-      </div>
-      <FormFieldErrorMessage message={errors[passwordSettingsFormFieldName.PASSWORD]?.message} />
-      <div>
-        <label htmlFor="new-password">새 비밀번호</label>
-        <input
-          id="new-password"
-          type="password"
-          {...register(passwordSettingsFormFieldName.NEW_PASSWORD, {
-            required: newPasswordValidationErrorMessage.required,
-            minLength: {
-              value: passwordValidation.minLength,
-              message: newPasswordValidationErrorMessage.length,
-            },
-            maxLength: {
-              value: passwordValidation.maxLength,
-              message: newPasswordValidationErrorMessage.length,
-            },
-            pattern: {
-              value: passwordValidation.pattern,
-              message: newPasswordValidationErrorMessage.pattern,
-            },
-            validate: {
-              isChanged: (newPassword) =>
-                passwordValidation.isChanged({
-                  oldPassword: getValues(passwordSettingsFormFieldName.PASSWORD),
-                  newPassword,
-                }) || newPasswordValidationErrorMessage.isChanged,
-            },
-          })}
-        />
-      </div>
-      <FormFieldErrorMessage
-        message={errors[passwordSettingsFormFieldName.NEW_PASSWORD]?.message}
-      />
-      <div>
-        <label htmlFor="new-password-check">새 비밀번호 확인</label>
-        <input
-          id="new-password-check"
-          type="password"
-          {...register(passwordSettingsFormFieldName.NEW_PASSWORD_CHECK, {
-            required: newPasswordCheckValidationErrorMessage.required,
-            validate: {
-              equalsToPassword: (newPasswordCheck) =>
-                passwordCheckValidation.equalsToPassword({
-                  password: getValues(passwordSettingsFormFieldName.NEW_PASSWORD),
-                  passwordCheck: newPasswordCheck,
-                }) || newPasswordCheckValidationErrorMessage.equalsToPassword,
-            },
-          })}
-        />
-      </div>
-      <FormFieldErrorMessage
-        message={errors[passwordSettingsFormFieldName.NEW_PASSWORD_CHECK]?.message}
-      />
-      <PrimaryButton type="submit" disabled={passwordSettingsMutation.isLoading}>
+      <FormControl isInvalid={Boolean(errors.password)}>
+        <Flex direction={{ base: "column", md: "row" }}>
+          <FormLabel width={{ md: "25%" }} htmlFor="password">
+            기존 비밀번호
+          </FormLabel>
+          <Box flexGrow={{ md: 1 }}>
+            <Input
+              id="password"
+              type="password"
+              {...register("password", {
+                required: "기존 비밀번호를 입력해주세요",
+              })}
+            />
+            {errors.password ? (
+              <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+            ) : null}
+          </Box>
+        </Flex>
+      </FormControl>
+      <FormControl isInvalid={Boolean(errors.newPassword)}>
+        <Flex direction={{ base: "column", md: "row" }}>
+          <FormLabel width={{ md: "25%" }} htmlFor="newPassword">
+            새 비밀번호
+          </FormLabel>
+          <Box flexGrow={{ md: 1 }}>
+            <Input
+              id="newPassword"
+              type="password"
+              {...register("newPassword", {
+                required: "새 비밀번호를 입력해주세요",
+                minLength: {
+                  value: 8,
+                  message: "새 비밀번호를 8자 이상 32자 이하로 입력해주세요",
+                },
+                maxLength: {
+                  value: 32,
+                  message: "새 비밀번호를 8자 이상 32자 이하로 입력해주세요",
+                },
+                pattern: {
+                  value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/,
+                  message: "영문 대소문자/숫자/특수문자를 각각 1자 이상 포함해주세요",
+                },
+                validate: {
+                  isChanged: (newPassword) =>
+                    getValues("password") !== newPassword ||
+                    "새 비밀번호가 기존 비밀번호와 같습니다",
+                },
+              })}
+            />
+            {errors.newPassword ? (
+              <FormErrorMessage>{errors.newPassword.message}</FormErrorMessage>
+            ) : null}
+          </Box>
+        </Flex>
+      </FormControl>
+      <FormControl isInvalid={Boolean(errors.newPasswordCheck)}>
+        <Flex direction={{ base: "column", md: "row" }}>
+          <FormLabel width={{ md: "25%" }} htmlFor="newPasswordCheck">
+            새 비밀번호 확인
+          </FormLabel>
+          <Box flexGrow={{ md: 1 }}>
+            <Input
+              id="newPasswordCheck"
+              type="password"
+              {...register("newPasswordCheck", {
+                required: "새 비밀번호 확인을 입력해주세요",
+                validate: {
+                  equalsToPassword: (newPasswordCheck) =>
+                    getValues("newPassword") === newPasswordCheck ||
+                    "새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다",
+                },
+              })}
+            />
+            {errors.newPasswordCheck ? (
+              <FormErrorMessage>{errors.newPasswordCheck.message}</FormErrorMessage>
+            ) : null}
+          </Box>
+        </Flex>
+      </FormControl>
+      <Button
+        type="submit"
+        size="sm"
+        colorScheme="main"
+        isDisabled={passwordSettingsMutation.isLoading}
+        isLoading={passwordSettingsMutation.isLoading}
+        loadingText="수정 중..."
+      >
         수정하기
-      </PrimaryButton>
-    </form>
+      </Button>
+    </Flex>
   );
-};
-
-export default PasswordSettingsForm;
+}

@@ -1,49 +1,31 @@
 import { Link } from "react-router-dom";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-
 import SignUpForm from "../components/user/SignUpForm";
-import AccountFormHeader from "../components/user/AccountFormHeader";
 import pageUrl from "../utils/pageUrl";
+import { Container, Flex, Text } from "@chakra-ui/react";
+import AuthFormHeader from "../components/user/AuthFormHeader";
 
-const SignUpFormMessage = styled.p`
-  text-align: center;
-  ${({ theme }) => css`
-    color: ${theme.textColor[4]};
-    ${theme.textSize.sm}
-    & strong {
-      color: ${theme.primaryColor[3]};
-    }
-    & a {
-      &:hover {
-        font-weight: ${theme.textWeight.bold};
-        color: ${theme.textColor[5]};
-      }
-    }
-  `}
-`;
-
-const SignUp = () => {
+export default function SignUp() {
   return (
-    <section
-      css={(theme) => css`
-        width: 320px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        row-gap: ${theme.spacing[8]};
-      `}
-    >
-      <AccountFormHeader title="계정 만들기" />
-      <SignUpForm />
-      <SignUpFormMessage>
-        가입시, log learn 의 <strong>이용약관</strong>에 동의합니다.
-      </SignUpFormMessage>
-      <SignUpFormMessage>
-        이미 계정이 있으신가요? <Link to={pageUrl.getLoginPageUrl()}>로그인 하기 &gt;</Link>
-      </SignUpFormMessage>
-    </section>
+    <Container maxW="320px">
+      <Flex as="section" direction="column" rowGap={6}>
+        <AuthFormHeader title="회원가입" />
+        <SignUpForm />
+        <Text textAlign="center" fontSize="sm">
+          가입시, log learn의{" "}
+          <Text as="em" color="main.500" fontWeight="bold">
+            이용약관
+          </Text>
+          에 동의합니다
+        </Text>
+        <Text textAlign="center" fontSize="sm">
+          이미 계정이 있으신가요?{" "}
+          <Link to={pageUrl.getLoginPageUrl()}>
+            <Text as="span" _hover={{ fontWeight: "bold" }}>
+              로그인 하기 &gt;
+            </Text>
+          </Link>
+        </Text>
+      </Flex>
+    </Container>
   );
-};
-
-export default SignUp;
+}
