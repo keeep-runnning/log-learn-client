@@ -7,17 +7,22 @@
 ## 기술 스택
 
 <div>
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" />
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" />
+    <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white" />
 </div>
 <div>
-    <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black" />
-    <img src="https://img.shields.io/badge/Recoil-2C73D2?style=flat" />
-    <img src="https://img.shields.io/badge/React%20Query-FF4154?style=flat&logo=react%20query&logoColor=black" />
-    <img src="https://img.shields.io/badge/React%20Router-CA4245?style=flat&logo=react%20router&logoColor=black" />
-    <img src="https://img.shields.io/badge/emotion-FE74D0?style=flat" />
+    <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" />
+    <img src="https://img.shields.io/badge/React%20Router-CA4245?style=flat-square&logo=react%20router&logoColor=white" />
+    <img src="https://img.shields.io/badge/React%20Query-FF4154?style=flat-square&logo=react%20query&logoColor=white" />
+    <img src="https://img.shields.io/badge/Emotion-FE74D0?style=flat-square" />
+    <img src="https://img.shields.io/badge/Chakra%20UI-319795?style=flat-square&logo=chakraui&logoColor=white">
 </div>
 <div>
-    <img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white">
+  <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black">
+</div>
+<div>
+    <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white" />
 </div>
 
 ## 주요 기능
