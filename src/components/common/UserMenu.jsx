@@ -6,10 +6,8 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
-  useToast,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useCallback } from "react";
 import {
   IoChevronDown,
   IoHomeOutline,
@@ -17,31 +15,11 @@ import {
   IoPencil,
   IoSettingsOutline,
 } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
-import useLogout from "../../hooks/queries/auth/useLogout";
+import { Link } from "react-router-dom";
+
 import pageUrl from "../../utils/pageUrl";
 
 export default function UserMenu({ username }) {
-  const toast = useToast();
-
-  const navigate = useNavigate();
-
-  const logoutMutation = useLogout();
-
-  const handleLogoutButtonClick = useCallback(() => {
-    logoutMutation.mutate(null, {
-      onSuccess: () => {
-        toast({
-          description: "로그아웃 되었습니다",
-          status: "success",
-          isClosable: true,
-          position: "top",
-        });
-        navigate("/");
-      },
-    });
-  }, []);
-
   const linkMenus = [
     {
       name: "내 블로그로 이동",
@@ -67,13 +45,7 @@ export default function UserMenu({ username }) {
         </MenuGroup>
         <MenuDivider />
         <MenuGroup>
-          <MenuItem
-            icon={<IoLogOutOutline />}
-            isDisabled={logoutMutation.isLoading}
-            onClick={handleLogoutButtonClick}
-          >
-            로그아웃
-          </MenuItem>
+          <MenuItem icon={<IoLogOutOutline />}>로그아웃</MenuItem>
         </MenuGroup>
       </MenuList>
     </Menu>

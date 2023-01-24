@@ -1,7 +1,6 @@
 import { Box, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 
-export default function EmailSettingsForm({ data }) {
+export default function EmailSettingsForm() {
   return (
     <Box as="form">
       <FormControl>
@@ -9,13 +8,9 @@ export default function EmailSettingsForm({ data }) {
           <FormLabel width={{ md: "25%" }} htmlFor="email">
             이메일
           </FormLabel>
-          <Input width={{ md: "75%" }} isDisabled id="email" type="email" defaultValue={data} />
+          <Input width={{ md: "75%" }} isDisabled id="email" type="email" />
         </Flex>
       </FormControl>
     </Box>
   );
 }
-
-EmailSettingsForm.propTypes = {
-  data: PropTypes.string.isRequired,
-};

@@ -1,63 +1,23 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { useCallback, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import PropTypes from "prop-types";
-import usePostEdit from "../../hooks/queries/posts/usePostEdit";
 import { Button, ButtonGroup, Flex, Textarea } from "@chakra-ui/react";
 
 export default function PostEditForm({ postData, onClose }) {
   const editorRef = useRef();
 
-  const { register, handleSubmit, setFocus } = useForm({
-    defaultValues: {
-      title: postData.title,
-    },
-  });
-
-  useEffect(() => {
-    setFocus("title");
-  }, [setFocus]);
-
-  const editMutation = usePostEdit();
-
-  const editPost = useCallback(
-    ({ title }) => {
-      const content = editorRef.current.getInstance().getMarkdown();
-      editMutation.mutate(
-        {
-          postId: postData.id,
-          title,
-          content,
-        },
-        {
-          onSuccess: () => {
-            onClose();
-          },
-        }
-      );
-    },
-    [postData.id]
-  );
-
   return (
-    <Flex as="form" onSubmit={handleSubmit(editPost)} direction="column" rowGap={4}>
+    <Flex as="form" direction="column" rowGap={4}>
       <ButtonGroup size="sm" justifyContent="flex-end">
         <Button type="button" onClick={onClose}>
           나가기
         </Button>
-        <Button
-          type="submit"
-          colorScheme="main"
-          isDisabled={editMutation.isLoading}
-          isLoading={editMutation.isLoading}
-          loadingText="수정 중..."
-        >
+        <Button type="submit" colorScheme="main" loadingText="수정 중...">
           글 수정하기
         </Button>
       </ButtonGroup>
       <Textarea
-        {...register("title", { required: true })}
         fontSize="2xl"
         resize="none"
         placeholder="제목을 입력하세요"
@@ -87,7 +47,7 @@ export default function PostEditForm({ postData, onClose }) {
 
 PostEditForm.propTypes = {
   postData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
   }).isRequired,

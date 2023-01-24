@@ -1,12 +1,8 @@
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import { useCallback, useEffect, useRef } from "react";
-import { Viewer } from "@toast-ui/react-editor";
 import PropTypes from "prop-types";
-import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
-import PostEditForm from "./PostEditForm";
-import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
-import DateTime from "../common/DateTime";
-import pageUrl from "../../utils/pageUrl";
+import { useRef } from "react";
+import { Viewer } from "@toast-ui/react-editor";
+import { Link as ReactRouterLink } from "react-router-dom";
 import {
   Button,
   ButtonGroup,
@@ -19,14 +15,24 @@ import {
   Heading,
   Link,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
-import usePostRemoval from "../../hooks/queries/posts/usePostRemoval";
 
-export default function Post({ post }) {
+import PostEditForm from "./PostEditForm";
+import DateTime from "../common/DateTime";
+import pageUrl from "../../utils/pageUrl";
+
+const dummyPost = {
+  id: 1,
+  author: "post author",
+  title: "post title",
+  content: "post content",
+  createdAt: new Date().toString(),
+};
+
+const isAuthor = true;
+
+export default function Post({ postId }) {
   const viewerRef = useRef();
-
-  const currentUser = useCurrentUserQuery();
 
   const {
     isOpen: isEditFormOpen,
@@ -34,34 +40,10 @@ export default function Post({ post }) {
     onClose: onCloseEditForm,
   } = useDisclosure();
 
-  const postRemoveMutation = usePostRemoval();
-
-  const navigate = useNavigate();
-
-  const toast = useToast();
-
-  const handlePostRemoveButtonClick = useCallback(() => {
-    postRemoveMutation.mutate(post, {
-      onSuccess: () => {
-        toast({
-          description: `[${post.title}] 블로그 포스트가 삭제되었습니다`,
-          position: "top",
-          status: "success",
-          isClosable: true,
-        });
-        navigate(pageUrl.getUserHomePageUrl(post.author), { replace: true });
-      },
-    });
-  }, [post]);
-
-  useEffect(() => {
-    viewerRef.current.getInstance().setMarkdown(post.content);
-  }, [post.content]);
-
   const postToEdit = {
-    id: post.id,
-    title: post.title,
-    content: post.content,
+    id: dummyPost.id,
+    title: dummyPost.title,
+    content: dummyPost.content,
   };
 
   return (
@@ -69,37 +51,31 @@ export default function Post({ post }) {
       <Flex as="article" direction="column" rowGap={6}>
         <Flex as="header" direction="column" rowGap={4}>
           <Heading as="h1" fontSize="2xl" fontWeight="bold">
-            {post.title}
+            {dummyPost.title}
           </Heading>
           <Flex alignItems="center" justifyContent="space-between">
             <Flex columnGap={2} alignItems="center">
               <Link
                 as={ReactRouterLink}
-                to={pageUrl.getUserHomePageUrl(post.author)}
+                to={pageUrl.getUserHomePageUrl(dummyPost.author)}
                 fontWeight="bold"
               >
-                {post.author}
+                {dummyPost.author}
               </Link>
               &middot;
-              <DateTime dateTimeStr={post.createdAt} />
+              <DateTime dateTimeStr={dummyPost.createdAt} />
             </Flex>
-            {currentUser.isLoggedIn && currentUser.username === post.author && (
+            {isAuthor && (
               <ButtonGroup size="sm" variant="ghost">
                 <Button onClick={onOpenEditForm}>수정</Button>
-                <Button
-                  colorScheme="red"
-                  isDisabled={postRemoveMutation.isLoading}
-                  isLoading={postRemoveMutation.isLoading}
-                  loadingText="삭제 중..."
-                  onClick={handlePostRemoveButtonClick}
-                >
+                <Button colorScheme="red" loadingText="삭제 중...">
                   삭제
                 </Button>
               </ButtonGroup>
             )}
           </Flex>
         </Flex>
-        <Viewer ref={viewerRef} initialValue={post.content} usageStatistics={false} />
+        <Viewer ref={viewerRef} initialValue={dummyPost.content} usageStatistics={false} />
       </Flex>
       <Drawer isOpen={isEditFormOpen} onClose={onCloseEditForm} placement="bottom" size="full">
         <DrawerOverlay />
@@ -116,11 +92,5 @@ export default function Post({ post }) {
 }
 
 Post.propTypes = {
-  post: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    content: PropTypes.string,
-  }).isRequired,
+  postId: PropTypes.number.isRequired,
 };

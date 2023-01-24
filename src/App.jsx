@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import useCurrentUserQuery from "./hooks/queries/auth/useCurrentUserQuery";
-import AuthChecker from "./components/router/AuthChecker";
+
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -17,8 +16,6 @@ import PasswordSettingsForm from "./components/settings/PasswordSettingsForm";
 import IntroductionSettingsForm from "./components/settings/IntroductionSettingsForm";
 
 export default function App() {
-  const { isLoggedIn } = useCurrentUserQuery();
-
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -30,27 +27,13 @@ export default function App() {
           <Route path="introduction" element={<UserIntroductionViewer />} />
         </Route>
         <Route path="posts/:postId" element={<PostDetail />} />
-        <Route
-          path="settings"
-          element={
-            <AuthChecker isLoggedIn={isLoggedIn}>
-              <Settings />
-            </AuthChecker>
-          }
-        >
+        <Route path="settings" element={<Settings />}>
           <Route index element={<MainSettingsForms />} />
           <Route path="password" element={<PasswordSettingsForm />} />
           <Route path="introduction" element={<IntroductionSettingsForm />} />
         </Route>
       </Route>
-      <Route
-        path="/posts/new"
-        element={
-          <AuthChecker isLoggedIn={isLoggedIn}>
-            <PostPublication />
-          </AuthChecker>
-        }
-      />
+      <Route path="/posts/new" element={<PostPublication />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

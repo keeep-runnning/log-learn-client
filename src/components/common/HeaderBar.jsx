@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom";
-import Logo from "./Logo";
-import useCurrentUserQuery from "../../hooks/queries/auth/useCurrentUserQuery";
-import pageUrl from "../../utils/pageUrl";
 import { Button, ButtonGroup, Container, Flex } from "@chakra-ui/react";
+
+import Logo from "./Logo";
+import pageUrl from "../../utils/pageUrl";
 import UserMenu from "./UserMenu";
 
-export default function HeaderBar() {
-  const currentUser = useCurrentUserQuery();
+const dummyLoggedInUser = null;
 
+export default function HeaderBar() {
   return (
     <Container maxW="container.xl">
       <Flex as="header" h={20} alignItems="center" justifyContent="space-between">
         <Link to="/">
           <Logo />
         </Link>
-        {currentUser.isLoggedIn ? (
-          <UserMenu username={currentUser.username} />
+        {dummyLoggedInUser ? (
+          <UserMenu username={dummyLoggedInUser} />
         ) : (
           <ButtonGroup colorScheme="main" size="sm">
             <Button as={Link} to={pageUrl.getLoginPageUrl()} variant="ghost">
