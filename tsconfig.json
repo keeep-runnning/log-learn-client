@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
     "module": "ES6",
     "rootDir": "./src",
     "moduleResolution": "node",

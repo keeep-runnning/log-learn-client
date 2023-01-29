@@ -1,14 +1,24 @@
-import PropTypes from "prop-types";
-import { Text, useTheme } from "@chakra-ui/react";
 import { css, keyframes } from "@emotion/react";
+import { Text } from "@chakra-ui/react";
 
 const SPARKLING_DURATION_IN_SECOND = 4;
 const SPARKLING_TRANSITION_PERCENT = 20;
 
-export default function SparklingKeyword({ keyword, backgroundGradient, index, numberOfKeywords }) {
-  const theme = useTheme();
-  const defaultColor = theme.colors.black;
-  const transparent = theme.colors.transparent;
+type SparklingKeywordProps = {
+  keyword: string;
+  backgroundGradient: string;
+  index: number;
+  numberOfKeywords: number;
+};
+
+export default function SparklingKeyword({
+  keyword,
+  backgroundGradient,
+  index,
+  numberOfKeywords,
+}: SparklingKeywordProps) {
+  const defaultColor = "black";
+  const transparent = "transparent";
 
   const sparklingEndPercent = 100 / numberOfKeywords;
   const durationInSecond = numberOfKeywords * SPARKLING_DURATION_IN_SECOND;
@@ -46,10 +56,3 @@ export default function SparklingKeyword({ keyword, backgroundGradient, index, n
     </Text>
   );
 }
-
-SparklingKeyword.propTypes = {
-  keyword: PropTypes.string.isRequired,
-  backgroundGradient: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
-  numberOfKeywords: PropTypes.number.isRequired,
-};

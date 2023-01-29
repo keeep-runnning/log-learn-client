@@ -1,5 +1,4 @@
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import PropTypes from "prop-types";
 import { useRef } from "react";
 import { Viewer } from "@toast-ui/react-editor";
 import { Link as ReactRouterLink } from "react-router-dom";
@@ -31,8 +30,12 @@ const dummyPost = {
 
 const isAuthor = true;
 
-export default function Post({ postId }) {
-  const viewerRef = useRef();
+type PostProps = {
+  postId: number;
+};
+
+export default function Post({ postId }: PostProps) {
+  const viewerRef = useRef<Viewer>(null);
 
   const {
     isOpen: isEditFormOpen,
@@ -82,7 +85,7 @@ export default function Post({ postId }) {
         <DrawerContent bgColor="gray.50">
           <DrawerBody>
             <Container maxW="container.xl" p={4}>
-              <PostEditForm postData={postToEdit} onClose={onCloseEditForm} />
+              <PostEditForm post={postToEdit} onClose={onCloseEditForm} />
             </Container>
           </DrawerBody>
         </DrawerContent>
@@ -90,7 +93,3 @@ export default function Post({ postId }) {
     </>
   );
 }
-
-Post.propTypes = {
-  postId: PropTypes.number.isRequired,
-};

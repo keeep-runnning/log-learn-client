@@ -9,7 +9,7 @@ export default function UserHome() {
   const { username } = useParams();
 
   const dummyUser = {
-    username,
+    username: username ?? "",
     shortIntroduction: "dummy short introduction",
     introduction: "dummy introduction",
   };
@@ -17,9 +17,9 @@ export default function UserHome() {
   return (
     <Container maxW="container.lg">
       <Flex direction="column" rowGap={8}>
-        <UserProfileCard userData={dummyUser} />
+        <UserProfileCard user={dummyUser} />
         <NavLinkTabs
-          navLinks={[
+          navLinkTabs={[
             { name: "포스트", link: pageUrl.getUserHomePageUrl(dummyUser.username) },
             { name: "소개", link: pageUrl.getUserIntroductionPageUrl(dummyUser.username) },
           ]}

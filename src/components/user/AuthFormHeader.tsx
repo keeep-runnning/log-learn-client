@@ -1,8 +1,11 @@
-import { Flex, Heading, Text } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 
-export default function AuthFormHeader({ title }) {
+type AuthFormHeaderProps = {
+  title: string;
+};
+
+export default function AuthFormHeader({ title }: AuthFormHeaderProps) {
   return (
     <Flex as="header" direction="column" alignItems="center" rowGap={2}>
       <Link to="/">
@@ -16,7 +19,3 @@ export default function AuthFormHeader({ title }) {
     </Flex>
   );
 }
-
-AuthFormHeader.propTypes = {
-  title: PropTypes.string.isRequired,
-};
