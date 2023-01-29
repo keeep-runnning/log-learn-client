@@ -11,7 +11,7 @@ module.exports = {
   context: __dirname,
   mode: isDevelopment ? "development" : "production",
   resolve: {
-    extensions: [".ts", ".tsx", ".jsx", "..."],
+    extensions: [".ts", ".tsx", "..."],
   },
   devtool: isDevelopment ? "eval-source-map" : false,
   entry: {
@@ -26,7 +26,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/i,
+        test: /\.(ts|tsx)$/i,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
