@@ -3,13 +3,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 module.exports = {
+  context: __dirname,
   mode: isDevelopment ? "development" : "production",
   resolve: {
-    extensions: [".jsx", "..."],
+    extensions: [".ts", ".tsx", "..."],
   },
   devtool: isDevelopment ? "eval-source-map" : false,
   entry: {
@@ -24,7 +26,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/i,
+        test: /\.(ts|tsx)$/i,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -32,6 +34,7 @@ module.exports = {
             presets: [
               "@babel/preset-env",
               ["@babel/preset-react", { runtime: "automatic", importSource: "@emotion/react" }],
+              "@babel/preset-typescript",
             ],
             plugins: ["@emotion/babel-plugin", isDevelopment && "react-refresh/babel"].filter(
               Boolean
@@ -53,6 +56,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./template/index.html",
       favicon: "./template/favicon.ico",
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     !isDevelopment && new MiniCssExtractPlugin(),

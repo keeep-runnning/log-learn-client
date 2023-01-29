@@ -1,26 +1,28 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
-import { useNavigate } from "react-router-dom";
 import { Button, ButtonGroup, Flex, Textarea } from "@chakra-ui/react";
 
-export default function PostPublicationForm() {
-  const navigate = useNavigate();
-
-  const editorRef = useRef();
-
-  const handleGoBackButtonClick = () => {
-    navigate(-1);
+type PostEditFormProps = {
+  post: {
+    id: number;
+    title: string;
+    content: string;
   };
+  onClose: () => void;
+};
+
+export default function PostEditForm({ post, onClose }: PostEditFormProps) {
+  const editorRef = useRef<Editor>(null);
 
   return (
     <Flex as="form" direction="column" rowGap={4}>
       <ButtonGroup size="sm" justifyContent="flex-end">
-        <Button type="button" onClick={handleGoBackButtonClick}>
-          뒤로가기
+        <Button type="button" onClick={onClose}>
+          나가기
         </Button>
-        <Button colorScheme="main" type="submit" loadingText="글 발행 중...">
-          글 발행하기
+        <Button type="submit" colorScheme="main" loadingText="수정 중...">
+          글 수정하기
         </Button>
       </ButtonGroup>
       <Textarea
@@ -31,6 +33,7 @@ export default function PostPublicationForm() {
         variant="flushed"
       />
       <Editor
+        initialValue={post.content}
         autofocus={false}
         ref={editorRef}
         height="720px"

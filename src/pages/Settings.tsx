@@ -11,7 +11,7 @@ export default function Settings() {
         <Heading as="h1" fontSize="2xl" fontWeight="bold">
           설정
         </Heading>
-        <NavLinkTabs navLinks={settingsNavLinks} />
+        <NavLinkTabs navLinkTabs={settingsNavLinks} />
         <Outlet />
       </Flex>
     </Container>

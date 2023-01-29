@@ -4,8 +4,8 @@ import PostListItem from "./PostListItem";
 
 const dummyPosts = [
   {
-    id: "1",
-    author: "test-user",
+    id: 1,
+    authorName: "test-user",
     title: "post title",
     createdAt: new Date().toString(),
   },

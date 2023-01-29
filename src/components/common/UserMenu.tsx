@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Button,
   Menu,
@@ -7,7 +8,6 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import {
   IoChevronDown,
   IoHomeOutline,
@@ -15,11 +15,14 @@ import {
   IoPencil,
   IoSettingsOutline,
 } from "react-icons/io5";
-import { Link } from "react-router-dom";
 
 import pageUrl from "../../utils/pageUrl";
 
-export default function UserMenu({ username }) {
+type UserMenuProps = {
+  username: string;
+};
+
+export default function UserMenu({ username }: UserMenuProps) {
   const linkMenus = [
     {
       name: "내 블로그로 이동",
@@ -51,7 +54,3 @@ export default function UserMenu({ username }) {
     </Menu>
   );
 }
-
-UserMenu.propTypes = {
-  username: PropTypes.string.isRequired,
-};

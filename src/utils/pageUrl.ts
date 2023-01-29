@@ -7,29 +7,29 @@ const pageUrl = {
   NEW: "new",
   INTRODUCTION: "introduction",
   PASSWORD: "password",
-  getSignUpPageUrl() {
+  getSignUpPageUrl(): string {
     return `/${this.SIGN_UP}`;
   },
-  getLoginPageUrl() {
+  getLoginPageUrl(): string {
     return `/${this.LOGIN}`;
   },
-  getSettingsPageUrl(selectedTab = "") {
-    if (selectedTab && ![this.INTRODUCTION, this.PASSWORD].includes(selectedTab)) {
+  getSettingsPageUrl(selectedTab = ""): string {
+    if (![this.INTRODUCTION, this.PASSWORD].includes(selectedTab)) {
       selectedTab = "";
     }
 
     return selectedTab ? `/${this.SETTINGS}/${selectedTab}` : `/${this.SETTINGS}`;
   },
-  getUserHomePageUrl(usernameParam) {
+  getUserHomePageUrl(usernameParam: string): string {
     return `/${this.USERS}/${encodeURIComponent(usernameParam)}`;
   },
-  getUserIntroductionPageUrl(usernameParam) {
+  getUserIntroductionPageUrl(usernameParam: string): string {
     return `/${this.USERS}/${encodeURIComponent(usernameParam)}/${this.INTRODUCTION}`;
   },
-  getPostDetailPageUrl(postIdParam) {
+  getPostDetailPageUrl(postIdParam: number): string {
     return `/${this.POSTS}/${postIdParam}`;
   },
-  getPostPublicationPageUrl() {
+  getPostPublicationPageUrl(): string {
     return `/${this.POSTS}/${this.NEW}`;
   },
 };

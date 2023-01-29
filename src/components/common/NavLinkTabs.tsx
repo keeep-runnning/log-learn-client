@@ -1,8 +1,16 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
-export default function NavLinkTabs({ navLinks = [] }) {
+type NavLinkTab = {
+  name: string;
+  link: string;
+};
+
+type NavLinksTabsProps = {
+  navLinkTabs: NavLinkTab[];
+};
+
+export default function NavLinkTabs({ navLinkTabs = [] }: NavLinksTabsProps) {
   return (
     <Box as="nav">
       <Flex
@@ -12,7 +20,7 @@ export default function NavLinkTabs({ navLinks = [] }) {
         justifyContent={{ md: "center" }}
         gap={{ base: 2, md: 4 }}
       >
-        {navLinks.map(({ name, link }) => (
+        {navLinkTabs.map(({ name, link }) => (
           <Box as="li" key={link}>
             <NavLink to={link} end>
               {({ isActive }) => (
@@ -35,12 +43,3 @@ export default function NavLinkTabs({ navLinks = [] }) {
     </Box>
   );
 }
-
-NavLinkTabs.propTypes = {
-  navLinks: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired,
-    })
-  ),
-};
