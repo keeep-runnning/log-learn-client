@@ -5,8 +5,6 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress",
     "dev": "webpack serve --progress",
-    "prettier": "prettier --write .",
-    "lint": "eslint --fix .",
     "prepare": "husky install"
   },
   "dependencies": {
