@@ -10,7 +10,8 @@ export type ErrorResponseBody = {
 };
 
 const httpClient = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "/api",
+  withCredentials: true,
 });
 
 export default httpClient;
