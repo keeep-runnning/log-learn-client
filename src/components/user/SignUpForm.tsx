@@ -1,23 +1,118 @@
-import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+
+type SignUpFormData = {
+  username: string;
+  email: string;
+  password: string;
+  passwordCheck: string;
+};
 
 export default function SignUpForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<SignUpFormData>({
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      passwordCheck: "",
+    },
+  });
+
+  const handleSubmitSignUpForm = handleSubmit((data) => {
+    console.log(data);
+  });
+
   return (
-    <Flex as="form" noValidate direction="column" rowGap={4}>
-      <FormControl>
+    <Flex as="form" onSubmit={handleSubmitSignUpForm} direction="column" rowGap={4}>
+      <FormControl isInvalid={Boolean(errors.username)}>
         <FormLabel htmlFor="username">유저이름</FormLabel>
-        <Input id="username" type="text" placeholder="유저이름" />
+        <Input
+          id="username"
+          type="text"
+          placeholder="유저이름"
+          {...register("username", {
+            required: "유저이름을 입력해주세요",
+            minLength: {
+              value: 2,
+              message: "유저이름을 2자 이상 20자 이하로 입력해주세요",
+            },
+            maxLength: {
+              value: 20,
+              message: "유저이름을 2자 이상 20자 이하로 입력해주세요",
+            },
+            pattern: {
+              value: /^[ㄱ-ㅎ가-힣\w-]+$/,
+              message:
+                "한글/영문 대소문자/숫자/언더바(_)/하이픈(-)만을 이용해 유저이름을 입력해주세요",
+            },
+          })}
+        />
+        {errors.username ? <FormErrorMessage>{errors.username.message}</FormErrorMessage> : null}
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={Boolean(errors.email)}>
         <FormLabel htmlFor="email">이메일</FormLabel>
-        <Input id="email" type="email" placeholder="example@example.com" />
+        <Input
+          id="email"
+          type="email"
+          placeholder="example@example.com"
+          {...register("email", {
+            required: "이메일을 입력해주세요",
+            pattern: {
+              value:
+                /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+              message: "이메일 형식이 올바르지 않습니다",
+            },
+          })}
+        />
+        {errors.email ? <FormErrorMessage>{errors.email.message}</FormErrorMessage> : null}
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={Boolean(errors.password)}>
         <FormLabel htmlFor="password">비밀번호</FormLabel>
-        <Input id="password" type="password" placeholder="********" />
+        <Input
+          id="password"
+          type="password"
+          placeholder="********"
+          {...register("password", {
+            required: "비밀번호를 입력해주세요",
+            minLength: {
+              value: 8,
+              message: "비밀번호를 8자 이상 32자 이하로 입력해주세요",
+            },
+            maxLength: {
+              value: 32,
+              message: "비밀번호를 8자 이상 32자 이하로 입력해주세요",
+            },
+            pattern: {
+              value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/,
+              message: "영문 대소문자/숫자/특수문자를 각각 1자 이상 포함해주세요",
+            },
+          })}
+        />
+        {errors.password ? <FormErrorMessage>{errors.password.message}</FormErrorMessage> : null}
       </FormControl>
-      <FormControl>
-        <FormLabel htmlFor="passwordCheck">비밀번호 확인</FormLabel>
-        <Input id="passwordCheck" type="password" placeholder="********" />
+      <FormControl isInvalid={Boolean(errors.passwordCheck)}>
+        <FormLabel htmlFor="password-check">비밀번호 확인</FormLabel>
+        <Input
+          id="password-check"
+          type="password"
+          placeholder="********"
+          {...register("passwordCheck", {
+            required: "비밀번호 확인을 입력해주세요",
+            validate: {
+              matchPassword: (passwordCheck) =>
+                passwordCheck === getValues("password") ||
+                "비밀번호와 비밀번호 확인이 일치하지 않습니다",
+            },
+          })}
+        />
+        {errors.passwordCheck ? (
+          <FormErrorMessage>{errors.passwordCheck.message}</FormErrorMessage>
+        ) : null}
       </FormControl>
       <Button type="submit" colorScheme="main" loadingText="회원가입 중...">
         회원가입
