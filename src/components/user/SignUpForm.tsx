@@ -1,6 +1,8 @@
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
+import useSignUp from "../../hooks/useSignUp";
+
 type SignUpFormData = {
   username: string;
   email: string;
@@ -23,8 +25,10 @@ export default function SignUpForm() {
     },
   });
 
-  const handleSubmitSignUpForm = handleSubmit((data) => {
-    console.log(data);
+  const signUpMutation = useSignUp();
+
+  const handleSubmitSignUpForm = handleSubmit(({ username, email, password }) => {
+    signUpMutation.mutate({ username, email, password });
   });
 
   return (
@@ -114,7 +118,12 @@ export default function SignUpForm() {
           <FormErrorMessage>{errors.passwordCheck.message}</FormErrorMessage>
         ) : null}
       </FormControl>
-      <Button type="submit" colorScheme="main" loadingText="회원가입 중...">
+      <Button
+        type="submit"
+        colorScheme="main"
+        loadingText="회원가입 중..."
+        isLoading={signUpMutation.isLoading}
+      >
         회원가입
       </Button>
     </Flex>
