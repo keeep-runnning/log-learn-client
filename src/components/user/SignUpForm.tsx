@@ -27,6 +27,7 @@ export default function SignUpForm() {
     handleSubmit,
     formState: { errors },
     getValues,
+    setError,
   } = useForm<SignUpFormData>({
     defaultValues: {
       username: "",
@@ -47,6 +48,16 @@ export default function SignUpForm() {
         onSuccess: (signUpResult) => {
           if (signUpResult.result === "failed") {
             setAlertMessage(signUpResult.reason);
+          } else if (signUpResult.result === "invalidFields") {
+            const fieldNames: (keyof SignUpFormData)[] = ["username", "email", "password"];
+            fieldNames.forEach((fieldName) => {
+              if (signUpResult.validationResult[fieldName]) {
+                setError(fieldName, {
+                  type: "serverValidation",
+                  message: signUpResult.validationResult[fieldName].message,
+                });
+              }
+            });
           }
         },
       }

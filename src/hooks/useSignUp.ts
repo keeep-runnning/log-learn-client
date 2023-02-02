@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 import httpClient, { ErrorResponseBody } from "../utils/httpClient";
 import pageUrl from "../utils/pageUrl";
 
+type FieldError = {
+  value?: unknown;
+  message: string;
+};
+
 type SignUpRequestBody = {
   username: string;
   email: string;
@@ -18,30 +23,47 @@ type SignUpResponseBody = {
   email: string;
 };
 
-type SucceededSignUpResult = {
-  result: "succeeded";
+type Submitted = {
+  result: "submitted";
 } & SignUpResponseBody;
 
-type FailedSignUpResult = {
+type Failed = {
   result: "failed";
   reason: string;
 };
 
-type SignUpResult = SucceededSignUpResult | FailedSignUpResult;
+type InvalidFields = {
+  result: "invalidFields";
+  validationResult: Record<string, FieldError>;
+};
+
+type SignUpResult = Submitted | Failed | InvalidFields;
 
 async function signUp(newUser: SignUpRequestBody): Promise<SignUpResult> {
   try {
     const { data } = await httpClient.post<SignUpResponseBody>("/auth/signup", newUser);
     return {
-      result: "succeeded",
+      result: "submitted",
       ...data,
     };
   } catch (error) {
     if (isAxiosError<ErrorResponseBody>(error) && error.response) {
-      if (error.response.status === 409) {
+      const { status, data } = error.response;
+      if (status === 409) {
         return {
           result: "failed",
-          reason: error.response.data.errorMessage,
+          reason: data.errorMessage,
+        };
+      } else if (status === 400) {
+        const fieldValidationResult = data.errors.reduce((result, { field, value, reason }) => {
+          if (result[field]) return result;
+          result[field] = { value, message: reason };
+          return result;
+        }, {} as Record<string, FieldError>);
+
+        return {
+          result: "invalidFields",
+          validationResult: fieldValidationResult,
         };
       }
     }
@@ -56,13 +78,14 @@ export default function useSignUp() {
   return useMutation({
     mutationFn: signUp,
     onSuccess: (signUpResult) => {
-      if (signUpResult.result === "succeeded") {
+      if (signUpResult.result === "submitted") {
         navigate(pageUrl.getLoginPageUrl(), { replace: true });
         toast({
           title: "회원가입 성공",
           description: `${signUpResult.username}님 환영합니다. 로그인 해주세요.`,
           status: "success",
           position: "top",
+          duration: 5000,
           isClosable: true,
         });
       }
