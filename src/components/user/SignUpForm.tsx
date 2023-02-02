@@ -1,4 +1,15 @@
-import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import useSignUp from "../../hooks/useSignUp";
@@ -27,12 +38,29 @@ export default function SignUpForm() {
 
   const signUpMutation = useSignUp();
 
+  const [alertMessage, setAlertMessage] = useState("");
+
   const handleSubmitSignUpForm = handleSubmit(({ username, email, password }) => {
-    signUpMutation.mutate({ username, email, password });
+    signUpMutation.mutate(
+      { username, email, password },
+      {
+        onSuccess: (signUpResult) => {
+          if (signUpResult.result === "failed") {
+            setAlertMessage(signUpResult.reason);
+          }
+        },
+      }
+    );
   });
 
   return (
     <Flex as="form" onSubmit={handleSubmitSignUpForm} direction="column" rowGap={4}>
+      {alertMessage ? (
+        <Alert status="error" borderRadius="md">
+          <AlertIcon />
+          <AlertDescription>{alertMessage}</AlertDescription>
+        </Alert>
+      ) : null}
       <FormControl isInvalid={Boolean(errors.username)}>
         <FormLabel htmlFor="username">유저이름</FormLabel>
         <Input
