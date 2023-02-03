@@ -1,6 +1,3 @@
-import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import { useRef } from "react";
-import { Viewer } from "@toast-ui/react-editor";
 import { Link as ReactRouterLink } from "react-router-dom";
 import {
   Button,
@@ -35,8 +32,6 @@ type PostProps = {
 };
 
 export default function Post({ postId }: PostProps) {
-  const viewerRef = useRef<Viewer>(null);
-
   const {
     isOpen: isEditFormOpen,
     onOpen: onOpenEditForm,
@@ -78,7 +73,6 @@ export default function Post({ postId }: PostProps) {
             )}
           </Flex>
         </Flex>
-        <Viewer ref={viewerRef} initialValue={dummyPost.content} usageStatistics={false} />
       </Flex>
       <Drawer isOpen={isEditFormOpen} onClose={onCloseEditForm} placement="bottom" size="full">
         <DrawerOverlay />
