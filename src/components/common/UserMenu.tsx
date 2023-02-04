@@ -17,12 +17,19 @@ import {
 } from "react-icons/io5";
 
 import pageUrl from "../../utils/pageUrl";
+import useLogout from "../../hooks/useLogout";
 
 type UserMenuProps = {
   username: string;
 };
 
 export default function UserMenu({ username }: UserMenuProps) {
+  const logoutMutation = useLogout();
+
+  const handleClickLogoutButton = () => {
+    logoutMutation.mutate();
+  };
+
   const linkMenus = [
     {
       name: "내 블로그로 이동",
@@ -34,7 +41,7 @@ export default function UserMenu({ username }: UserMenuProps) {
   ];
 
   return (
-    <Menu closeOnSelect={false}>
+    <Menu>
       <MenuButton as={Button} variant="ghost" rightIcon={<IoChevronDown />}>
         {username}
       </MenuButton>
@@ -48,7 +55,13 @@ export default function UserMenu({ username }: UserMenuProps) {
         </MenuGroup>
         <MenuDivider />
         <MenuGroup>
-          <MenuItem icon={<IoLogOutOutline />}>로그아웃</MenuItem>
+          <MenuItem
+            icon={<IoLogOutOutline />}
+            onClick={handleClickLogoutButton}
+            isDisabled={logoutMutation.isLoading}
+          >
+            {logoutMutation.isLoading ? "로그아웃 중..." : "로그아웃"}
+          </MenuItem>
         </MenuGroup>
       </MenuList>
     </Menu>
