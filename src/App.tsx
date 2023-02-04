@@ -8,12 +8,11 @@ import UserHome from "./pages/UserHome";
 import PostPublication from "./pages/PostPublication";
 import PostDetail from "./pages/PostDetail";
 import NotFound from "./pages/NotFound";
-import Settings from "./pages/Settings";
+import Setting from "./pages/setting/Setting";
 import PostList from "./components/post/PostList";
 import UserIntroductionViewer from "./components/user/UserIntroductionViewer";
-import MainSettingsForms from "./components/settings/MainSettingsForms";
-import PasswordSettingsForm from "./components/settings/PasswordSettingsForm";
-import IntroductionSettingsForm from "./components/settings/IntroductionSettingsForm";
+import MainSettingTab from "./pages/setting/MainSettingTab";
+import PasswordSettingForm from "./components/setting/PasswordSettingForm";
 
 export default function App() {
   return (
@@ -27,10 +26,9 @@ export default function App() {
           <Route path="introduction" element={<UserIntroductionViewer />} />
         </Route>
         <Route path="posts/:postId" element={<PostDetail />} />
-        <Route path="settings" element={<Settings />}>
-          <Route index element={<MainSettingsForms />} />
-          <Route path="password" element={<PasswordSettingsForm />} />
-          <Route path="introduction" element={<IntroductionSettingsForm />} />
+        <Route path="settings" element={<Setting />}>
+          <Route index element={<MainSettingTab />} />
+          <Route path="password" element={<PasswordSettingForm />} />
         </Route>
       </Route>
       <Route path="/posts/new" element={<PostPublication />} />

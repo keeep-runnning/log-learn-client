@@ -1,6 +1,6 @@
 import { Box, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-export default function EmailSettingsForm() {
+export default function EmailSettingForm() {
   return (
     <Box as="form">
       <FormControl>

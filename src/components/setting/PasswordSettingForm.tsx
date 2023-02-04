@@ -1,6 +1,6 @@
 import { Box, Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-export default function PasswordSettingsForm() {
+export default function PasswordSettingForm() {
   return (
     <Flex as="form" direction="column" rowGap={6} alignItems="flex-end">
       <FormControl>

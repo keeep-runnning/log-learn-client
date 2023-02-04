@@ -1,6 +1,6 @@
 import { Box, Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-export default function UsernameSettingsForm() {
+export default function UsernameSettingForm() {
   return (
     <Flex as="form" direction="column" alignItems="flex-end" rowGap={4}>
       <FormControl>

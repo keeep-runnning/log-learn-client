@@ -1,6 +1,6 @@
 import { Box, Button, Flex, FormControl, FormLabel, Textarea } from "@chakra-ui/react";
 
-export default function ShortIntroductionSettingsForm() {
+export default function ShortIntroductionSettingForm() {
   return (
     <Flex as="form" direction="column" alignItems="flex-end" rowGap={4}>
       <FormControl>
