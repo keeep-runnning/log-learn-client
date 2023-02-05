@@ -49,12 +49,11 @@ export default function SignUpForm() {
           if (signUpResult.result === "failed") {
             setAlertMessage(signUpResult.reason);
           } else if (signUpResult.result === "invalidFields") {
-            const fieldNames: (keyof SignUpFormData)[] = ["username", "email", "password"];
-            fieldNames.forEach((fieldName) => {
-              if (signUpResult.validationResult[fieldName]) {
-                setError(fieldName, {
+            signUpResult.fieldErrors.forEach(({ field, reason }) => {
+              if (field === "username" || field === "email" || field === "password") {
+                setError(field, {
                   type: "serverValidation",
-                  message: signUpResult.validationResult[fieldName].message,
+                  message: reason,
                 });
               }
             });

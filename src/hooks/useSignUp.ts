@@ -1,23 +1,17 @@
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
-import httpClient, { ErrorResponseBody } from "../utils/httpClient";
+import apiClient, { ApiFieldError, ApiResponseError } from "../utils/apiClient";
 import pageUrl from "../utils/pageUrl";
 
-type FieldError = {
-  value?: unknown;
-  message: string;
-};
-
-type SignUpRequestBody = {
+type SignUpRequest = {
   username: string;
   email: string;
   password: string;
 };
 
-type SignUpResponseBody = {
+type SignUpResponse = {
   userId: number;
   username: string;
   email: string;
@@ -25,7 +19,7 @@ type SignUpResponseBody = {
 
 type Submitted = {
   result: "submitted";
-} & SignUpResponseBody;
+} & SignUpResponse;
 
 type Failed = {
   result: "failed";
@@ -34,37 +28,33 @@ type Failed = {
 
 type InvalidFields = {
   result: "invalidFields";
-  validationResult: Record<string, FieldError>;
+  fieldErrors: ApiFieldError[];
 };
 
 type SignUpResult = Submitted | Failed | InvalidFields;
 
-async function signUp(newUser: SignUpRequestBody): Promise<SignUpResult> {
+async function signUp(newUser: SignUpRequest): Promise<SignUpResult> {
   try {
-    const { data } = await httpClient.post<SignUpResponseBody>("/auth/signup", newUser);
+    const { data } = await apiClient.post<SignUpResponse>("/auth/signup", newUser);
     return {
       result: "submitted",
       ...data,
     };
   } catch (error) {
-    if (isAxiosError<ErrorResponseBody>(error) && error.response) {
-      const { status, data } = error.response;
-      if (status === 409) {
-        return {
-          result: "failed",
-          reason: data.errorMessage,
-        };
-      } else if (status === 400) {
-        const fieldValidationResult = data.errors.reduce((result, { field, value, reason }) => {
-          if (result[field]) return result;
-          result[field] = { value, message: reason };
-          return result;
-        }, {} as Record<string, FieldError>);
-
-        return {
-          result: "invalidFields",
-          validationResult: fieldValidationResult,
-        };
+    if (error instanceof ApiResponseError) {
+      switch (error.statusCode) {
+        case 400: {
+          return {
+            result: "invalidFields",
+            fieldErrors: error.fieldErrors,
+          };
+        }
+        case 409: {
+          return {
+            result: "failed",
+            reason: error.message,
+          };
+        }
       }
     }
     throw error;

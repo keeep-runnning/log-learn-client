@@ -4,10 +4,10 @@ import { Box, Button, ButtonGroup, Container, Flex } from "@chakra-ui/react";
 import Logo from "./Logo";
 import pageUrl from "../../utils/pageUrl";
 import UserMenu from "./UserMenu";
-import { useMe } from "../../hooks/useMe";
+import useMeQuery from "../../hooks/useMeQuery";
 
 export default function HeaderBar() {
-  const me = useMe();
+  const me = useMeQuery();
 
   if (me.isLoading) {
     return <Box>loading...</Box>;

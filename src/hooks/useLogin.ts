@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { isAxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
-import httpClient, { ErrorResponseBody } from "../utils/httpClient";
+import apiClient, { ApiResponseError } from "../utils/apiClient";
 import pageUrl from "../utils/pageUrl";
 
 type LoginRequest = {
@@ -28,19 +27,20 @@ type LoginResult = LoggedIn | InvalidCredential;
 
 async function login(credential: LoginRequest): Promise<LoginResult> {
   try {
-    const { data } = await httpClient.post<LoginResponse>("/auth/login", credential);
+    const { data } = await apiClient.post<LoginResponse>("/auth/login", credential);
     return {
       result: "loggedIn",
       ...data,
     };
   } catch (error) {
-    if (isAxiosError<ErrorResponseBody>(error) && error.response) {
-      const { status, data } = error.response;
-      if (status === 401) {
-        return {
-          result: "invalidCredential",
-          reason: data.errorMessage,
-        };
+    if (error instanceof ApiResponseError) {
+      switch (error.statusCode) {
+        case 401: {
+          return {
+            result: "invalidCredential",
+            reason: error.message,
+          };
+        }
       }
     }
     throw error;
