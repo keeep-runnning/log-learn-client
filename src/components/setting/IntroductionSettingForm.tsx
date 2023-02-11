@@ -1,13 +1,48 @@
 import { FormEvent, useState } from "react";
-import { Box, Button, Flex, FormControl, FormLabel } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 import Editor from "../common/Editor/Editor";
+import useIntroductionSetting from "../../hooks/useIntroductionSetting";
+import pageUrl from "../../utils/pageUrl";
 
-export default function IntroductionSettingForm() {
-  const [introduction, setIntroduction] = useState("");
+type IntroductionSettingFormProps = {
+  defaultIntroduction: string;
+};
+
+export default function IntroductionSettingForm({
+  defaultIntroduction,
+}: IntroductionSettingFormProps) {
+  const toast = useToast();
+
+  const navigate = useNavigate();
+
+  const introductionSettingMutation = useIntroductionSetting();
+
+  const [introduction, setIntroduction] = useState(defaultIntroduction);
 
   const handleSubmit = (e: FormEvent<HTMLDivElement>): void => {
     e.preventDefault();
+
+    introductionSettingMutation.mutate(introduction, {
+      onSuccess: (introductionSettingResult) => {
+        if (introductionSettingResult.result === "submitted") {
+          toast({
+            description: "소개가 수정되었습니다",
+            status: "success",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
+        } else if (introductionSettingResult.result === "unauthenticated") {
+          navigate(pageUrl.getLoginPageUrl(), { replace: true });
+        }
+      },
+    });
+  };
+
+  const handleClickClearButton = () => {
+    setIntroduction("");
   };
 
   return (
@@ -18,15 +53,19 @@ export default function IntroductionSettingForm() {
           <Editor value={introduction} onChange={setIntroduction} />
         </Box>
       </FormControl>
-      <Button
-        type="submit"
-        size="sm"
-        colorScheme="main"
-        loadingText="수정 중..."
-        alignSelf="flex-end"
-      >
-        수정하기
-      </Button>
+      <ButtonGroup variant="ghost" size="sm" justifyContent="flex-end">
+        <Button type="button" colorScheme="red" onClick={handleClickClearButton}>
+          전체 지우기
+        </Button>
+        <Button
+          type="submit"
+          colorScheme="main"
+          isLoading={introductionSettingMutation.isLoading}
+          loadingText="수정 중..."
+        >
+          수정하기
+        </Button>
+      </ButtonGroup>
     </Flex>
   );
 }

@@ -19,7 +19,7 @@ export default function MainSettingTab() {
           <UsernameSettingForm defaultUsername={data.username} />
           <EmailSettingForm defaultEmail={data.email} />
           <ShortIntroductionSettingForm defaultShortIntroduction={data.shortIntroduction} />
-          <IntroductionSettingForm />
+          <IntroductionSettingForm defaultIntroduction={data.introduction} />
         </VStack>
       );
     } else {
