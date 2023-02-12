@@ -27,7 +27,7 @@ async function setShortIntroduction(
 ): Promise<SetShortIntroductionResult> {
   try {
     const { data } = await apiClient.put<SetShortIntroductionResponse>(
-      "/auth/settings/short-introduction",
+      "/auth/me/short-introduction",
       { shortIntroduction }
     );
     return {
@@ -61,11 +61,10 @@ export default function useShortIntroductionSetting() {
   return useMutation({
     mutationFn: setShortIntroduction,
     onSuccess: (shortIntroductionSettingResult) => {
-      if (shortIntroductionSettingResult.result === "submitted") {
-        queryClient.invalidateQueries({
-          queryKey: ["setting"],
-        });
-      } else if (shortIntroductionSettingResult.result === "unauthenticated") {
+      if (
+        shortIntroductionSettingResult.result === "submitted" ||
+        shortIntroductionSettingResult.result === "unauthenticated"
+      ) {
         queryClient.invalidateQueries({
           queryKey: ["me"],
         });

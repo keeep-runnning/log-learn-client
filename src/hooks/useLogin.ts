@@ -10,8 +10,11 @@ type LoginRequest = {
 };
 
 type LoginResponse = {
-  userId: number;
+  id: number;
   username: string;
+  email: string;
+  shortIntroduction: string;
+  introduction: string;
 };
 
 type LoggedIn = {

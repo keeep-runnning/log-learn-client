@@ -19,7 +19,7 @@ type SetIntroductionResult = Submitted | Unauthenticated;
 
 async function setIntroduction(introduction: string): Promise<SetIntroductionResult> {
   try {
-    const { data } = await apiClient.put<SetIntroductionResponse>("/auth/settings/introduction", {
+    const { data } = await apiClient.put<SetIntroductionResponse>("/auth/me/introduction", {
       introduction,
     });
     return {
@@ -47,7 +47,10 @@ export default function useIntroductionSetting() {
   return useMutation({
     mutationFn: setIntroduction,
     onSuccess: (introductionSettingResult) => {
-      if (introductionSettingResult.result === "unauthenticated") {
+      if (
+        introductionSettingResult.result === "submitted" ||
+        introductionSettingResult.result === "unauthenticated"
+      ) {
         queryClient.invalidateQueries({
           queryKey: ["me"],
         });

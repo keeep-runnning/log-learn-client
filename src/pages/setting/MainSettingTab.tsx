@@ -5,36 +5,36 @@ import UsernameSettingForm from "../../components/setting/UsernameSettingForm";
 import EmailSettingForm from "../../components/setting/EmailSettingForm";
 import ShortIntroductionSettingForm from "../../components/setting/ShortIntroductionSettingForm";
 import IntroductionSettingForm from "../../components/setting/IntroductionSettingForm";
-import useSettingQuery from "../../hooks/useSettingQuery";
 import pageUrl from "../../utils/pageUrl";
+import useMeQuery from "../../hooks/useMeQuery";
 
 export default function MainSettingTab() {
-  const setting = useSettingQuery();
+  const me = useMeQuery();
 
-  if (setting.isSuccess) {
-    const { data } = setting;
-    if (data.result === "loaded") {
-      return (
-        <VStack alignItems="stretch" spacing={10} divider={<StackDivider borderColor="gray.300" />}>
-          <UsernameSettingForm defaultUsername={data.username} />
-          <EmailSettingForm defaultEmail={data.email} />
-          <ShortIntroductionSettingForm defaultShortIntroduction={data.shortIntroduction} />
-          <IntroductionSettingForm defaultIntroduction={data.introduction} />
-        </VStack>
-      );
-    } else {
-      return <Navigate to={pageUrl.getLoginPageUrl()} />;
+  if (me.data) {
+    if (!me.data.isLoggedIn) {
+      return <Navigate to={pageUrl.getLoginPageUrl()} replace />;
     }
-  }
 
-  if (setting.isLoading) {
+    const { username, email, shortIntroduction, introduction } = me.data;
     return (
-      <Flex direction="column" alignItems="center" rowGap={6} p={6}>
-        <Spinner size="lg" color="main.500" />
-        <Text>설정 정보를 가져오는 중입니다...</Text>
-      </Flex>
+      <VStack alignItems="stretch" spacing={10} divider={<StackDivider borderColor="gray.300" />}>
+        <UsernameSettingForm defaultUsername={username} />
+        <EmailSettingForm defaultEmail={email} />
+        <ShortIntroductionSettingForm defaultShortIntroduction={shortIntroduction} />
+        <IntroductionSettingForm defaultIntroduction={introduction} />
+      </VStack>
     );
   }
 
-  return null;
+  if (me.isError) {
+    return null;
+  }
+
+  return (
+    <Flex direction="column" alignItems="center" rowGap={6} p={6}>
+      <Spinner size="lg" color="main.500" />
+      <Text>설정 정보를 가져오는 중입니다...</Text>
+    </Flex>
+  );
 }

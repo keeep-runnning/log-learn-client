@@ -29,7 +29,7 @@ type SetUsernameResult = Submitted | Unauthenticated | UsernameExists | FieldInv
 
 async function setUsername(username: string): Promise<SetUsernameResult> {
   try {
-    const { data } = await apiClient.put<SetUsernameResponse>("/auth/settings/username", {
+    const { data } = await apiClient.put<SetUsernameResponse>("/auth/me/username", {
       username,
     });
     return {
@@ -69,14 +69,10 @@ export default function useUsernameSetting() {
   return useMutation({
     mutationFn: setUsername,
     onSuccess: (usernameSettingResult) => {
-      if (usernameSettingResult.result === "submitted") {
-        queryClient.invalidateQueries({
-          queryKey: ["setting"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["me"],
-        });
-      } else if (usernameSettingResult.result === "unauthenticated") {
+      if (
+        usernameSettingResult.result === "submitted" ||
+        usernameSettingResult.result === "unauthenticated"
+      ) {
         queryClient.invalidateQueries({
           queryKey: ["me"],
         });

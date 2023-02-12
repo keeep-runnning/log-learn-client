@@ -12,9 +12,11 @@ type SignUpRequest = {
 };
 
 type SignUpResponse = {
-  userId: number;
+  id: number;
   username: string;
   email: string;
+  shortIntroduction: string;
+  introduction: string;
 };
 
 type Submitted = {

@@ -30,7 +30,7 @@ type SetPasswordResult = Submitted | FieldsInvalid | Unauthenticated | OldPasswo
 
 async function setPassword(passwords: SetPasswordRequest): Promise<SetPasswordResult> {
   try {
-    await apiClient.put("/auth/settings/password", passwords);
+    await apiClient.put("/auth/me/password", passwords);
     return {
       result: "submitted",
     };
