@@ -1,8 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 
 import apiClient, { ApiResponseError } from "../utils/apiClient";
-import pageUrl from "../utils/pageUrl";
 
 type LoginRequest = {
   email: string;
@@ -51,7 +49,6 @@ async function login(credential: LoginRequest): Promise<LoginResult> {
 }
 
 export default function useLogin() {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -61,7 +58,6 @@ export default function useLogin() {
         queryClient.invalidateQueries({
           queryKey: ["me"],
         });
-        navigate(pageUrl.getUserHomePageUrl(loginResult.username), { replace: true });
       }
     },
   });

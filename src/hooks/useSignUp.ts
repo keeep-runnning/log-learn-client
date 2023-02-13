@@ -1,9 +1,6 @@
-import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "../utils/apiClient";
-import pageUrl from "../utils/pageUrl";
 
 type SignUpRequest = {
   username: string;
@@ -64,23 +61,7 @@ async function signUp(newUser: SignUpRequest): Promise<SignUpResult> {
 }
 
 export default function useSignUp() {
-  const navigate = useNavigate();
-  const toast = useToast();
-
   return useMutation({
     mutationFn: signUp,
-    onSuccess: (signUpResult) => {
-      if (signUpResult.result === "submitted") {
-        navigate(pageUrl.getLoginPageUrl(), { replace: true });
-        toast({
-          title: "회원가입 성공",
-          description: `${signUpResult.username}님 환영합니다. 로그인 해주세요.`,
-          status: "success",
-          position: "top",
-          duration: 5000,
-          isClosable: true,
-        });
-      }
-    },
   });
 }

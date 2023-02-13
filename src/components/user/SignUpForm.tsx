@@ -8,11 +8,14 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import useSignUp from "../../hooks/useSignUp";
+import pageUrl from "../../utils/pageUrl";
 
 type SignUpFormData = {
   username: string;
@@ -41,12 +44,26 @@ export default function SignUpForm() {
 
   const [alertMessage, setAlertMessage] = useState("");
 
+  const navigate = useNavigate();
+
+  const toast = useToast();
+
   const handleSubmitSignUpForm = handleSubmit(({ username, email, password }) => {
     signUpMutation.mutate(
       { username, email, password },
       {
         onSuccess: (signUpResult) => {
-          if (signUpResult.result === "failed") {
+          if (signUpResult.result === "submitted") {
+            navigate(pageUrl.getLoginPageUrl(), { replace: true });
+            toast({
+              title: "회원가입 성공",
+              description: `${signUpResult.username}님 환영합니다. 로그인 해주세요.`,
+              status: "success",
+              position: "top",
+              isClosable: true,
+              variant: "subtle",
+            });
+          } else if (signUpResult.result === "failed") {
             setAlertMessage(signUpResult.reason);
           } else if (signUpResult.result === "invalidFields") {
             signUpResult.fieldErrors.forEach(({ field, reason }) => {
