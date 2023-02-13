@@ -98,6 +98,7 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
         type="submit"
         size="sm"
         colorScheme="main"
+        variant="ghost"
         isLoading={usernameSettingMutation.isLoading}
         loadingText="수정 중..."
         alignSelf="flex-end"

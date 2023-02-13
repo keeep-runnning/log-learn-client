@@ -171,6 +171,7 @@ export default function PasswordSettingForm() {
         type="submit"
         size="sm"
         colorScheme="main"
+        variant="ghost"
         isLoading={passwordSettingMutation.isLoading}
         loadingText="수정 중..."
       >

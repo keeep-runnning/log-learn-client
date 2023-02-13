@@ -100,6 +100,7 @@ export default function ShortIntroductionSettingForm({
         type="submit"
         size="sm"
         colorScheme="main"
+        variant="ghost"
         isLoading={shortIntroductionSettingMutation.isLoading}
         loadingText="수정 중..."
         alignSelf="flex-end"
