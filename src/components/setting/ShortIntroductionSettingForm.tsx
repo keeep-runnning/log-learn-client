@@ -50,11 +50,10 @@ export default function ShortIntroductionSettingForm({
             shortIntroduction: shortIntroductionSettingResult.shortIntroduction,
           });
           toast({
-            duration: 4000,
-            isClosable: true,
-            position: "top",
-            status: "success",
             description: "짧은 소개가 변경되었습니다",
+            status: "success",
+            position: "top",
+            isClosable: true,
           });
         } else if (shortIntroductionSettingResult.result === "unauthenticated") {
           navigate(pageUrl.getLoginPageUrl(), {

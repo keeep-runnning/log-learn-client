@@ -49,11 +49,10 @@ export default function PasswordSettingForm() {
           if (passwordSettingResult.result === "submitted") {
             reset();
             toast({
-              duration: 4000,
-              isClosable: true,
-              position: "top",
-              status: "success",
               description: "비밀번호가 변경되었습니다",
+              status: "success",
+              position: "top",
+              isClosable: true,
             });
           } else if (passwordSettingResult.result === "fieldsInvalid") {
             passwordSettingResult.fieldErrors.forEach(({ field, reason }) => {

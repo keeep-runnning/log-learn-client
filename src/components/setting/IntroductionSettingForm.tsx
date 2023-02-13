@@ -30,9 +30,8 @@ export default function IntroductionSettingForm({
           toast({
             description: "소개가 수정되었습니다",
             status: "success",
-            duration: 4000,
-            isClosable: true,
             position: "top",
+            isClosable: true,
           });
         } else if (introductionSettingResult.result === "unauthenticated") {
           navigate(pageUrl.getLoginPageUrl(), { replace: true });

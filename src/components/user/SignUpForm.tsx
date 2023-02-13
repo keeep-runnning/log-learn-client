@@ -61,7 +61,6 @@ export default function SignUpForm() {
               status: "success",
               position: "top",
               isClosable: true,
-              variant: "subtle",
             });
           } else if (signUpResult.result === "failed") {
             setAlertMessage(signUpResult.reason);

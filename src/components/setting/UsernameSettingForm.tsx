@@ -1,4 +1,12 @@
-import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  useToast,
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -30,12 +38,20 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
 
   const navigate = useNavigate();
 
+  const toast = useToast();
+
   const handleSubmitUsernameSettingForm = handleSubmit(({ username }) => {
     usernameSettingMutation.mutate(username, {
       onSuccess: (usernameSettingResult) => {
         if (usernameSettingResult.result === "submitted") {
           reset({
             username: usernameSettingResult.username,
+          });
+          toast({
+            description: `유저이름이 변경되었습니다 (변경된 이름: ${usernameSettingResult.username})`,
+            position: "top",
+            status: "success",
+            isClosable: true,
           });
         } else if (usernameSettingResult.result === "fieldInvalid") {
           usernameSettingResult.fieldErrors.forEach(({ field, reason }) => {
