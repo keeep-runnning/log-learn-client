@@ -69,10 +69,7 @@ export default function useUsernameSetting() {
   return useMutation({
     mutationFn: setUsername,
     onSuccess: (usernameSettingResult) => {
-      if (
-        usernameSettingResult.result === "submitted" ||
-        usernameSettingResult.result === "unauthenticated"
-      ) {
+      if (usernameSettingResult.result === "submitted") {
         queryClient.invalidateQueries({
           queryKey: ["me"],
         });

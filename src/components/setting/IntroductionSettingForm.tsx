@@ -1,10 +1,9 @@
 import { FormEvent, useState } from "react";
 import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
 import Editor from "../common/Editor/Editor";
 import useIntroductionSetting from "../../hooks/useIntroductionSetting";
-import pageUrl from "../../utils/pageUrl";
+import useHandleUnauthenticatedError from "../../hooks/useHandleUnauthenticatedError";
 
 type IntroductionSettingFormProps = {
   defaultIntroduction: string;
@@ -13,13 +12,13 @@ type IntroductionSettingFormProps = {
 export default function IntroductionSettingForm({
   defaultIntroduction,
 }: IntroductionSettingFormProps) {
-  const toast = useToast();
+  const [introduction, setIntroduction] = useState(defaultIntroduction);
 
-  const navigate = useNavigate();
+  const toast = useToast();
 
   const introductionSettingMutation = useIntroductionSetting();
 
-  const [introduction, setIntroduction] = useState(defaultIntroduction);
+  const handleUnauthenticatedError = useHandleUnauthenticatedError();
 
   const handleSubmit = (e: FormEvent<HTMLDivElement>): void => {
     e.preventDefault();
@@ -34,7 +33,7 @@ export default function IntroductionSettingForm({
             isClosable: true,
           });
         } else if (introductionSettingResult.result === "unauthenticated") {
-          navigate(pageUrl.getLoginPageUrl(), { replace: true });
+          handleUnauthenticatedError();
         }
       },
     });

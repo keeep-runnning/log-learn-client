@@ -47,10 +47,7 @@ export default function useIntroductionSetting() {
   return useMutation({
     mutationFn: setIntroduction,
     onSuccess: (introductionSettingResult) => {
-      if (
-        introductionSettingResult.result === "submitted" ||
-        introductionSettingResult.result === "unauthenticated"
-      ) {
+      if (introductionSettingResult.result === "submitted") {
         queryClient.invalidateQueries({
           queryKey: ["me"],
         });

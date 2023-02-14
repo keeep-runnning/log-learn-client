@@ -8,10 +8,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
+import useHandleUnauthenticatedError from "../../hooks/useHandleUnauthenticatedError";
 import useUsernameSetting from "../../hooks/useUsernameSetting";
-import pageUrl from "../../utils/pageUrl";
 
 type UsernameSettingFormProps = {
   defaultUsername: string;
@@ -36,9 +35,9 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
 
   const usernameSettingMutation = useUsernameSetting();
 
-  const navigate = useNavigate();
-
   const toast = useToast();
+
+  const handleUnauthenticatedError = useHandleUnauthenticatedError();
 
   const handleSubmitUsernameSettingForm = handleSubmit(({ username }) => {
     usernameSettingMutation.mutate(username, {
@@ -63,9 +62,7 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
             }
           });
         } else if (usernameSettingResult.result === "unauthenticated") {
-          navigate(pageUrl.getLoginPageUrl(), {
-            replace: true,
-          });
+          handleUnauthenticatedError();
         } else if (usernameSettingResult.result === "usernameExists") {
           setError("username", {
             type: "usernameExists",

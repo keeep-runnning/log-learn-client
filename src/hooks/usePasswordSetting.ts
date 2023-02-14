@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "../utils/apiClient";
 
@@ -62,16 +62,5 @@ async function setPassword(passwords: SetPasswordRequest): Promise<SetPasswordRe
 }
 
 export default function usePasswordSetting() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: setPassword,
-    onSuccess: (passwordSettingResult) => {
-      if (passwordSettingResult.result === "unauthenticated") {
-        queryClient.invalidateQueries({
-          queryKey: ["me"],
-        });
-      }
-    },
-  });
+  return useMutation({ mutationFn: setPassword });
 }

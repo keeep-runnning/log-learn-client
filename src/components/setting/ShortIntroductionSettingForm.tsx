@@ -8,10 +8,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
+import useHandleUnauthenticatedError from "../../hooks/useHandleUnauthenticatedError";
 import useShortIntroductionSetting from "../../hooks/useShortIntroductionSetting";
-import pageUrl from "../../utils/pageUrl";
 
 type ShortIntroductionSettingFormProps = {
   defaultShortIntroduction: string;
@@ -25,8 +24,6 @@ export default function ShortIntroductionSettingForm({
   defaultShortIntroduction,
 }: ShortIntroductionSettingFormProps) {
   const toast = useToast();
-
-  const navigate = useNavigate();
 
   const {
     register,
@@ -42,6 +39,8 @@ export default function ShortIntroductionSettingForm({
 
   const shortIntroductionSettingMutation = useShortIntroductionSetting();
 
+  const handleUnauthenticatedError = useHandleUnauthenticatedError();
+
   const handleSubmitShortIntroductionSettingForm = handleSubmit(({ shortIntroduction }) => {
     shortIntroductionSettingMutation.mutate(shortIntroduction, {
       onSuccess: (shortIntroductionSettingResult) => {
@@ -56,9 +55,7 @@ export default function ShortIntroductionSettingForm({
             isClosable: true,
           });
         } else if (shortIntroductionSettingResult.result === "unauthenticated") {
-          navigate(pageUrl.getLoginPageUrl(), {
-            replace: true,
-          });
+          handleUnauthenticatedError();
         } else if (shortIntroductionSettingResult.result === "fieldInvalid") {
           shortIntroductionSettingResult.fieldErrors.forEach(({ field, reason }) => {
             if (field === "shortIntroduction") {

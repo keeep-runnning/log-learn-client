@@ -8,10 +8,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
+import useHandleUnauthenticatedError from "../../hooks/useHandleUnauthenticatedError";
 import usePasswordSetting from "../../hooks/usePasswordSetting";
-import pageUrl from "../../utils/pageUrl";
 
 type PasswordSettingFormData = {
   oldPassword: string;
@@ -21,8 +20,6 @@ type PasswordSettingFormData = {
 
 export default function PasswordSettingForm() {
   const toast = useToast();
-
-  const navigate = useNavigate();
 
   const {
     register,
@@ -40,6 +37,8 @@ export default function PasswordSettingForm() {
   });
 
   const passwordSettingMutation = usePasswordSetting();
+
+  const handleUnauthenticatedError = useHandleUnauthenticatedError();
 
   const handleSubmitPasswordSettingForm = handleSubmit(({ oldPassword, newPassword }) => {
     passwordSettingMutation.mutate(
@@ -69,9 +68,7 @@ export default function PasswordSettingForm() {
               message: passwordSettingResult.reason,
             });
           } else if (passwordSettingResult.result === "unauthenticated") {
-            navigate(pageUrl.getLoginPageUrl(), {
-              replace: true,
-            });
+            handleUnauthenticatedError();
           }
         },
       }

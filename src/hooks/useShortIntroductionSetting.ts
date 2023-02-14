@@ -61,10 +61,7 @@ export default function useShortIntroductionSetting() {
   return useMutation({
     mutationFn: setShortIntroduction,
     onSuccess: (shortIntroductionSettingResult) => {
-      if (
-        shortIntroductionSettingResult.result === "submitted" ||
-        shortIntroductionSettingResult.result === "unauthenticated"
-      ) {
+      if (shortIntroductionSettingResult.result === "submitted") {
         queryClient.invalidateQueries({
           queryKey: ["me"],
         });
