@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../utils/apiClient";
+import { LoggedInMe } from "./useMeQuery";
 
 type LoginRequest = {
   email: string;
@@ -55,9 +56,16 @@ export default function useLogin() {
     mutationFn: login,
     onSuccess: (loginResult) => {
       if (loginResult.result === "loggedIn") {
-        queryClient.invalidateQueries({
-          queryKey: ["me"],
-        });
+        const { id, username, email, shortIntroduction, introduction } = loginResult;
+        const loggedInMe: LoggedInMe = {
+          isLoggedIn: true,
+          id,
+          username,
+          email,
+          shortIntroduction,
+          introduction,
+        };
+        queryClient.setQueryData(["me"], loggedInMe);
       }
     },
   });

@@ -13,6 +13,7 @@ import PostList from "./components/post/PostList";
 import UserIntroductionViewer from "./components/user/UserIntroductionViewer";
 import MainSettingTab from "./pages/setting/MainSettingTab";
 import PasswordSettingForm from "./components/setting/PasswordSettingForm";
+import AuthChecker from "./pages/AuthChecker";
 
 export default function App() {
   return (
@@ -26,12 +27,26 @@ export default function App() {
           <Route path="introduction" element={<UserIntroductionViewer />} />
         </Route>
         <Route path="posts/:postId" element={<PostDetail />} />
-        <Route path="settings" element={<Setting />}>
+        <Route
+          path="settings"
+          element={
+            <AuthChecker>
+              <Setting />
+            </AuthChecker>
+          }
+        >
           <Route index element={<MainSettingTab />} />
           <Route path="password" element={<PasswordSettingForm />} />
         </Route>
       </Route>
-      <Route path="/posts/new" element={<PostPublication />} />
+      <Route
+        path="/posts/new"
+        element={
+          <AuthChecker>
+            <PostPublication />
+          </AuthChecker>
+        }
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

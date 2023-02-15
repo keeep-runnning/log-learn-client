@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Button,
   Menu,
@@ -24,16 +24,10 @@ type UserMenuProps = {
 };
 
 export default function UserMenu({ username }: UserMenuProps) {
-  const navigate = useNavigate();
-
   const logoutMutation = useLogout();
 
   const handleClickLogoutButton = () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        navigate("/");
-      },
-    });
+    logoutMutation.mutate();
   };
 
   const linkMenus = [

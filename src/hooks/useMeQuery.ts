@@ -10,15 +10,15 @@ type LoadMeResponse = {
   introduction: string;
 };
 
-type LoggedIn = {
+export type LoggedInMe = {
   isLoggedIn: true;
 } & LoadMeResponse;
 
-type LoggedOut = {
+export type LoggedOutMe = {
   isLoggedIn: false;
 };
 
-type LoadMeResult = LoggedIn | LoggedOut;
+type LoadMeResult = LoggedInMe | LoggedOutMe;
 
 async function loadMe(): Promise<LoadMeResult> {
   try {

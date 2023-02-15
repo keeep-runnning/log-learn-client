@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import useLogin from "../../hooks/useLogin";
 import pageUrl from "../../utils/pageUrl";
@@ -39,13 +39,17 @@ export default function LoginForm() {
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const handleSubmitLoginForm = handleSubmit(({ email, password }) => {
     loginMutation.mutate(
       { email, password },
       {
         onSuccess: (loginResult) => {
           if (loginResult.result === "loggedIn") {
-            navigate(pageUrl.getUserHomePageUrl(loginResult.username), { replace: true });
+            const redirectURL =
+              location.state?.from?.pathname || pageUrl.getUserHomePageUrl(loginResult.username);
+            navigate(redirectURL, { replace: true });
           } else if (loginResult.result === "invalidCredential") {
             setAlertMessage(loginResult.reason);
           }
