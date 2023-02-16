@@ -19,11 +19,11 @@ import {
 import pageUrl from "../../utils/pageUrl";
 import useLogout from "../../hooks/useLogout";
 
-type UserMenuProps = {
+type MyMenuProps = {
   username: string;
 };
 
-export default function UserMenu({ username }: UserMenuProps) {
+export default function MyMenu({ username }: MyMenuProps) {
   const logoutMutation = useLogout();
 
   const handleClickLogoutButton = () => {
