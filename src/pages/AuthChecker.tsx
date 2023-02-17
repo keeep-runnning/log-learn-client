@@ -1,8 +1,9 @@
-import { Container, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import { Navigate, useLocation } from "react-router-dom";
 
 import useMeQuery from "../hooks/useMeQuery";
 import { pagePath } from "../utils/page";
+import LoadingMessage from "../components/common/LoadingMessage";
 
 type AuthCheckerProps = {
   children: JSX.Element;
@@ -23,10 +24,7 @@ export default function AuthChecker({ children }: AuthCheckerProps) {
 
   return (
     <Container maxW="container.lg">
-      <Flex px={4} py={8} direction="column" rowGap={6} alignItems="center">
-        <Spinner color="main.500" />
-        <Text fontSize="2xl">잠시 기다려주세요</Text>
-      </Flex>
+      <LoadingMessage />
     </Container>
   );
 }

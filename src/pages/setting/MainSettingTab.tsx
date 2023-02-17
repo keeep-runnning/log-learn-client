@@ -1,4 +1,4 @@
-import { Flex, Spinner, StackDivider, Text, VStack } from "@chakra-ui/react";
+import { StackDivider, VStack } from "@chakra-ui/react";
 import { Navigate } from "react-router-dom";
 
 import UsernameSettingForm from "../../components/setting/UsernameSettingForm";
@@ -7,6 +7,7 @@ import ShortIntroductionSettingForm from "../../components/setting/ShortIntroduc
 import IntroductionSettingForm from "../../components/setting/IntroductionSettingForm";
 import { pagePath } from "../../utils/page";
 import useMeQuery from "../../hooks/useMeQuery";
+import LoadingMessage from "../../components/common/LoadingMessage";
 
 export default function MainSettingTab() {
   const me = useMeQuery();
@@ -27,14 +28,5 @@ export default function MainSettingTab() {
     );
   }
 
-  if (me.isError) {
-    return null;
-  }
-
-  return (
-    <Flex direction="column" alignItems="center" rowGap={6} p={6}>
-      <Spinner size="lg" color="main.500" />
-      <Text>설정 정보를 가져오는 중입니다...</Text>
-    </Flex>
-  );
+  return <LoadingMessage />;
 }

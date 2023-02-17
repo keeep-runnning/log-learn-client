@@ -1,11 +1,12 @@
 import { useParams, Outlet } from "react-router-dom";
-import { Container, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 
 import { pagePath } from "../utils/page";
 import UserProfileCard from "../components/user/UserProfileCard";
 import NavLinkTabs from "../components/common/NavLinkTabs";
 import useUserInfoQuery from "../hooks/useUserInfoQuery";
 import NotFound from "./NotFound";
+import LoadingMessage from "../components/common/LoadingMessage";
 
 export default function UserBlog() {
   const params = useParams();
@@ -38,10 +39,7 @@ export default function UserBlog() {
 
   return (
     <Container maxW="container.lg">
-      <Flex px={4} py={8} direction="column" rowGap={6} alignItems="center">
-        <Spinner color="main.500" />
-        <Text fontSize="2xl">잠시 기다려주세요</Text>
-      </Flex>
+      <LoadingMessage />
     </Container>
   );
 }
