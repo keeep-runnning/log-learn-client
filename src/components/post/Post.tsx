@@ -55,7 +55,7 @@ export default function Post({ postId }: PostProps) {
             <Flex columnGap={2} alignItems="center">
               <Link
                 as={ReactRouterLink}
-                to={pagePath.getUserHome(dummyPost.author)}
+                to={pagePath.getUserBlog(dummyPost.author)}
                 fontWeight="bold"
               >
                 {dummyPost.author}

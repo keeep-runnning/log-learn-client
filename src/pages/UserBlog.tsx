@@ -5,7 +5,7 @@ import { pagePath } from "../utils/page";
 import UserProfileCard from "../components/user/UserProfileCard";
 import NavLinkTabs from "../components/common/NavLinkTabs";
 
-export default function UserHome() {
+export default function UserBlog() {
   const { username } = useParams();
 
   const dummyUser = {
@@ -20,7 +20,7 @@ export default function UserHome() {
         <UserProfileCard user={dummyUser} />
         <NavLinkTabs
           navLinkTabs={[
-            { name: "포스트", link: pagePath.getUserHome(dummyUser.username) },
+            { name: "포스트", link: pagePath.getUserBlog(dummyUser.username) },
             { name: "소개", link: pagePath.getUserIntroduction(dummyUser.username) },
           ]}
         />

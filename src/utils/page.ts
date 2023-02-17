@@ -2,7 +2,7 @@ export const pageKeyword = Object.freeze({
   signUp: "sign-up",
   login: "login",
   settings: "settings",
-  users: "users",
+  blogs: "blogs",
   posts: "posts",
   new: "new",
   introduction: "introduction",
@@ -22,11 +22,11 @@ export const pagePath = Object.freeze({
   getPasswordSetting(): string {
     return `${this.getSetting()}/${pageKeyword.password}`;
   },
-  getUserHome(username: string): string {
-    return `/${pageKeyword.users}/${encodeURIComponent(username)}`;
+  getUserBlog(username: string): string {
+    return `/${pageKeyword.blogs}/${encodeURIComponent(username)}`;
   },
   getUserIntroduction(username: string): string {
-    return `${this.getUserHome(username)}/${pageKeyword.introduction}`;
+    return `${this.getUserBlog(username)}/${pageKeyword.introduction}`;
   },
   getPostDetail(postId: number): string {
     return `/${pageKeyword.posts}/${postId}`;

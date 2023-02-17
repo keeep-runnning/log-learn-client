@@ -4,7 +4,7 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import UserHome from "./pages/UserHome";
+import UserBlog from "./pages/UserBlog";
 import PostPublication from "./pages/PostPublication";
 import PostDetail from "./pages/PostDetail";
 import NotFound from "./pages/NotFound";
@@ -23,7 +23,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path={`${pageKeyword.signUp}`} element={<SignUp />} />
         <Route path={`${pageKeyword.login}`} element={<Login />} />
-        <Route path={`${pageKeyword.users}/:username`} element={<UserHome />}>
+        <Route path={`${pageKeyword.blogs}/:username`} element={<UserBlog />}>
           <Route index element={<PostList />} />
           <Route path={`${pageKeyword.introduction}`} element={<UserIntroductionViewer />} />
         </Route>
