@@ -1,14 +1,10 @@
 import { Link } from "react-router-dom";
-import Logo from "../components/common/Logo";
 import { Button, Container, Flex, Heading, Text } from "@chakra-ui/react";
 
 export default function NotFound() {
   return (
     <Container maxW="container.xl">
       <Flex mt={24} direction="column" alignItems="center" rowGap={12}>
-        <Link to="/">
-          <Logo />
-        </Link>
         <Text as="span" fontSize="5xl" fontWeight="bold" color="main.500">
           404
         </Text>
