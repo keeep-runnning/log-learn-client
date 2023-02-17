@@ -14,21 +14,22 @@ import UserIntroductionViewer from "./components/user/UserIntroductionViewer";
 import MainSettingTab from "./pages/setting/MainSettingTab";
 import PasswordSettingForm from "./components/setting/PasswordSettingForm";
 import AuthChecker from "./pages/AuthChecker";
+import { pageKeyword } from "./utils/page";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="signup" element={<SignUp />} />
-        <Route path="login" element={<Login />} />
-        <Route path="users/:username" element={<UserHome />}>
+        <Route path={`${pageKeyword.signUp}`} element={<SignUp />} />
+        <Route path={`${pageKeyword.login}`} element={<Login />} />
+        <Route path={`${pageKeyword.users}/:username`} element={<UserHome />}>
           <Route index element={<PostList />} />
-          <Route path="introduction" element={<UserIntroductionViewer />} />
+          <Route path={`${pageKeyword.introduction}`} element={<UserIntroductionViewer />} />
         </Route>
-        <Route path="posts/:postId" element={<PostDetail />} />
+        <Route path={`${pageKeyword.posts}/:postId`} element={<PostDetail />} />
         <Route
-          path="settings"
+          path={`${pageKeyword.settings}`}
           element={
             <AuthChecker>
               <Setting />
@@ -36,11 +37,11 @@ export default function App() {
           }
         >
           <Route index element={<MainSettingTab />} />
-          <Route path="password" element={<PasswordSettingForm />} />
+          <Route path={`${pageKeyword.password}`} element={<PasswordSettingForm />} />
         </Route>
       </Route>
       <Route
-        path="/posts/new"
+        path={`/${pageKeyword.posts}/${pageKeyword.new}`}
         element={
           <AuthChecker>
             <PostPublication />

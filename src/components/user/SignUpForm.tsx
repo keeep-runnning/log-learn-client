@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import useSignUp from "../../hooks/useSignUp";
-import pageUrl from "../../utils/pageUrl";
+import { pagePath } from "../../utils/page";
 
 type SignUpFormData = {
   username: string;
@@ -54,7 +54,7 @@ export default function SignUpForm() {
       {
         onSuccess: (signUpResult) => {
           if (signUpResult.result === "submitted") {
-            navigate(pageUrl.getLoginPageUrl(), { replace: true });
+            navigate(pagePath.getLogin(), { replace: true });
             toast({
               title: "회원가입 성공",
               description: `${signUpResult.username}님 환영합니다. 로그인 해주세요.`,

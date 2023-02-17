@@ -16,7 +16,7 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 
-import pageUrl from "../../utils/pageUrl";
+import { pagePath } from "../../utils/page";
 import useLogout from "../../hooks/useLogout";
 
 type MyMenuProps = {
@@ -33,11 +33,11 @@ export default function MyMenu({ username }: MyMenuProps) {
   const linkMenus = [
     {
       name: "내 블로그로 이동",
-      link: pageUrl.getUserHomePageUrl(username),
+      link: pagePath.getUserHome(username),
       icon: <IoHomeOutline />,
     },
-    { name: "글쓰기", link: pageUrl.getPostPublicationPageUrl(), icon: <IoPencil /> },
-    { name: "설정", link: pageUrl.getSettingsPageUrl(), icon: <IoSettingsOutline /> },
+    { name: "글쓰기", link: pagePath.getPostPublication(), icon: <IoPencil /> },
+    { name: "설정", link: pagePath.getSetting(), icon: <IoSettingsOutline /> },
   ];
 
   return (

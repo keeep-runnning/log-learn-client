@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import SignUpForm from "../components/user/SignUpForm";
-import pageUrl from "../utils/pageUrl";
+import { pagePath } from "../utils/page";
 import { Container, Flex, Text } from "@chakra-ui/react";
 import AuthFormHeader from "../components/user/AuthFormHeader";
 
@@ -19,7 +19,7 @@ export default function SignUp() {
         </Text>
         <Text textAlign="center" fontSize="sm">
           이미 계정이 있으신가요?{" "}
-          <Link to={pageUrl.getLoginPageUrl()}>
+          <Link to={pagePath.getLogin()}>
             <Text as="span" _hover={{ fontWeight: "bold" }}>
               로그인 하기 &gt;
             </Text>

@@ -1,7 +1,7 @@
 import { useParams, Outlet } from "react-router-dom";
 import { Container, Flex } from "@chakra-ui/react";
 
-import pageUrl from "../utils/pageUrl";
+import { pagePath } from "../utils/page";
 import UserProfileCard from "../components/user/UserProfileCard";
 import NavLinkTabs from "../components/common/NavLinkTabs";
 
@@ -20,8 +20,8 @@ export default function UserHome() {
         <UserProfileCard user={dummyUser} />
         <NavLinkTabs
           navLinkTabs={[
-            { name: "포스트", link: pageUrl.getUserHomePageUrl(dummyUser.username) },
-            { name: "소개", link: pageUrl.getUserIntroductionPageUrl(dummyUser.username) },
+            { name: "포스트", link: pagePath.getUserHome(dummyUser.username) },
+            { name: "소개", link: pagePath.getUserIntroduction(dummyUser.username) },
           ]}
         />
         <Outlet context={{ userData: dummyUser }} />

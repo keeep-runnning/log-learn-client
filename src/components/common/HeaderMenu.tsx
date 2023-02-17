@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Skeleton } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import useMeQuery from "../../hooks/useMeQuery";
-import pageUrl from "../../utils/pageUrl";
+import { pagePath } from "../../utils/page";
 import MyMenu from "./MyMenu";
 
 export default function HeaderMenu() {
@@ -12,10 +12,10 @@ export default function HeaderMenu() {
     if (!me.data.isLoggedIn) {
       return (
         <ButtonGroup colorScheme="main" size="sm">
-          <Button as={Link} to={pageUrl.getLoginPageUrl()} variant="ghost">
+          <Button as={Link} to={pagePath.getLogin()} variant="ghost">
             로그인
           </Button>
-          <Button as={Link} to={pageUrl.getSignUpPageUrl()}>
+          <Button as={Link} to={pagePath.getSignUp()}>
             회원가입
           </Button>
         </ButtonGroup>

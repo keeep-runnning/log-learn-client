@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import useLogin from "../../hooks/useLogin";
-import pageUrl from "../../utils/pageUrl";
+import { pagePath } from "../../utils/page";
 
 type LoginFormData = {
   email: string;
@@ -48,7 +48,7 @@ export default function LoginForm() {
         onSuccess: (loginResult) => {
           if (loginResult.result === "loggedIn") {
             const redirectURL =
-              location.state?.from?.pathname || pageUrl.getUserHomePageUrl(loginResult.username);
+              location.state?.from?.pathname || pagePath.getUserHome(loginResult.username);
             navigate(redirectURL, { replace: true });
           } else if (loginResult.result === "invalidCredential") {
             setAlertMessage(loginResult.reason);

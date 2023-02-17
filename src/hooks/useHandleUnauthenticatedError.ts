@@ -2,7 +2,7 @@ import { useToast } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import pageUrl from "../utils/pageUrl";
+import { pagePath } from "../utils/page";
 import { LoggedOutMe } from "./useMeQuery";
 
 export default function useHandleUnauthenticatedError() {
@@ -20,7 +20,7 @@ export default function useHandleUnauthenticatedError() {
     };
     queryClient.setQueryData(["me"], loggedOutMe);
 
-    navigate(pageUrl.getLoginPageUrl(), {
+    navigate(pagePath.getLogin(), {
       replace: true,
       state: { from: location },
     });

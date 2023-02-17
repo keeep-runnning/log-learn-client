@@ -15,7 +15,7 @@ import {
 
 import PostEditForm from "./PostEditForm";
 import DateTime from "../common/DateTime";
-import pageUrl from "../../utils/pageUrl";
+import { pagePath } from "../../utils/page";
 
 const dummyPost = {
   id: 1,
@@ -55,7 +55,7 @@ export default function Post({ postId }: PostProps) {
             <Flex columnGap={2} alignItems="center">
               <Link
                 as={ReactRouterLink}
-                to={pageUrl.getUserHomePageUrl(dummyPost.author)}
+                to={pagePath.getUserHome(dummyPost.author)}
                 fontWeight="bold"
               >
                 {dummyPost.author}

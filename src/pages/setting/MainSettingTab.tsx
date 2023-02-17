@@ -5,7 +5,7 @@ import UsernameSettingForm from "../../components/setting/UsernameSettingForm";
 import EmailSettingForm from "../../components/setting/EmailSettingForm";
 import ShortIntroductionSettingForm from "../../components/setting/ShortIntroductionSettingForm";
 import IntroductionSettingForm from "../../components/setting/IntroductionSettingForm";
-import pageUrl from "../../utils/pageUrl";
+import { pagePath } from "../../utils/page";
 import useMeQuery from "../../hooks/useMeQuery";
 
 export default function MainSettingTab() {
@@ -13,7 +13,7 @@ export default function MainSettingTab() {
 
   if (me.data) {
     if (!me.data.isLoggedIn) {
-      return <Navigate to={pageUrl.getLoginPageUrl()} replace />;
+      return <Navigate to={pagePath.getLogin()} replace />;
     }
 
     const { username, email, shortIntroduction, introduction } = me.data;
