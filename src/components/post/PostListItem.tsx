@@ -25,7 +25,7 @@ export default function PostListItem({ post }: PostListItemProps) {
         {post.title}
       </Link>
       <Flex alignItems="center" columnGap={2}>
-        <Link as={ReactRouterLink} to={pagePath.getUserBlog(post.authorName)}>
+        <Link as={ReactRouterLink} to={pagePath.getBlog(post.authorName)}>
           {post.authorName}
         </Link>
         &middot;

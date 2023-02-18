@@ -48,7 +48,7 @@ export default function LoginForm() {
         onSuccess: (loginResult) => {
           if (loginResult.result === "loggedIn") {
             const redirectURL =
-              location.state?.from?.pathname || pagePath.getUserBlog(loginResult.username);
+              location.state?.from?.pathname || pagePath.getBlog(loginResult.username);
             navigate(redirectURL, { replace: true });
           } else if (loginResult.result === "invalidCredential") {
             setAlertMessage(loginResult.reason);

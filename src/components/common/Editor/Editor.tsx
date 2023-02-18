@@ -35,7 +35,7 @@ const formats = [
 export default function Editor({ value, onChange }: EditorProps) {
   return (
     <ReactQuill
-      className="editor"
+      className="custom-editor"
       theme="snow"
       modules={modules}
       formats={formats}

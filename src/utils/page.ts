@@ -22,11 +22,11 @@ export const pagePath = Object.freeze({
   getPasswordSetting(): string {
     return `${this.getSetting()}/${pageKeyword.password}`;
   },
-  getUserBlog(username: string): string {
-    return `/${pageKeyword.blogs}/${encodeURIComponent(username)}`;
+  getBlog(ownerName: string): string {
+    return `/${pageKeyword.blogs}/${encodeURIComponent(ownerName)}`;
   },
-  getUserIntroduction(username: string): string {
-    return `${this.getUserBlog(username)}/${pageKeyword.introduction}`;
+  getBlogOwnerIntroduction(ownerName: string): string {
+    return `${this.getBlog(ownerName)}/${pageKeyword.introduction}`;
   },
   getPostDetail(postId: number): string {
     return `/${pageKeyword.posts}/${postId}`;
