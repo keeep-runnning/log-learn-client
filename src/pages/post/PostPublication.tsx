@@ -1,5 +1,5 @@
 import { Box, Container } from "@chakra-ui/react";
-import PostPublicationForm from "../components/post/PostPublicationForm";
+import PostPublicationForm from "../../components/post/PostPublicationForm";
 
 export default function PostPublication() {
   return (

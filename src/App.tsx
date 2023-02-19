@@ -1,26 +1,26 @@
 import { Route, Routes } from "react-router-dom";
 
-import Layout from "./pages/Layout";
-import Home from "./pages/Home";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
+import Root from "./pages/Root";
+import Index from "./pages/Index";
+import SignUp from "./pages/auth/SignUp";
+import Login from "./pages/auth/Login";
 import Blog from "./pages/blog/Blog";
-import PostPublication from "./pages/PostPublication";
-import PostDetail from "./pages/PostDetail";
+import PostPublication from "./pages/post/PostPublication";
+import PostDetail from "./pages/post/PostDetail";
 import NotFound from "./pages/NotFound";
 import Setting from "./pages/setting/Setting";
 import PostList from "./components/post/PostList";
 import BlogOwnerIntroduction from "./pages/blog/BlogOwnerIntroduction";
-import MainSettingTab from "./pages/setting/MainSettingTab";
-import PasswordSettingForm from "./components/setting/PasswordSettingForm";
+import MainSetting from "./pages/setting/MainSetting";
+import PasswordSetting from "./pages/setting/PasswordSetting";
 import AuthChecker from "./pages/AuthChecker";
 import { pageKeyword } from "./utils/page";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
+      <Route path="/" element={<Root />}>
+        <Route index element={<Index />} />
         <Route path={`${pageKeyword.signUp}`} element={<SignUp />} />
         <Route path={`${pageKeyword.login}`} element={<Login />} />
         <Route path={`${pageKeyword.blogs}/:username`} element={<Blog />}>
@@ -36,8 +36,8 @@ export default function App() {
             </AuthChecker>
           }
         >
-          <Route index element={<MainSettingTab />} />
-          <Route path={`${pageKeyword.password}`} element={<PasswordSettingForm />} />
+          <Route index element={<MainSetting />} />
+          <Route path={`${pageKeyword.password}`} element={<PasswordSetting />} />
         </Route>
       </Route>
       <Route

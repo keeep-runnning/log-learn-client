@@ -1,5 +1,7 @@
-import { Container, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
+
 import SparklingKeyword from "../components/common/SparklingKeyword";
+import BaseContainer from "./BaseContainer";
 
 const keywords = [
   {
@@ -16,10 +18,10 @@ const keywords = [
   },
 ];
 
-export default function Home() {
+export default function Index() {
   return (
-    <Container maxW="container.xl" pt={{ base: 16, md: 20 }}>
-      <Flex direction="column" rowGap={{ base: 12, md: 16 }}>
+    <BaseContainer>
+      <Flex direction="column" rowGap={{ base: 12, md: 16 }} pt={{ base: 16, md: 20 }}>
         <Flex direction="column" rowGap={{ base: 4, md: 6 }} alignItems="center">
           {keywords.map(({ keyword, backgroundGradient }, index) => (
             <SparklingKeyword
@@ -39,13 +41,13 @@ export default function Home() {
         >
           <Text>쉽고 간단한 블로그 서비스,</Text>
           <Text>
-            <Text as="em" color="main.500" fontWeight="bold">
+            <Text as="strong" color="main.500" fontWeight="bold">
               log learn
             </Text>
-            을 이용해 학습한 내용을 정리해 보세요
+            을 이용해 학습한 내용을 정리하세요
           </Text>
         </Flex>
       </Flex>
-    </Container>
+    </BaseContainer>
   );
 }

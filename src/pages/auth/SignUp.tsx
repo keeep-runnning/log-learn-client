@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import SignUpForm from "../components/user/SignUpForm";
-import { pagePath } from "../utils/page";
+
+import SignUpForm from "../../components/user/SignUpForm";
+import { pagePath } from "../../utils/page";
 import { Container, Flex, Text } from "@chakra-ui/react";
-import AuthFormHeader from "../components/user/AuthFormHeader";
+import AuthFormHeader from "../../components/user/AuthFormHeader";
 
 export default function SignUp() {
   return (
@@ -12,7 +13,7 @@ export default function SignUp() {
         <SignUpForm />
         <Text textAlign="center" fontSize="sm">
           가입시, log learn의{" "}
-          <Text as="em" color="main.500" fontWeight="bold">
+          <Text as="strong" color="main.500" fontWeight="bold">
             이용약관
           </Text>
           에 동의합니다

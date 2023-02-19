@@ -1,20 +1,23 @@
 import { Outlet } from "react-router-dom";
-import { Container, Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 
 import NavLinkTabs from "../../components/common/NavLinkTabs";
 import { pagePath } from "../../utils/page";
+import BaseContainer from "../BaseContainer";
 
 export default function Setting() {
   return (
-    <Container maxW="container.lg">
-      <Flex direction="column" rowGap={{ base: 6, md: 8 }}>
+    <Flex direction="column" rowGap={{ base: 6, md: 8 }}>
+      <BaseContainer>
         <Heading as="h1" fontSize="2xl" fontWeight="bold">
           설정
         </Heading>
+      </BaseContainer>
+      <BaseContainer>
         <NavLinkTabs navLinkTabs={settingsNavLinks} />
-        <Outlet />
-      </Flex>
-    </Container>
+      </BaseContainer>
+      <Outlet />
+    </Flex>
   );
 }
 

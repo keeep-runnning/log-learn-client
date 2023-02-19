@@ -1,5 +1,5 @@
 import { useParams, Outlet, useOutletContext } from "react-router-dom";
-import { Container, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 import { pagePath } from "../../utils/page";
 import UserProfileCard from "../../components/user/UserProfileCard";
@@ -7,6 +7,7 @@ import NavLinkTabs from "../../components/common/NavLinkTabs";
 import useUserInfoQuery from "../../hooks/useUserInfoQuery";
 import NotFound from "../NotFound";
 import LoadingMessage from "../../components/common/LoadingMessage";
+import BaseContainer from "../BaseContainer";
 
 type BlogOwner = {
   username: string;
@@ -36,29 +37,31 @@ export default function Blog() {
     };
 
     return (
-      <Container maxW="container.lg">
-        <Flex direction="column" rowGap={8}>
+      <Flex direction="column" rowGap={8}>
+        <BaseContainer>
           <UserProfileCard
             user={{
               username: blogOwner.username,
               shortIntroduction: blogOwner.shortIntroduction,
             }}
           />
+        </BaseContainer>
+        <BaseContainer>
           <NavLinkTabs
             navLinkTabs={[
               { name: "포스트", link: pagePath.getBlog(blogOwner.username) },
               { name: "소개", link: pagePath.getBlogOwnerIntroduction(blogOwner.username) },
             ]}
           />
-          <Outlet context={{ blogOwner }} />
-        </Flex>
-      </Container>
+        </BaseContainer>
+        <Outlet context={{ blogOwner }} />
+      </Flex>
     );
   }
 
   return (
-    <Container maxW="container.lg">
+    <BaseContainer>
       <LoadingMessage />
-    </Container>
+    </BaseContainer>
   );
 }

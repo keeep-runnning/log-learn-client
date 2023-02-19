@@ -1,9 +1,9 @@
-import { Container } from "@chakra-ui/react";
 import { Navigate, useLocation } from "react-router-dom";
 
 import useMeQuery from "../hooks/useMeQuery";
 import { pagePath } from "../utils/page";
 import LoadingMessage from "../components/common/LoadingMessage";
+import BaseContainer from "./BaseContainer";
 
 type AuthCheckerProps = {
   children: JSX.Element;
@@ -23,8 +23,8 @@ export default function AuthChecker({ children }: AuthCheckerProps) {
   }
 
   return (
-    <Container maxW="container.lg">
+    <BaseContainer>
       <LoadingMessage />
-    </Container>
+    </BaseContainer>
   );
 }

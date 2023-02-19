@@ -8,8 +8,9 @@ import IntroductionSettingForm from "../../components/setting/IntroductionSettin
 import { pagePath } from "../../utils/page";
 import useMeQuery from "../../hooks/useMeQuery";
 import LoadingMessage from "../../components/common/LoadingMessage";
+import BaseContainer from "../BaseContainer";
 
-export default function MainSettingTab() {
+export default function MainSetting() {
   const me = useMeQuery();
 
   if (me.data) {
@@ -19,14 +20,20 @@ export default function MainSettingTab() {
 
     const { username, email, shortIntroduction, introduction } = me.data;
     return (
-      <VStack alignItems="stretch" spacing={10} divider={<StackDivider borderColor="gray.300" />}>
-        <UsernameSettingForm defaultUsername={username} />
-        <EmailSettingForm defaultEmail={email} />
-        <ShortIntroductionSettingForm defaultShortIntroduction={shortIntroduction} />
-        <IntroductionSettingForm defaultIntroduction={introduction} />
-      </VStack>
+      <BaseContainer>
+        <VStack alignItems="stretch" spacing={10} divider={<StackDivider borderColor="gray.300" />}>
+          <UsernameSettingForm defaultUsername={username} />
+          <EmailSettingForm defaultEmail={email} />
+          <ShortIntroductionSettingForm defaultShortIntroduction={shortIntroduction} />
+          <IntroductionSettingForm defaultIntroduction={introduction} />
+        </VStack>
+      </BaseContainer>
     );
   }
 
-  return <LoadingMessage />;
+  return (
+    <BaseContainer>
+      <LoadingMessage />
+    </BaseContainer>
+  );
 }

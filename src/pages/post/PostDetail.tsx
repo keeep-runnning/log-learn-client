@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
-import { Container } from "@chakra-ui/react";
 
-import Post from "../components/post/Post";
+import Post from "../../components/post/Post";
+import BaseContainer from "../BaseContainer";
 
 export default function PostDetail() {
   const params = useParams();
 
   return (
-    <Container maxW="container.lg">
+    <BaseContainer>
       <Post postId={Number(params.postId)} />
-    </Container>
+    </BaseContainer>
   );
 }
