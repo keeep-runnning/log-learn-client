@@ -3,13 +3,13 @@ import { format, differenceInDays, formatDistanceToNow, differenceInSeconds } fr
 import { ko } from "date-fns/locale";
 
 type DateTimeProps = {
-  dateTimeStr: string;
+  dateTime: Date;
 };
 
-export default function DateTime({ dateTimeStr }: DateTimeProps) {
+export default function DateTime({ dateTime }: DateTimeProps) {
   return (
     <Text color="gray.500" fontSize="sm">
-      {formatDateTime(new Date(dateTimeStr), new Date())}
+      {formatDateTime(dateTime, new Date())}
     </Text>
   );
 }

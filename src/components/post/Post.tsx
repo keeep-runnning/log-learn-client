@@ -22,7 +22,7 @@ const dummyPost = {
   author: "post author",
   title: "post title",
   content: "post content",
-  createdAt: new Date().toString(),
+  createdAt: new Date(),
 };
 
 const isAuthor = true;
@@ -57,7 +57,7 @@ export default function Post({ postId }: PostProps) {
                 {dummyPost.author}
               </Link>
               &middot;
-              <DateTime dateTimeStr={dummyPost.createdAt} />
+              <DateTime dateTime={dummyPost.createdAt} />
             </Flex>
             {isAuthor && (
               <ButtonGroup size="sm" variant="ghost">

@@ -9,7 +9,7 @@ import PostPublication from "./pages/post/PostPublication";
 import PostDetail from "./pages/post/PostDetail";
 import NotFound from "./pages/NotFound";
 import Setting from "./pages/setting/Setting";
-import PostList from "./components/post/PostList";
+import BlogOwnerPostList from "./pages/blog/BlogOwnerPostList";
 import BlogOwnerIntroduction from "./pages/blog/BlogOwnerIntroduction";
 import MainSetting from "./pages/setting/MainSetting";
 import PasswordSetting from "./pages/setting/PasswordSetting";
@@ -24,7 +24,7 @@ export default function App() {
         <Route path={`${pageKeyword.signUp}`} element={<SignUp />} />
         <Route path={`${pageKeyword.login}`} element={<Login />} />
         <Route path={`${pageKeyword.blogs}/:username`} element={<Blog />}>
-          <Route index element={<PostList />} />
+          <Route index element={<BlogOwnerPostList />} />
           <Route path={`${pageKeyword.introduction}`} element={<BlogOwnerIntroduction />} />
         </Route>
         <Route path={`${pageKeyword.posts}/:postId`} element={<PostDetail />} />

@@ -1,21 +1,44 @@
-import { StackDivider, VStack } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Flex, Link, StackDivider, VStack } from "@chakra-ui/react";
 
-import PostListItem from "./PostListItem";
+import { pagePath } from "../../utils/page";
+import DateTime from "../common/DateTime";
 
-const dummyPosts = [
-  {
-    id: 1,
-    authorName: "test-user",
-    title: "post title",
-    createdAt: new Date().toString(),
-  },
-];
+type PostListItem = {
+  id: number;
+  title: string;
+  createdAt: Date;
+  author: {
+    id: number;
+    name: string;
+  };
+};
 
-export default function PostList() {
+type PostListProps = {
+  posts: PostListItem[];
+};
+
+export default function PostList({ posts }: PostListProps) {
   return (
     <VStack alignItems="stretch" spacing={6} divider={<StackDivider borderColor="gray.300" />}>
-      {dummyPosts.map((post) => (
-        <PostListItem key={post.id} post={post} />
+      {posts.map((post) => (
+        <Flex as="article" direction="column" alignItems="flex-start" rowGap={4} px={2}>
+          <Link
+            as={ReactRouterLink}
+            to={pagePath.getPostDetail(post.id)}
+            fontWeight="bold"
+            fontSize="2xl"
+          >
+            {post.title}
+          </Link>
+          <Flex alignItems="center" columnGap={2}>
+            <Link as={ReactRouterLink} to={pagePath.getBlog(post.author.name)}>
+              {post.author.name}
+            </Link>
+            &middot;
+            <DateTime dateTime={post.createdAt} />
+          </Flex>
+        </Flex>
       ))}
     </VStack>
   );
