@@ -14,7 +14,7 @@ export default function BlogOwnerPostList() {
 
   const [fetchTriggerRef] = useInView({
     onChange: (inView) => {
-      if (inView) {
+      if (inView && !postsInfiniteQuery.isFetchingNextPage) {
         postsInfiniteQuery.fetchNextPage();
       }
     },
@@ -25,7 +25,7 @@ export default function BlogOwnerPostList() {
 
     return (
       <BaseContainer>
-        <PostList posts={posts} />
+        <PostList posts={posts} isFetching={postsInfiniteQuery.isFetchingNextPage} />
         <Box ref={fetchTriggerRef} />
       </BaseContainer>
     );
