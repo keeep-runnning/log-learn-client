@@ -6,7 +6,7 @@ import SignUp from "./pages/auth/SignUp";
 import Login from "./pages/auth/Login";
 import Blog from "./pages/blog/Blog";
 import PostPublication from "./pages/post/PostPublication";
-import PostDetail from "./pages/post/PostDetail";
+import Post from "./pages/post/Post";
 import NotFound from "./pages/NotFound";
 import Setting from "./pages/setting/Setting";
 import BlogOwnerPostList from "./pages/blog/BlogOwnerPostList";
@@ -27,7 +27,7 @@ export default function App() {
           <Route index element={<BlogOwnerPostList />} />
           <Route path={`${pageKeyword.introduction}`} element={<BlogOwnerIntroduction />} />
         </Route>
-        <Route path={`${pageKeyword.posts}/:postId`} element={<PostDetail />} />
+        <Route path={`${pageKeyword.posts}/:postId`} element={<Post />} />
         <Route
           path={`${pageKeyword.settings}`}
           element={
