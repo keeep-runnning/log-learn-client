@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Box } from "@chakra-ui/react";
 
@@ -13,13 +12,13 @@ export default function BlogOwnerPostList() {
 
   const postsInfiniteQuery = usePostsInfiniteQuery(blogOwner.username);
 
-  const [fetchTriggerRef, fetchTriggerInView] = useInView();
-
-  useEffect(() => {
-    if (fetchTriggerInView) {
-      postsInfiniteQuery.fetchNextPage();
-    }
-  }, [fetchTriggerInView]);
+  const [fetchTriggerRef] = useInView({
+    onChange: (inView) => {
+      if (inView) {
+        postsInfiniteQuery.fetchNextPage();
+      }
+    },
+  });
 
   if (postsInfiniteQuery.data) {
     const posts = postsInfiniteQuery.data.pages.flatMap((page) => page.posts);
