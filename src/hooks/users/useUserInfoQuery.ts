@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
+import queryKeys from "../../utils/queryKeys";
 
 type LoadUserInfoResponse = {
   username: string;
@@ -42,7 +43,7 @@ async function loadUserInfo(username: string): Promise<LoadUserInfoResult> {
 
 export default function useUserInfoQuery(username: string) {
   return useQuery({
-    queryKey: ["users", username],
+    queryKey: queryKeys.users.detail(username),
     queryFn: () => loadUserInfo(username),
   });
 }

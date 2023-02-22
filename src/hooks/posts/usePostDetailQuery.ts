@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
+import queryKeys from "../../utils/queryKeys";
 
 type LoadPostDetailResponse = {
   id: number;
@@ -76,7 +77,7 @@ async function loadPostDetail(id: number): Promise<Loaded | NotFound | InvalidId
 
 export default function usePostDetailQuery(id: number) {
   return useQuery({
-    queryKey: ["posts", "detail", id],
+    queryKey: queryKeys.posts.detail(id),
     queryFn: () => loadPostDetail(id),
   });
 }

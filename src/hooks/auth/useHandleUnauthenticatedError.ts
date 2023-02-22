@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { pagePath } from "../../utils/page";
+import queryKeys from "../../utils/queryKeys";
 import { LoggedOutMe } from "./useMeQuery";
 
 export default function useHandleUnauthenticatedError() {
@@ -18,7 +19,7 @@ export default function useHandleUnauthenticatedError() {
     const loggedOutMe: LoggedOutMe = {
       isLoggedIn: false,
     };
-    queryClient.setQueryData(["me"], loggedOutMe);
+    queryClient.setQueryData(queryKeys.me, loggedOutMe);
 
     navigate(pagePath.getLogin(), {
       replace: true,

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
+import queryKeys from "../../utils/queryKeys";
 
 type SetIntroductionResponse = {
   introduction: string;
@@ -49,7 +50,7 @@ export default function useIntroductionSetting() {
     onSuccess: (introductionSettingResult) => {
       if (introductionSettingResult.result === "submitted") {
         queryClient.invalidateQueries({
-          queryKey: ["me"],
+          queryKey: queryKeys.me,
         });
       }
     },

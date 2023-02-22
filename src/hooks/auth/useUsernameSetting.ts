@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "../../utils/apiClient";
+import queryKeys from "../../utils/queryKeys";
 
 type SetUsernameResponse = {
   username: string;
@@ -71,7 +72,7 @@ export default function useUsernameSetting() {
     onSuccess: (usernameSettingResult) => {
       if (usernameSettingResult.result === "submitted") {
         queryClient.invalidateQueries({
-          queryKey: ["me"],
+          queryKey: queryKeys.me,
         });
       }
     },

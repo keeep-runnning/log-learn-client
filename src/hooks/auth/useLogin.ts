@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
+import queryKeys from "../../utils/queryKeys";
 import { LoggedInMe } from "./useMeQuery";
 
 type LoginRequest = {
@@ -65,7 +66,7 @@ export default function useLogin() {
           shortIntroduction,
           introduction,
         };
-        queryClient.setQueryData(["me"], loggedInMe);
+        queryClient.setQueryData(queryKeys.me, loggedInMe);
       }
     },
   });

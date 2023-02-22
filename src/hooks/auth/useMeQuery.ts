@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
+import queryKeys from "../../utils/queryKeys";
 
 type LoadMeResponse = {
   id: number;
@@ -43,7 +44,7 @@ async function loadMe(): Promise<LoadMeResult> {
 
 export default function useMeQuery() {
   return useQuery({
-    queryKey: ["me"],
+    queryKey: queryKeys.me,
     queryFn: loadMe,
   });
 }

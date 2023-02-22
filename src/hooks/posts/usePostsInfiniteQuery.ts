@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import apiClient from "../../utils/apiClient";
+import queryKeys from "../../utils/queryKeys";
 
 type LoadPageOfPostsFilter = {
   authorName: string;
@@ -58,7 +59,7 @@ async function loadPageOfPosts({
 
 export default function usePostsInfiniteQuery(authorName: string) {
   return useInfiniteQuery({
-    queryKey: ["posts", "list", { authorName }],
+    queryKey: queryKeys.posts.list(authorName),
     queryFn: ({ pageParam }) => loadPageOfPosts({ authorName, cursor: pageParam }),
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "../../utils/apiClient";
+import queryKeys from "../../utils/queryKeys";
 
 type SetShortIntroductionResponse = {
   shortIntroduction: string;
@@ -63,7 +64,7 @@ export default function useShortIntroductionSetting() {
     onSuccess: (shortIntroductionSettingResult) => {
       if (shortIntroductionSettingResult.result === "submitted") {
         queryClient.invalidateQueries({
-          queryKey: ["me"],
+          queryKey: queryKeys.me,
         });
       }
     },
