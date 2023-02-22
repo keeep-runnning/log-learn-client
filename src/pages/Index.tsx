@@ -1,6 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 
-import SparklingKeyword from "../components/common/SparklingKeyword";
+import SparklingKeyword from "../components/SparklingKeyword";
 import BaseContainer from "./BaseContainer";
 
 const keywords = [

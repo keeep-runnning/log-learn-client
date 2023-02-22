@@ -2,17 +2,17 @@ import { Route, Routes } from "react-router-dom";
 
 import Root from "./pages/Root";
 import Index from "./pages/Index";
-import SignUp from "./pages/auth/SignUp";
-import Login from "./pages/auth/Login";
-import Blog from "./pages/blog/Blog";
-import PostPublication from "./pages/post/PostPublication";
-import Post from "./pages/post/Post";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Setting from "./pages/settings/Setting";
+import MainSetting from "./pages/settings/MainSetting";
+import PasswordSetting from "./pages/settings/PasswordSetting";
+import Blog from "./pages/blogs/Blog";
+import BlogOwnerPostList from "./pages/blogs/BlogOwnerPostList";
+import BlogOwnerIntroduction from "./pages/blogs/BlogOwnerIntroduction";
+import Post from "./pages/posts/Post";
+import PostPublication from "./pages/posts/PostPublication";
 import NotFound from "./pages/NotFound";
-import Setting from "./pages/setting/Setting";
-import BlogOwnerPostList from "./pages/blog/BlogOwnerPostList";
-import BlogOwnerIntroduction from "./pages/blog/BlogOwnerIntroduction";
-import MainSetting from "./pages/setting/MainSetting";
-import PasswordSetting from "./pages/setting/PasswordSetting";
 import AuthChecker from "./pages/AuthChecker";
 import { pageKeyword } from "./utils/page";
 

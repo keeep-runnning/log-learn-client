@@ -1,8 +1,8 @@
 import { Navigate, useLocation } from "react-router-dom";
 
-import useMeQuery from "../hooks/useMeQuery";
+import useMeQuery from "../hooks/auth/useMeQuery";
 import { pagePath } from "../utils/page";
-import LoadingMessage from "../components/common/LoadingMessage";
+import LoadingMessage from "../components/LoadingMessage";
 import BaseContainer from "./BaseContainer";
 
 type AuthCheckerProps = {

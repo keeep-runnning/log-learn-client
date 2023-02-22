@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 
-import HeaderBar from "../components/common/HeaderBar";
+import HeaderBar from "../components/header-bar/HeaderBar";
 import BaseContainer from "./BaseContainer";
 
 export default function Root() {
