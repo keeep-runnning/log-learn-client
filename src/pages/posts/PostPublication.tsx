@@ -1,12 +1,10 @@
-import { Box, Container } from "@chakra-ui/react";
 import PostPublicationForm from "../../components/posts/PostPublicationForm";
+import BaseContainer from "../BaseContainer";
 
 export default function PostPublication() {
   return (
-    <Box minH="100vh" bgColor="gray.50">
-      <Container py={4} maxW="container.xl">
-        <PostPublicationForm />
-      </Container>
-    </Box>
+    <BaseContainer>
+      <PostPublicationForm />
+    </BaseContainer>
   );
 }

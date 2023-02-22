@@ -25,7 +25,7 @@ export default function PostDetail({ id }: PostProps) {
     return (
       <Flex as="article" direction="column" rowGap={6}>
         <Flex as="header" direction="column" rowGap={4}>
-          <Heading as="h1" fontSize="2xl" fontWeight="bold">
+          <Heading as="h1" fontSize="32px" fontWeight="bold">
             {postDetail.title}
           </Heading>
           <Flex alignItems="center" justifyContent="space-between">

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
 import queryKeys from "../../utils/queryKeys";
+import { PostDetail } from "./PostDetail";
 
 type LoadPostDetailResponse = {
   id: number;
@@ -10,17 +11,6 @@ type LoadPostDetailResponse = {
   createdAt: string;
   authorId: number;
   authorName: string;
-};
-
-export type PostDetail = {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: Date;
-  author: {
-    id: number;
-    name: string;
-  };
 };
 
 type Loaded = {

@@ -27,6 +27,14 @@ export default function App() {
           <Route index element={<BlogOwnerPostList />} />
           <Route path={`${pageKeyword.introduction}`} element={<BlogOwnerIntroduction />} />
         </Route>
+        <Route
+          path={`/${pageKeyword.posts}/${pageKeyword.new}`}
+          element={
+            <AuthChecker>
+              <PostPublication />
+            </AuthChecker>
+          }
+        />
         <Route path={`${pageKeyword.posts}/:postId`} element={<Post />} />
         <Route
           path={`${pageKeyword.settings}`}
@@ -40,14 +48,6 @@ export default function App() {
           <Route path={`${pageKeyword.password}`} element={<PasswordSetting />} />
         </Route>
       </Route>
-      <Route
-        path={`/${pageKeyword.posts}/${pageKeyword.new}`}
-        element={
-          <AuthChecker>
-            <PostPublication />
-          </AuthChecker>
-        }
-      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
