@@ -7,6 +7,7 @@ import usePostDetailQuery from "../../hooks/posts/usePostDetailQuery";
 import LoadingMessage from "../LoadingMessage";
 import NotFound from "../../pages/NotFound";
 import Viewer from "../editor/Viewer";
+import PostControlButtons from "./PostControlButtons";
 
 type PostProps = {
   id: number;
@@ -40,6 +41,7 @@ export default function PostDetail({ id }: PostProps) {
               &middot;
               <DateTime dateTime={postDetail.createdAt} />
             </Flex>
+            <PostControlButtons post={postDetail} />
           </Flex>
         </Flex>
         <Divider />
