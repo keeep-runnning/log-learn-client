@@ -10,10 +10,12 @@ import {
   Flex,
   Heading,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 
 import { PostDetail } from "../../hooks/posts/PostDetail";
+import usePostEdit from "../../hooks/posts/usePostEdit";
 import BaseContainer from "../../pages/BaseContainer";
 import Editor from "../editor/Editor";
 
@@ -29,17 +31,52 @@ type PostEditFormData = {
 };
 
 export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFormDrawerProps) {
-  const { register, handleSubmit, control } = useForm<PostEditFormData>({
+  const toast = useToast();
+
+  const { register, handleSubmit, control, reset } = useForm<PostEditFormData>({
     defaultValues: {
       title: post.title,
       content: post.content,
     },
   });
 
-  const onSubmit = ({ title, content }: PostEditFormData) => {};
+  const postEditMutation = usePostEdit();
+
+  const handleClickCloseButton = () => {
+    reset();
+    onClose();
+  };
+
+  const onSubmit = (formData: PostEditFormData) => {
+    postEditMutation.mutate(
+      { id: post.id, title: formData.title, content: formData.content },
+      {
+        onSuccess: (mutationResult) => {
+          switch (mutationResult.result) {
+            case "edited": {
+              const { title, content } = mutationResult.editedPost;
+              reset({ title, content });
+
+              toast({
+                description: "블로그 포스트가 수정되었습니다",
+                status: "success",
+                position: "top",
+                isClosable: true,
+              });
+
+              break;
+            }
+            default: {
+              throw new Error(`Unexpected result of editing post: ${mutationResult.result}`);
+            }
+          }
+        },
+      }
+    );
+  };
 
   return (
-    <Drawer isOpen={isOpen} onClose={onClose} placement="bottom" size="full">
+    <Drawer isOpen={isOpen} onClose={handleClickCloseButton} placement="bottom" size="full">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
@@ -49,10 +86,16 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
                 블로그 포스트 수정
               </Heading>
               <ButtonGroup size="sm" variant="ghost" justifyContent="flex-end">
-                <Button type="button" onClick={onClose}>
+                <Button type="button" onClick={handleClickCloseButton}>
                   나가기
                 </Button>
-                <Button form="edit-post" type="submit" colorScheme="main" loadingText="수정 중...">
+                <Button
+                  type="submit"
+                  form="edit-post"
+                  loadingText="수정 중..."
+                  isLoading={postEditMutation.isLoading}
+                  colorScheme="main"
+                >
                   글 수정하기
                 </Button>
               </ButtonGroup>

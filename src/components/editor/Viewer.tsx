@@ -8,5 +8,5 @@ type ViewerProps = {
 };
 
 export default function Viewer({ content }: ViewerProps) {
-  return <ReactQuill className="custom-viewer" theme="bubble" readOnly defaultValue={content} />;
+  return <ReactQuill readOnly value={content} className="custom-viewer" theme="bubble" />;
 }
