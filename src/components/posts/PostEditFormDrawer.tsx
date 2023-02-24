@@ -8,6 +8,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  FormControl,
   Heading,
   Textarea,
   useToast,
@@ -33,7 +34,13 @@ type PostEditFormData = {
 export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFormDrawerProps) {
   const toast = useToast();
 
-  const { register, handleSubmit, control, reset } = useForm<PostEditFormData>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<PostEditFormData>({
     defaultValues: {
       title: post.title,
       content: post.content,
@@ -64,6 +71,20 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
                 isClosable: true,
               });
 
+              break;
+            }
+            case "fieldsInvalid": {
+              const message = mutationResult.fieldErrors
+                .filter(({ field }) => field === "title" || field === "content")
+                .map(({ reason }) => reason)
+                .join(". ");
+
+              toast({
+                description: message,
+                status: "error",
+                position: "top",
+                isClosable: true,
+              });
               break;
             }
             default: {
@@ -109,16 +130,18 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
               as="form"
               onSubmit={handleSubmit(onSubmit)}
               direction="column"
-              rowGap={4}
+              rowGap={8}
             >
-              <Textarea
-                {...register("title")}
-                fontSize="32px"
-                resize="vertical"
-                placeholder="제목을 입력하세요"
-                rows={1}
-                variant="flushed"
-              />
+              <FormControl isInvalid={Boolean(errors.title)}>
+                <Textarea
+                  {...register("title", { required: true })}
+                  fontSize="32px"
+                  resize="vertical"
+                  placeholder="제목을 입력하세요"
+                  rows={1}
+                  variant="flushed"
+                />
+              </FormControl>
               <Box h="640px">
                 <Controller
                   name="content"

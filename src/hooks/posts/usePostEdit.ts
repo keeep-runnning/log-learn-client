@@ -26,7 +26,7 @@ type Edited = {
 
 type FieldsInvalid = {
   result: "fieldsInvalid";
-  fieldError: ApiFieldError[];
+  fieldErrors: ApiFieldError[];
 };
 
 type Unauthenticated = {
@@ -72,7 +72,7 @@ async function editPost({
         case 400: {
           return {
             result: "fieldsInvalid",
-            fieldError: error.fieldErrors,
+            fieldErrors: error.fieldErrors,
           };
         }
         case 401: {
