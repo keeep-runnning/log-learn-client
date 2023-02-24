@@ -19,6 +19,7 @@ import { PostDetail } from "../../hooks/posts/PostDetail";
 import usePostEdit from "../../hooks/posts/usePostEdit";
 import BaseContainer from "../../pages/BaseContainer";
 import Editor from "../editor/Editor";
+import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
 
 type PostEditFormDrawerProps = {
   post: PostDetail;
@@ -46,6 +47,8 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
       content: post.content,
     },
   });
+
+  const handleUnauthenticated = useHandleUnauthenticatedError();
 
   const postEditMutation = usePostEdit();
 
@@ -85,6 +88,10 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
                 position: "top",
                 isClosable: true,
               });
+              break;
+            }
+            case "unauthenticated": {
+              handleUnauthenticated();
               break;
             }
             default: {
