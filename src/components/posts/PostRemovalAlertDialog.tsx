@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { PostDetail } from "../../hooks/posts/PostDetail";
 import usePostRemoval from "../../hooks/posts/usePostRemoval";
 import { pagePath } from "../../utils/page";
+import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
 
 type PostRemovalAlertDialogProps = {
   post: PostDetail;
@@ -35,6 +36,8 @@ export default function PostRemovalAlertDialog({
 
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
 
+  const handleUnauthenticated = useHandleUnauthenticatedError();
+
   const postRemovalMutation = usePostRemoval(post);
 
   const handleClickRemoveButton = () => {
@@ -49,6 +52,10 @@ export default function PostRemovalAlertDialog({
               isClosable: true,
             });
             navigate(pagePath.getBlog(post.author.name), { replace: true });
+            break;
+          }
+          case "unauthenticated": {
+            handleUnauthenticated();
             break;
           }
           case "notFound": {
