@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "./../../utils/apiClient";
-import { PostDetail } from "./PostDetail";
+import { PostDetail } from "../../types/posts";
 
 type PublishPostData = {
   title: string;
@@ -18,18 +18,18 @@ type PublishPostResponse = {
 };
 
 type Published = {
-  result: "published";
+  status: "published";
   newPost: PostDetail;
 };
 
 type Unauthenticated = {
-  result: "unauthenticated";
-  reason: string;
+  status: "unauthenticated";
+  message: string;
 };
 
 type FieldsInvalid = {
-  result: "fieldsInvalid";
-  fieldError: ApiFieldError[];
+  status: "fieldsInvalid";
+  fieldErrors: ApiFieldError[];
 };
 
 async function publishPost({
@@ -49,7 +49,7 @@ async function publishPost({
       },
     };
     return {
-      result: "published",
+      status: "published",
       newPost,
     };
   } catch (error) {
@@ -57,14 +57,14 @@ async function publishPost({
       switch (error.statusCode) {
         case 400: {
           return {
-            result: "fieldsInvalid",
-            fieldError: error.fieldErrors,
+            status: "fieldsInvalid",
+            fieldErrors: error.fieldErrors,
           };
         }
         case 401: {
           return {
-            result: "unauthenticated",
-            reason: error.message,
+            status: "unauthenticated",
+            message: error.message,
           };
         }
       }

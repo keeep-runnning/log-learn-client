@@ -8,3 +8,5 @@ export type PostDetail = {
     name: string;
   };
 };
+
+export type PostListItem = Omit<PostDetail, "content">;

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "./../../utils/apiClient";
-import { PostDetail } from "./PostDetail";
+import { PostDetail } from "../../types/posts";
 import queryKeys from "../../utils/queryKeys";
 
 type EditPostData = {
@@ -20,28 +20,28 @@ type EditPostResponse = {
 };
 
 type Edited = {
-  result: "edited";
+  status: "edited";
   editedPost: PostDetail;
 };
 
 type FieldsInvalid = {
-  result: "fieldsInvalid";
+  status: "fieldsInvalid";
   fieldErrors: ApiFieldError[];
 };
 
 type Unauthenticated = {
-  result: "unauthenticated";
-  reason: string;
+  status: "unauthenticated";
+  message: string;
 };
 
 type Unauthorized = {
-  result: "unauthorized";
-  reason: string;
+  status: "unauthorized";
+  message: string;
 };
 
 type NotFound = {
-  result: "notFound";
-  reason: string;
+  status: "notFound";
+  message: string;
 };
 
 async function editPost({
@@ -63,7 +63,7 @@ async function editPost({
     };
 
     return {
-      result: "edited",
+      status: "edited",
       editedPost,
     };
   } catch (error) {
@@ -71,26 +71,26 @@ async function editPost({
       switch (error.statusCode) {
         case 400: {
           return {
-            result: "fieldsInvalid",
+            status: "fieldsInvalid",
             fieldErrors: error.fieldErrors,
           };
         }
         case 401: {
           return {
-            result: "unauthenticated",
-            reason: error.message,
+            status: "unauthenticated",
+            message: error.message,
           };
         }
         case 403: {
           return {
-            result: "unauthorized",
-            reason: error.message,
+            status: "unauthorized",
+            message: error.message,
           };
         }
         case 404: {
           return {
-            result: "notFound",
-            reason: error.message,
+            status: "notFound",
+            message: error.message,
           };
         }
       }
@@ -106,7 +106,7 @@ export default function usePostEdit() {
   return useMutation({
     mutationFn: editPost,
     onSuccess: (editPostResult) => {
-      if (editPostResult.result === "edited") {
+      if (editPostResult.status === "edited") {
         queryClient.invalidateQueries({
           queryKey: queryKeys.posts.detail(editPostResult.editedPost.id),
         });

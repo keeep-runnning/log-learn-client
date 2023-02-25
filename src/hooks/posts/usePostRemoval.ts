@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { PostDetail } from "./PostDetail";
+import { PostDetail } from "../../types/posts";
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
 import queryKeys from "../../utils/queryKeys";
 

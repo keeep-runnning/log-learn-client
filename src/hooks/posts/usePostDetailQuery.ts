@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
 import queryKeys from "../../utils/queryKeys";
-import { PostDetail } from "./PostDetail";
+import { PostDetail } from "../../types/posts";
 
 type LoadPostDetailResponse = {
   id: number;
@@ -14,16 +14,16 @@ type LoadPostDetailResponse = {
 };
 
 type Loaded = {
-  result: "loaded";
+  status: "loaded";
   postDetail: PostDetail;
 };
 
 type NotFound = {
-  result: "notFound";
+  status: "notFound";
 };
 
 type InvalidId = {
-  result: "invalidId";
+  status: "invalidId";
 };
 
 async function loadPostDetail(id: number): Promise<Loaded | NotFound | InvalidId> {
@@ -42,7 +42,7 @@ async function loadPostDetail(id: number): Promise<Loaded | NotFound | InvalidId
       },
     };
     return {
-      result: "loaded",
+      status: "loaded",
       postDetail,
     };
   } catch (error) {
@@ -50,17 +50,16 @@ async function loadPostDetail(id: number): Promise<Loaded | NotFound | InvalidId
       switch (error.statusCode) {
         case 400: {
           return {
-            result: "invalidId",
+            status: "invalidId",
           };
         }
         case 404: {
           return {
-            result: "notFound",
+            status: "notFound",
           };
         }
       }
     }
-
     throw error;
   }
 }

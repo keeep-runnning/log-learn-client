@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Skeleton, useDisclosure } from "@chakra-ui/react";
 
-import { PostDetail } from "../../hooks/posts/PostDetail";
+import { PostDetail } from "../../types/posts";
 import useMeQuery from "../../hooks/auth/useMeQuery";
 import PostEditFormDrawer from "./PostEditFormDrawer";
 import PostRemovalAlertDialog from "./PostRemovalAlertDialog";

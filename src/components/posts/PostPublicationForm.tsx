@@ -38,10 +38,10 @@ export default function PostPublicationForm() {
       { title, content },
       {
         onSuccess: (postPublicationResult) => {
-          if (postPublicationResult.result === "published") {
+          if (postPublicationResult.status === "published") {
             navigate(pagePath.getPostDetail(postPublicationResult.newPost.id), { replace: true });
-          } else if (postPublicationResult.result === "fieldsInvalid") {
-            const message = postPublicationResult.fieldError
+          } else if (postPublicationResult.status === "fieldsInvalid") {
+            const message = postPublicationResult.fieldErrors
               .filter(({ field }) => ["title", "content"].includes(field))
               .map(({ reason }) => reason)
               .join(". ");
@@ -52,7 +52,7 @@ export default function PostPublicationForm() {
               isClosable: true,
               duration: 10000,
             });
-          } else if (postPublicationResult.result === "unauthenticated") {
+          } else if (postPublicationResult.status === "unauthenticated") {
             handleUnauthenticated();
           }
         },

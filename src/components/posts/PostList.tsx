@@ -3,11 +3,11 @@ import { Flex, Link, Skeleton, StackDivider, Text, VStack } from "@chakra-ui/rea
 
 import { pagePath } from "../../utils/page";
 import DateTime from "../DateTime";
-import { Post } from "../../hooks/posts/usePostsInfiniteQuery";
+import { PostListItem } from "../../types/posts";
 import EmptyMessage from "../EmptyMessage";
 
 type PostListProps = {
-  posts: Post[];
+  posts: PostListItem[];
   isFetching: boolean;
 };
 
