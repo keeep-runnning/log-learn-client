@@ -1,0 +1,13 @@
+.custom-viewer {
+  height: 100%;
+}
+
+.custom-viewer .ql-container {
+  font-family: inherit;
+  font-size: inherit;
+  overflow-y: auto;
+}
+
+.custom-viewer .ql-editor {
+  padding: 0;
+}

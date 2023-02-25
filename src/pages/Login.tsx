@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import LoginForm from "../components/user/LoginForm";
-import pageUrl from "../utils/pageUrl";
+
+import LoginForm from "../components/auth/LoginForm";
+import { pagePath } from "../utils/page";
 import { Container, Flex, Text } from "@chakra-ui/react";
-import AuthFormHeader from "../components/user/AuthFormHeader";
+import AuthFormHeader from "../components/auth/AuthFormHeader";
 
 export default function Login() {
   return (
@@ -12,7 +13,7 @@ export default function Login() {
         <LoginForm />
         <Text fontSize="sm" textAlign="center">
           아직 계정이 없으신가요?{" "}
-          <Link to={pageUrl.getSignUpPageUrl()}>
+          <Link to={pagePath.getSignUp()}>
             <Text as="span" _hover={{ fontWeight: "bold" }}>
               회원가입 &gt;
             </Text>
