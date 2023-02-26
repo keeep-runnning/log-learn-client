@@ -61,10 +61,10 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
     postEditMutation.mutate(
       { id: post.id, title: formData.title, content: formData.content },
       {
-        onSuccess: (mutationResult) => {
-          switch (mutationResult.status) {
+        onSuccess: (result) => {
+          switch (result.status) {
             case "edited": {
-              const { title, content } = mutationResult.editedPost;
+              const { title, content } = result.editedPost;
               reset({ title, content });
               toast({
                 description: "블로그 포스트가 수정되었습니다",
@@ -75,7 +75,7 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
               break;
             }
             case "fieldsInvalid": {
-              const message = mutationResult.fieldErrors
+              const message = result.fieldErrors
                 .filter(({ field }) => field === "title" || field === "content")
                 .map(({ reason }) => reason)
                 .join(". ");
@@ -92,7 +92,7 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
               break;
             }
             default: {
-              throw new Error(`Unexpected result of editing post: ${mutationResult.status}`);
+              throw new Error("unexpected result of editing post");
             }
           }
         },

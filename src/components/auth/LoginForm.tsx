@@ -45,13 +45,21 @@ export default function LoginForm() {
     loginMutation.mutate(
       { email, password },
       {
-        onSuccess: (loginResult) => {
-          if (loginResult.status === "loggedIn") {
-            const redirectURL =
-              location.state?.from?.pathname || pagePath.getBlog(loginResult.myProfile.username);
-            navigate(redirectURL, { replace: true });
-          } else if (loginResult.status === "invalidCredential") {
-            setAlertMessage(loginResult.message);
+        onSuccess: (result) => {
+          switch (result.status) {
+            case "loggedIn": {
+              const redirectURL =
+                location.state?.from?.pathname || pagePath.getBlog(result.myProfile.username);
+              navigate(redirectURL, { replace: true });
+              break;
+            }
+            case "invalidCredential": {
+              setAlertMessage(result.message);
+              break;
+            }
+            default: {
+              throw new Error("unexpected result of login");
+            }
           }
         },
       }

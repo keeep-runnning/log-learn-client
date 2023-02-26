@@ -15,40 +15,43 @@ import PostPublication from "./pages/posts/PostPublication";
 import NotFound from "./pages/NotFound";
 import AuthChecker from "./pages/AuthChecker";
 import { pageKeyword } from "./utils/page";
+import GlobalErrorBoundary from "./components/GlobalErrorBoundary";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Root />}>
-        <Route index element={<Index />} />
-        <Route path={`${pageKeyword.signUp}`} element={<SignUp />} />
-        <Route path={`${pageKeyword.login}`} element={<Login />} />
-        <Route path={`${pageKeyword.blogs}/:username`} element={<Blog />}>
-          <Route index element={<BlogOwnerPostList />} />
-          <Route path={`${pageKeyword.introduction}`} element={<BlogOwnerIntroduction />} />
+    <GlobalErrorBoundary>
+      <Routes>
+        <Route path="/" element={<Root />}>
+          <Route index element={<Index />} />
+          <Route path={`${pageKeyword.signUp}`} element={<SignUp />} />
+          <Route path={`${pageKeyword.login}`} element={<Login />} />
+          <Route path={`${pageKeyword.blogs}/:username`} element={<Blog />}>
+            <Route index element={<BlogOwnerPostList />} />
+            <Route path={`${pageKeyword.introduction}`} element={<BlogOwnerIntroduction />} />
+          </Route>
+          <Route
+            path={`/${pageKeyword.posts}/${pageKeyword.new}`}
+            element={
+              <AuthChecker>
+                <PostPublication />
+              </AuthChecker>
+            }
+          />
+          <Route path={`${pageKeyword.posts}/:postId`} element={<Post />} />
+          <Route
+            path={`${pageKeyword.settings}`}
+            element={
+              <AuthChecker>
+                <Setting />
+              </AuthChecker>
+            }
+          >
+            <Route index element={<MainSetting />} />
+            <Route path={`${pageKeyword.password}`} element={<PasswordSetting />} />
+          </Route>
         </Route>
-        <Route
-          path={`/${pageKeyword.posts}/${pageKeyword.new}`}
-          element={
-            <AuthChecker>
-              <PostPublication />
-            </AuthChecker>
-          }
-        />
-        <Route path={`${pageKeyword.posts}/:postId`} element={<Post />} />
-        <Route
-          path={`${pageKeyword.settings}`}
-          element={
-            <AuthChecker>
-              <Setting />
-            </AuthChecker>
-          }
-        >
-          <Route index element={<MainSetting />} />
-          <Route path={`${pageKeyword.password}`} element={<PasswordSetting />} />
-        </Route>
-      </Route>
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </GlobalErrorBoundary>
   );
 }

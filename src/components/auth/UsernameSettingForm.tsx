@@ -41,33 +41,45 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
 
   const handleSubmitUsernameSettingForm = handleSubmit(({ username }) => {
     usernameSettingMutation.mutate(username, {
-      onSuccess: (usernameSettingResult) => {
-        if (usernameSettingResult.status === "submitted") {
-          reset({
-            username: usernameSettingResult.username,
-          });
-          toast({
-            description: `유저이름이 변경되었습니다 (변경된 이름: ${usernameSettingResult.username})`,
-            position: "top",
-            status: "success",
-            isClosable: true,
-          });
-        } else if (usernameSettingResult.status === "fieldsInvalid") {
-          usernameSettingResult.fieldErrors.forEach(({ field, reason }) => {
-            if (field === "username") {
-              setError(field, {
-                type: "serverValidation",
-                message: reason,
-              });
-            }
-          });
-        } else if (usernameSettingResult.status === "unauthenticated") {
-          handleUnauthenticated();
-        } else if (usernameSettingResult.status === "usernameExists") {
-          setError("username", {
-            type: "usernameExists",
-            message: usernameSettingResult.message,
-          });
+      onSuccess: (result) => {
+        switch (result.status) {
+          case "submitted": {
+            reset({
+              username: result.username,
+            });
+            toast({
+              description: `유저이름이 변경되었습니다 (변경된 이름: ${result.username})`,
+              position: "top",
+              status: "success",
+              isClosable: true,
+            });
+            break;
+          }
+          case "fieldsInvalid": {
+            result.fieldErrors.forEach(({ field, reason }) => {
+              if (field === "username") {
+                setError(field, {
+                  type: "serverValidation",
+                  message: reason,
+                });
+              }
+            });
+            break;
+          }
+          case "unauthenticated": {
+            handleUnauthenticated();
+            break;
+          }
+          case "usernameExists": {
+            setError("username", {
+              type: "usernameExists",
+              message: result.message,
+            });
+            break;
+          }
+          default: {
+            throw new Error("unexpected result of updating username");
+          }
         }
       },
     });

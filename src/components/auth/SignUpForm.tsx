@@ -52,27 +52,37 @@ export default function SignUpForm() {
     signUpMutation.mutate(
       { username, email, password },
       {
-        onSuccess: (signUpResult) => {
-          if (signUpResult.status === "submitted") {
-            navigate(pagePath.getLogin(), { replace: true });
-            toast({
-              title: "회원가입 성공",
-              description: `${signUpResult.createdUserProfile.username}님 환영합니다. 로그인 해주세요.`,
-              status: "success",
-              position: "top",
-              isClosable: true,
-            });
-          } else if (signUpResult.status === "failed") {
-            setAlertMessage(signUpResult.message);
-          } else if (signUpResult.status === "fieldsInvalid") {
-            signUpResult.fieldErrors.forEach(({ field, reason }) => {
-              if (field === "username" || field === "email" || field === "password") {
-                setError(field, {
-                  type: "serverValidation",
-                  message: reason,
-                });
-              }
-            });
+        onSuccess: (result) => {
+          switch (result.status) {
+            case "submitted": {
+              navigate(pagePath.getLogin(), { replace: true });
+              toast({
+                title: "회원가입 성공",
+                description: `${result.createdUserProfile.username}님 환영합니다. 로그인 해주세요.`,
+                status: "success",
+                position: "top",
+                isClosable: true,
+              });
+              break;
+            }
+            case "failed": {
+              setAlertMessage(result.message);
+              break;
+            }
+            case "fieldsInvalid": {
+              result.fieldErrors.forEach(({ field, reason }) => {
+                if (field === "username" || field === "email" || field === "password") {
+                  setError(field, {
+                    type: "serverValidation",
+                    message: reason,
+                  });
+                }
+              });
+              break;
+            }
+            default: {
+              throw new Error("unexpected result of sign-up");
+            }
           }
         },
       }

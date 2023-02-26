@@ -1,4 +1,4 @@
-import React from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -8,11 +8,20 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import customizedTheme from "./styles/customizedTheme";
 import App from "./App";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      useErrorBoundary: true,
+    },
+    mutations: {
+      useErrorBoundary: true,
+    },
+  },
+});
 
 const root = createRoot(document.querySelector("#root")!);
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <BrowserRouter>
       <ChakraProvider theme={customizedTheme}>
         <QueryClientProvider client={queryClient}>
@@ -21,5 +30,5 @@ root.render(
         </QueryClientProvider>
       </ChakraProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </StrictMode>
 );

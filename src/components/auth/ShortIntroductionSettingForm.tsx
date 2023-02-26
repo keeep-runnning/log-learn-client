@@ -43,28 +43,38 @@ export default function ShortIntroductionSettingForm({
 
   const handleSubmitShortIntroductionSettingForm = handleSubmit(({ shortIntroduction }) => {
     shortIntroductionSettingMutation.mutate(shortIntroduction, {
-      onSuccess: (shortIntroductionSettingResult) => {
-        if (shortIntroductionSettingResult.status === "submitted") {
-          reset({
-            shortIntroduction: shortIntroductionSettingResult.shortIntroduction,
-          });
-          toast({
-            description: "짧은 소개가 변경되었습니다",
-            status: "success",
-            position: "top",
-            isClosable: true,
-          });
-        } else if (shortIntroductionSettingResult.status === "unauthenticated") {
-          handleUnauthenticated();
-        } else if (shortIntroductionSettingResult.status === "fieldsInvalid") {
-          shortIntroductionSettingResult.fieldErrors.forEach(({ field, reason }) => {
-            if (field === "shortIntroduction") {
-              setError(field, {
-                type: "serverValidation",
-                message: reason,
-              });
-            }
-          });
+      onSuccess: (result) => {
+        switch (result.status) {
+          case "submitted": {
+            reset({
+              shortIntroduction: result.shortIntroduction,
+            });
+            toast({
+              description: "짧은 소개가 변경되었습니다",
+              status: "success",
+              position: "top",
+              isClosable: true,
+            });
+            break;
+          }
+          case "unauthenticated": {
+            handleUnauthenticated();
+            break;
+          }
+          case "fieldsInvalid": {
+            result.fieldErrors.forEach(({ field, reason }) => {
+              if (field === "shortIntroduction") {
+                setError(field, {
+                  type: "serverValidation",
+                  message: reason,
+                });
+              }
+            });
+            break;
+          }
+          default: {
+            throw new Error("unexpected result of updating user short introduction");
+          }
         }
       },
     });

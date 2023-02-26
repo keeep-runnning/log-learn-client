@@ -44,31 +44,43 @@ export default function PasswordSettingForm() {
     passwordSettingMutation.mutate(
       { oldPassword, newPassword },
       {
-        onSuccess: (passwordSettingResult) => {
-          if (passwordSettingResult.status === "submitted") {
-            reset();
-            toast({
-              description: "비밀번호가 변경되었습니다",
-              status: "success",
-              position: "top",
-              isClosable: true,
-            });
-          } else if (passwordSettingResult.status === "fieldsInvalid") {
-            passwordSettingResult.fieldErrors.forEach(({ field, reason }) => {
-              if (field === "oldPassword" || field === "newPassword") {
-                setError(field, {
-                  type: "serverValidation",
-                  message: reason,
-                });
-              }
-            });
-          } else if (passwordSettingResult.status === "oldPasswordWrong") {
-            setError("oldPassword", {
-              type: "oldPasswordWrong",
-              message: passwordSettingResult.message,
-            });
-          } else if (passwordSettingResult.status === "unauthenticated") {
-            handleUnauthenticated();
+        onSuccess: (result) => {
+          switch (result.status) {
+            case "submitted": {
+              reset();
+              toast({
+                description: "비밀번호가 변경되었습니다",
+                status: "success",
+                position: "top",
+                isClosable: true,
+              });
+              break;
+            }
+            case "fieldsInvalid": {
+              result.fieldErrors.forEach(({ field, reason }) => {
+                if (field === "oldPassword" || field === "newPassword") {
+                  setError(field, {
+                    type: "serverValidation",
+                    message: reason,
+                  });
+                }
+              });
+              break;
+            }
+            case "oldPasswordWrong": {
+              setError("oldPassword", {
+                type: "oldPasswordWrong",
+                message: result.message,
+              });
+              break;
+            }
+            case "unauthenticated": {
+              handleUnauthenticated();
+              break;
+            }
+            default: {
+              throw new Error("unexpected result of updating password");
+            }
           }
         },
       }

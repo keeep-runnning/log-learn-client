@@ -42,8 +42,8 @@ export default function PostRemovalAlertDialog({
 
   const handleClickRemoveButton = () => {
     postRemovalMutation.mutate(undefined, {
-      onSuccess: (mutationResult) => {
-        switch (mutationResult.status) {
+      onSuccess: (result) => {
+        switch (result.status) {
           case "removed": {
             toast({
               description: `블로그 포스트(${post.title})를 삭제했습니다`,
@@ -69,7 +69,7 @@ export default function PostRemovalAlertDialog({
             break;
           }
           default: {
-            throw new Error(`unexpected result of removing the post: ${mutationResult.status}`);
+            throw new Error("unexpected result of removing the post");
           }
         }
       },

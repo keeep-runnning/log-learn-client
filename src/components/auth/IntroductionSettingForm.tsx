@@ -24,16 +24,24 @@ export default function IntroductionSettingForm({
     e.preventDefault();
 
     introductionSettingMutation.mutate(introduction, {
-      onSuccess: (introductionSettingResult) => {
-        if (introductionSettingResult.status === "submitted") {
-          toast({
-            description: "소개가 수정되었습니다",
-            status: "success",
-            position: "top",
-            isClosable: true,
-          });
-        } else if (introductionSettingResult.status === "unauthenticated") {
-          handleUnauthenticated();
+      onSuccess: (result) => {
+        switch (result.status) {
+          case "submitted": {
+            toast({
+              description: "소개가 수정되었습니다",
+              status: "success",
+              position: "top",
+              isClosable: true,
+            });
+            break;
+          }
+          case "unauthenticated": {
+            handleUnauthenticated();
+            break;
+          }
+          default: {
+            throw new Error("unexpected result of updating user introduction");
+          }
         }
       },
     });
