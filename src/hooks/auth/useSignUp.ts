@@ -1,8 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "../../utils/apiClient";
+import { MyProfile } from "../../types/auth";
 
-type SignUpRequest = {
+type SignUpData = {
   username: string;
   email: string;
   password: string;
@@ -17,41 +18,40 @@ type SignUpResponse = {
 };
 
 type Submitted = {
-  result: "submitted";
-} & SignUpResponse;
-
-type Failed = {
-  result: "failed";
-  reason: string;
+  status: "submitted";
+  createdUserProfile: MyProfile;
 };
 
-type InvalidFields = {
-  result: "invalidFields";
+type Failed = {
+  status: "failed";
+  message: string;
+};
+
+type FieldsInvalid = {
+  status: "fieldsInvalid";
   fieldErrors: ApiFieldError[];
 };
 
-type SignUpResult = Submitted | Failed | InvalidFields;
-
-async function signUp(newUser: SignUpRequest): Promise<SignUpResult> {
+async function signUp(newUser: SignUpData): Promise<Submitted | Failed | FieldsInvalid> {
   try {
     const { data } = await apiClient.post<SignUpResponse>("/auth/signup", newUser);
     return {
-      result: "submitted",
-      ...data,
+      status: "submitted",
+      createdUserProfile: data,
     };
   } catch (error) {
     if (error instanceof ApiResponseError) {
       switch (error.statusCode) {
         case 400: {
           return {
-            result: "invalidFields",
+            status: "fieldsInvalid",
             fieldErrors: error.fieldErrors,
           };
         }
         case 409: {
           return {
-            result: "failed",
-            reason: error.message,
+            status: "failed",
+            message: error.message,
           };
         }
       }

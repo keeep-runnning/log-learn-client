@@ -6,10 +6,10 @@ import { pagePath } from "../../utils/page";
 import MyMenu from "./MyMenu";
 
 export default function HeaderMenu() {
-  const me = useMeQuery();
+  const meQuery = useMeQuery();
 
-  if (me.data) {
-    if (!me.data.isLoggedIn) {
+  if (meQuery.data) {
+    if (meQuery.data.status === "loggedOut") {
       return (
         <ButtonGroup colorScheme="main" size="sm">
           <Button as={Link} to={pagePath.getLogin()} variant="ghost">
@@ -22,7 +22,7 @@ export default function HeaderMenu() {
       );
     }
 
-    return <MyMenu username={me.data.username} />;
+    return <MyMenu username={meQuery.data.myProfile.username} />;
   }
 
   return (

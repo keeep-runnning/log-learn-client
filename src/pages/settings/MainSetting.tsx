@@ -14,11 +14,12 @@ export default function MainSetting() {
   const me = useMeQuery();
 
   if (me.data) {
-    if (!me.data.isLoggedIn) {
+    if (me.data.status === "loggedOut") {
       return <Navigate to={pagePath.getLogin()} replace />;
     }
 
-    const { username, email, shortIntroduction, introduction } = me.data;
+    const { username, email, shortIntroduction, introduction } = me.data.myProfile;
+
     return (
       <BaseContainer>
         <VStack alignItems="stretch" spacing={10} divider={<StackDivider borderColor="gray.300" />}>

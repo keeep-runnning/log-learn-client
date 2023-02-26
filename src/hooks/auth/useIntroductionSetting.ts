@@ -8,23 +8,21 @@ type SetIntroductionResponse = {
 };
 
 type Submitted = {
-  result: "submitted";
+  status: "submitted";
 } & SetIntroductionResponse;
 
 type Unauthenticated = {
-  result: "unauthenticated";
-  reason: string;
+  status: "unauthenticated";
+  message: string;
 };
 
-type SetIntroductionResult = Submitted | Unauthenticated;
-
-async function setIntroduction(introduction: string): Promise<SetIntroductionResult> {
+async function setIntroduction(introduction: string): Promise<Submitted | Unauthenticated> {
   try {
     const { data } = await apiClient.put<SetIntroductionResponse>("/auth/me/introduction", {
       introduction,
     });
     return {
-      result: "submitted",
+      status: "submitted",
       ...data,
     };
   } catch (error) {
@@ -32,8 +30,8 @@ async function setIntroduction(introduction: string): Promise<SetIntroductionRes
       switch (error.statusCode) {
         case 401: {
           return {
-            result: "unauthenticated",
-            reason: error.message,
+            status: "unauthenticated",
+            message: error.message,
           };
         }
       }
@@ -48,7 +46,7 @@ export default function useIntroductionSetting() {
   return useMutation({
     mutationFn: setIntroduction,
     onSuccess: (introductionSettingResult) => {
-      if (introductionSettingResult.result === "submitted") {
+      if (introductionSettingResult.status === "submitted") {
         queryClient.invalidateQueries({
           queryKey: queryKeys.me,
         });

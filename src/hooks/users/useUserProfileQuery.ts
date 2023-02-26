@@ -2,48 +2,47 @@ import { useQuery } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
 import queryKeys from "../../utils/queryKeys";
+import { UserProfile } from "../../types/users";
 
-type LoadUserInfoResponse = {
+type LoadUserProfileResponse = {
   username: string;
   shortIntroduction: string;
   introduction: string;
 };
 
 type Loaded = {
-  result: "loaded";
-} & LoadUserInfoResponse;
-
-type NotFound = {
-  result: "notFound";
+  status: "loaded";
+  userProfile: UserProfile;
 };
 
-type LoadUserInfoResult = Loaded | NotFound;
+type NotFound = {
+  status: "notFound";
+};
 
-async function loadUserInfo(username: string): Promise<LoadUserInfoResult> {
+async function loadUserProfile(username: string): Promise<Loaded | NotFound> {
   try {
-    const { data } = await apiClient.get<LoadUserInfoResponse>(`/users/${username}`);
+    const { data } = await apiClient.get<LoadUserProfileResponse>(`/users/${username}`);
     return {
-      result: "loaded",
-      ...data,
+      status: "loaded",
+      userProfile: data,
     };
   } catch (error) {
     if (error instanceof ApiResponseError) {
       switch (error.statusCode) {
         case 404: {
           return {
-            result: "notFound",
+            status: "notFound",
           };
         }
       }
     }
-
     throw error;
   }
 }
 
-export default function useUserInfoQuery(username: string) {
+export default function useUserProfileQuery(username: string) {
   return useQuery({
     queryKey: queryKeys.users.detail(username),
-    queryFn: () => loadUserInfo(username),
+    queryFn: () => loadUserProfile(username),
   });
 }

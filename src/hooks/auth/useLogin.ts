@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, { ApiResponseError } from "../../utils/apiClient";
 import queryKeys from "../../utils/queryKeys";
-import { LoggedInMe } from "./useMeQuery";
+import { LoggedInMe, MyProfile } from "./../../types/auth";
 
-type LoginRequest = {
+type LoginCredential = {
   email: string;
   password: string;
 };
@@ -18,30 +18,29 @@ type LoginResponse = {
 };
 
 type LoggedIn = {
-  result: "loggedIn";
-} & LoginResponse;
-
-type InvalidCredential = {
-  result: "invalidCredential";
-  reason: string;
+  status: "loggedIn";
+  myProfile: MyProfile;
 };
 
-type LoginResult = LoggedIn | InvalidCredential;
+type InvalidCredential = {
+  status: "invalidCredential";
+  message: string;
+};
 
-async function login(credential: LoginRequest): Promise<LoginResult> {
+async function login({ email, password }: LoginCredential): Promise<LoggedIn | InvalidCredential> {
   try {
-    const { data } = await apiClient.post<LoginResponse>("/auth/login", credential);
+    const { data } = await apiClient.post<LoginResponse>("/auth/login", { email, password });
     return {
-      result: "loggedIn",
-      ...data,
+      status: "loggedIn",
+      myProfile: data,
     };
   } catch (error) {
     if (error instanceof ApiResponseError) {
       switch (error.statusCode) {
         case 401: {
           return {
-            result: "invalidCredential",
-            reason: error.message,
+            status: "invalidCredential",
+            message: error.message,
           };
         }
       }
@@ -56,17 +55,11 @@ export default function useLogin() {
   return useMutation({
     mutationFn: login,
     onSuccess: (loginResult) => {
-      if (loginResult.result === "loggedIn") {
-        const { id, username, email, shortIntroduction, introduction } = loginResult;
-        const loggedInMe: LoggedInMe = {
-          isLoggedIn: true,
-          id,
-          username,
-          email,
-          shortIntroduction,
-          introduction,
-        };
-        queryClient.setQueryData(queryKeys.me, loggedInMe);
+      if (loginResult.status === "loggedIn") {
+        queryClient.setQueryData<LoggedInMe>(queryKeys.me, {
+          status: "loggedIn",
+          myProfile: loginResult.myProfile,
+        });
       }
     },
   });

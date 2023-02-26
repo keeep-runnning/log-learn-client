@@ -2,6 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import apiClient from "../../utils/apiClient";
 import queryKeys from "../../utils/queryKeys";
+import { PostListItem } from "../../types/posts";
 
 type LoadPageOfPostsFilter = {
   authorName: string;
@@ -19,25 +20,15 @@ type LoadPageOfPostsResponse = {
   nextCursor: number | null;
 };
 
-export type Post = {
-  id: number;
-  title: string;
-  createdAt: Date;
-  author: {
-    id: number;
-    name: string;
-  };
-};
-
-type LoadPageOfPostsResult = {
-  posts: Post[];
+type PageOfPosts = {
+  posts: PostListItem[];
   nextCursor: number | null;
 };
 
 async function loadPageOfPosts({
   authorName,
   cursor,
-}: LoadPageOfPostsFilter): Promise<LoadPageOfPostsResult> {
+}: LoadPageOfPostsFilter): Promise<PageOfPosts> {
   let url = `/posts?authorName=${authorName}`;
   if (cursor) url += `&cursor=${cursor}`;
 

@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
-import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
+import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 import usePasswordSetting from "../../hooks/auth/usePasswordSetting";
 
 type PasswordSettingFormData = {
@@ -38,14 +38,14 @@ export default function PasswordSettingForm() {
 
   const passwordSettingMutation = usePasswordSetting();
 
-  const handleUnauthenticatedError = useHandleUnauthenticatedError();
+  const handleUnauthenticated = useHandleUnauthenticated();
 
   const handleSubmitPasswordSettingForm = handleSubmit(({ oldPassword, newPassword }) => {
     passwordSettingMutation.mutate(
       { oldPassword, newPassword },
       {
         onSuccess: (passwordSettingResult) => {
-          if (passwordSettingResult.result === "submitted") {
+          if (passwordSettingResult.status === "submitted") {
             reset();
             toast({
               description: "비밀번호가 변경되었습니다",
@@ -53,7 +53,7 @@ export default function PasswordSettingForm() {
               position: "top",
               isClosable: true,
             });
-          } else if (passwordSettingResult.result === "fieldsInvalid") {
+          } else if (passwordSettingResult.status === "fieldsInvalid") {
             passwordSettingResult.fieldErrors.forEach(({ field, reason }) => {
               if (field === "oldPassword" || field === "newPassword") {
                 setError(field, {
@@ -62,13 +62,13 @@ export default function PasswordSettingForm() {
                 });
               }
             });
-          } else if (passwordSettingResult.result === "oldPasswordWrong") {
+          } else if (passwordSettingResult.status === "oldPasswordWrong") {
             setError("oldPassword", {
               type: "oldPasswordWrong",
-              message: passwordSettingResult.reason,
+              message: passwordSettingResult.message,
             });
-          } else if (passwordSettingResult.result === "unauthenticated") {
-            handleUnauthenticatedError();
+          } else if (passwordSettingResult.status === "unauthenticated") {
+            handleUnauthenticated();
           }
         },
       }

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Editor from "../editor/Editor";
 import usePostPublication from "../../hooks/posts/usePostPublication";
 import { pagePath } from "../../utils/page";
-import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
+import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 
 type PostPublicationFormData = {
   title: string;
@@ -31,17 +31,17 @@ export default function PostPublicationForm() {
 
   const toast = useToast();
 
-  const handleUnauthenticated = useHandleUnauthenticatedError();
+  const handleUnauthenticated = useHandleUnauthenticated();
 
   const onSubmit = ({ title, content }: PostPublicationFormData) => {
     postPublicationMutation.mutate(
       { title, content },
       {
         onSuccess: (postPublicationResult) => {
-          if (postPublicationResult.result === "published") {
+          if (postPublicationResult.status === "published") {
             navigate(pagePath.getPostDetail(postPublicationResult.newPost.id), { replace: true });
-          } else if (postPublicationResult.result === "fieldsInvalid") {
-            const message = postPublicationResult.fieldError
+          } else if (postPublicationResult.status === "fieldsInvalid") {
+            const message = postPublicationResult.fieldErrors
               .filter(({ field }) => ["title", "content"].includes(field))
               .map(({ reason }) => reason)
               .join(". ");
@@ -52,7 +52,7 @@ export default function PostPublicationForm() {
               isClosable: true,
               duration: 10000,
             });
-          } else if (postPublicationResult.result === "unauthenticated") {
+          } else if (postPublicationResult.status === "unauthenticated") {
             handleUnauthenticated();
           }
         },

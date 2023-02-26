@@ -53,18 +53,18 @@ export default function SignUpForm() {
       { username, email, password },
       {
         onSuccess: (signUpResult) => {
-          if (signUpResult.result === "submitted") {
+          if (signUpResult.status === "submitted") {
             navigate(pagePath.getLogin(), { replace: true });
             toast({
               title: "회원가입 성공",
-              description: `${signUpResult.username}님 환영합니다. 로그인 해주세요.`,
+              description: `${signUpResult.createdUserProfile.username}님 환영합니다. 로그인 해주세요.`,
               status: "success",
               position: "top",
               isClosable: true,
             });
-          } else if (signUpResult.result === "failed") {
-            setAlertMessage(signUpResult.reason);
-          } else if (signUpResult.result === "invalidFields") {
+          } else if (signUpResult.status === "failed") {
+            setAlertMessage(signUpResult.message);
+          } else if (signUpResult.status === "fieldsInvalid") {
             signUpResult.fieldErrors.forEach(({ field, reason }) => {
               if (field === "username" || field === "email" || field === "password") {
                 setError(field, {

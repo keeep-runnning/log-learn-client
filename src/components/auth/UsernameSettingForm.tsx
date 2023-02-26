@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
-import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
+import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 import useUsernameSetting from "../../hooks/auth/useUsernameSetting";
 
 type UsernameSettingFormProps = {
@@ -37,12 +37,12 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
 
   const toast = useToast();
 
-  const handleUnauthenticatedError = useHandleUnauthenticatedError();
+  const handleUnauthenticated = useHandleUnauthenticated();
 
   const handleSubmitUsernameSettingForm = handleSubmit(({ username }) => {
     usernameSettingMutation.mutate(username, {
       onSuccess: (usernameSettingResult) => {
-        if (usernameSettingResult.result === "submitted") {
+        if (usernameSettingResult.status === "submitted") {
           reset({
             username: usernameSettingResult.username,
           });
@@ -52,7 +52,7 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
             status: "success",
             isClosable: true,
           });
-        } else if (usernameSettingResult.result === "fieldInvalid") {
+        } else if (usernameSettingResult.status === "fieldsInvalid") {
           usernameSettingResult.fieldErrors.forEach(({ field, reason }) => {
             if (field === "username") {
               setError(field, {
@@ -61,12 +61,12 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
               });
             }
           });
-        } else if (usernameSettingResult.result === "unauthenticated") {
-          handleUnauthenticatedError();
-        } else if (usernameSettingResult.result === "usernameExists") {
+        } else if (usernameSettingResult.status === "unauthenticated") {
+          handleUnauthenticated();
+        } else if (usernameSettingResult.status === "usernameExists") {
           setError("username", {
             type: "usernameExists",
-            message: usernameSettingResult.reason,
+            message: usernameSettingResult.message,
           });
         }
       },

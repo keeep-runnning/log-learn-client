@@ -15,11 +15,11 @@ import {
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 
-import { PostDetail } from "../../hooks/posts/PostDetail";
+import { PostDetail } from "../../types/posts";
 import usePostEdit from "../../hooks/posts/usePostEdit";
 import BaseContainer from "../../pages/BaseContainer";
 import Editor from "../editor/Editor";
-import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
+import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 
 type PostEditFormDrawerProps = {
   post: PostDetail;
@@ -48,7 +48,7 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
     },
   });
 
-  const handleUnauthenticated = useHandleUnauthenticatedError();
+  const handleUnauthenticated = useHandleUnauthenticated();
 
   const postEditMutation = usePostEdit();
 
@@ -62,18 +62,16 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
       { id: post.id, title: formData.title, content: formData.content },
       {
         onSuccess: (mutationResult) => {
-          switch (mutationResult.result) {
+          switch (mutationResult.status) {
             case "edited": {
               const { title, content } = mutationResult.editedPost;
               reset({ title, content });
-
               toast({
                 description: "블로그 포스트가 수정되었습니다",
                 status: "success",
                 position: "top",
                 isClosable: true,
               });
-
               break;
             }
             case "fieldsInvalid": {
@@ -81,7 +79,6 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
                 .filter(({ field }) => field === "title" || field === "content")
                 .map(({ reason }) => reason)
                 .join(". ");
-
               toast({
                 description: message,
                 status: "error",
@@ -95,7 +92,7 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
               break;
             }
             default: {
-              throw new Error(`Unexpected result of editing post: ${mutationResult.result}`);
+              throw new Error(`Unexpected result of editing post: ${mutationResult.status}`);
             }
           }
         },

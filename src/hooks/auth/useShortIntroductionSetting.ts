@@ -8,31 +8,29 @@ type SetShortIntroductionResponse = {
 };
 
 type Submitted = {
-  result: "submitted";
+  status: "submitted";
 } & SetShortIntroductionResponse;
 
 type Unauthenticated = {
-  result: "unauthenticated";
-  reason: string;
+  status: "unauthenticated";
+  message: string;
 };
 
-type FieldInvalid = {
-  result: "fieldInvalid";
+type FieldsInvalid = {
+  status: "fieldsInvalid";
   fieldErrors: ApiFieldError[];
 };
 
-type SetShortIntroductionResult = Submitted | Unauthenticated | FieldInvalid;
-
 async function setShortIntroduction(
   shortIntroduction: string
-): Promise<SetShortIntroductionResult> {
+): Promise<Submitted | Unauthenticated | FieldsInvalid> {
   try {
     const { data } = await apiClient.put<SetShortIntroductionResponse>(
       "/auth/me/short-introduction",
       { shortIntroduction }
     );
     return {
-      result: "submitted",
+      status: "submitted",
       ...data,
     };
   } catch (error) {
@@ -40,14 +38,14 @@ async function setShortIntroduction(
       switch (error.statusCode) {
         case 400: {
           return {
-            result: "fieldInvalid",
+            status: "fieldsInvalid",
             fieldErrors: error.fieldErrors,
           };
         }
         case 401: {
           return {
-            result: "unauthenticated",
-            reason: error.message,
+            status: "unauthenticated",
+            message: error.message,
           };
         }
       }
@@ -62,7 +60,7 @@ export default function useShortIntroductionSetting() {
   return useMutation({
     mutationFn: setShortIntroduction,
     onSuccess: (shortIntroductionSettingResult) => {
-      if (shortIntroductionSettingResult.result === "submitted") {
+      if (shortIntroductionSettingResult.status === "submitted") {
         queryClient.invalidateQueries({
           queryKey: queryKeys.me,
         });

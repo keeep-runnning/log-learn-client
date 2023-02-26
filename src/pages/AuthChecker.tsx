@@ -15,7 +15,7 @@ export default function AuthChecker({ children }: AuthCheckerProps) {
   const location = useLocation();
 
   if (me.data) {
-    if (!me.data.isLoggedIn) {
+    if (me.data.status === "loggedOut") {
       return <Navigate to={pagePath.getLogin()} replace state={{ from: location }} />;
     }
 

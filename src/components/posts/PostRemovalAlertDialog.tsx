@@ -14,10 +14,10 @@ import {
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { PostDetail } from "../../hooks/posts/PostDetail";
+import { PostDetail } from "../../types/posts";
 import usePostRemoval from "../../hooks/posts/usePostRemoval";
 import { pagePath } from "../../utils/page";
-import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
+import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 
 type PostRemovalAlertDialogProps = {
   post: PostDetail;
@@ -36,7 +36,7 @@ export default function PostRemovalAlertDialog({
 
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
 
-  const handleUnauthenticated = useHandleUnauthenticatedError();
+  const handleUnauthenticated = useHandleUnauthenticated();
 
   const postRemovalMutation = usePostRemoval(post);
 
