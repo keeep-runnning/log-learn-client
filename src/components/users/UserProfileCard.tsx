@@ -1,15 +1,13 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 
 import EmptyMessage from "../EmptyMessage";
+import { UserProfile } from "../../types/users";
 
 type UserProfileCardProps = {
-  user: {
-    username: string;
-    shortIntroduction: string;
-  };
+  userProfile: UserProfile;
 };
 
-export default function UserProfileCard({ user }: UserProfileCardProps) {
+export default function UserProfileCard({ userProfile }: UserProfileCardProps) {
   return (
     <Flex
       as="article"
@@ -18,14 +16,14 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
       rowGap={{ base: 4, md: 6 }}
       p={{ base: 4, md: 6 }}
       borderColor="gray.300"
-      borderWidth="2px"
+      borderWidth="thin"
       borderRadius="md"
     >
-      <Text fontWeight="bold" fontSize={{ base: "2xl", md: "3xl" }}>
-        {user.username}
-      </Text>
-      {user.shortIntroduction ? (
-        <Text>{user.shortIntroduction}</Text>
+      <Heading fontWeight="bold" fontSize={{ base: "2xl", md: "3xl" }}>
+        {userProfile.username}
+      </Heading>
+      {userProfile.shortIntroduction ? (
+        <Text>{userProfile.shortIntroduction}</Text>
       ) : (
         <EmptyMessage message="짧은 소개가 작성되지 않았습니다" />
       )}

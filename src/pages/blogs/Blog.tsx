@@ -4,47 +4,33 @@ import { Flex } from "@chakra-ui/react";
 import { pagePath } from "../../utils/page";
 import UserProfileCard from "../../components/users/UserProfileCard";
 import NavLinkTabs from "../../components/NavLinkTabs";
-import useUserInfoQuery from "../../hooks/users/useUserInfoQuery";
+import useUserProfileQuery from "../../hooks/users/useUserProfileQuery";
 import NotFound from "../NotFound";
 import LoadingMessage from "../../components/LoadingMessage";
 import BaseContainer from "../BaseContainer";
-
-type BlogOwner = {
-  username: string;
-  shortIntroduction: string;
-  introduction: string;
-};
+import { UserProfile } from "../../types/users";
 
 export function useBlogOwner() {
-  return useOutletContext<{ blogOwner: BlogOwner }>();
+  return useOutletContext<{ blogOwner: UserProfile }>();
 }
 
 export default function Blog() {
   const params = useParams();
   const usernameParam: string = params.username!;
 
-  const userInfoQuery = useUserInfoQuery(usernameParam);
+  const userProfileQuery = useUserProfileQuery(usernameParam);
 
-  if (userInfoQuery.data) {
-    if (userInfoQuery.data.result === "notFound") {
+  if (userProfileQuery.data) {
+    if (userProfileQuery.data.status === "notFound") {
       return <NotFound />;
     }
 
-    const blogOwner: BlogOwner = {
-      username: userInfoQuery.data.username,
-      shortIntroduction: userInfoQuery.data.shortIntroduction,
-      introduction: userInfoQuery.data.introduction,
-    };
+    const blogOwner: UserProfile = userProfileQuery.data.userProfile;
 
     return (
       <Flex direction="column" rowGap={8}>
         <BaseContainer>
-          <UserProfileCard
-            user={{
-              username: blogOwner.username,
-              shortIntroduction: blogOwner.shortIntroduction,
-            }}
-          />
+          <UserProfileCard userProfile={blogOwner} />
         </BaseContainer>
         <BaseContainer>
           <NavLinkTabs
