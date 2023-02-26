@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient from "../../utils/apiClient";
 import queryKeys from "../../utils/queryKeys";
-import { LoggedOutMe } from "./useMeQuery";
+import { LoggedOutMe } from "../../types/auth";
 
 async function logout(): Promise<void> {
   await apiClient.post("/auth/logout");
@@ -14,10 +14,7 @@ export default function useLogout() {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      const loggedOutMe: LoggedOutMe = {
-        isLoggedIn: false,
-      };
-      queryClient.setQueryData(queryKeys.me, loggedOutMe);
+      queryClient.setQueryData<LoggedOutMe>(queryKeys.me, { status: "loggedOut" });
     },
   });
 }

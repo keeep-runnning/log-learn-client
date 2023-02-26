@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { pagePath } from "../../utils/page";
 import queryKeys from "../../utils/queryKeys";
-import { LoggedOutMe } from "./useMeQuery";
+import { LoggedOutMe } from "../../types/auth";
 
-export default function useHandleUnauthenticatedError() {
+export default function useHandleUnauthenticated() {
   const toast = useToast();
 
   const navigate = useNavigate();
@@ -16,10 +16,7 @@ export default function useHandleUnauthenticatedError() {
   const queryClient = useQueryClient();
 
   return () => {
-    const loggedOutMe: LoggedOutMe = {
-      isLoggedIn: false,
-    };
-    queryClient.setQueryData(queryKeys.me, loggedOutMe);
+    queryClient.setQueryData<LoggedOutMe>(queryKeys.me, { status: "loggedOut" });
 
     navigate(pagePath.getLogin(), {
       replace: true,

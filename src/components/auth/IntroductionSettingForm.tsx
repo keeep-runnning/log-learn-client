@@ -3,7 +3,7 @@ import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, useToast } from
 
 import Editor from "../editor/Editor";
 import useIntroductionSetting from "../../hooks/auth/useIntroductionSetting";
-import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
+import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 
 type IntroductionSettingFormProps = {
   defaultIntroduction: string;
@@ -18,22 +18,22 @@ export default function IntroductionSettingForm({
 
   const introductionSettingMutation = useIntroductionSetting();
 
-  const handleUnauthenticatedError = useHandleUnauthenticatedError();
+  const handleUnauthenticated = useHandleUnauthenticated();
 
   const handleSubmit = (e: FormEvent<HTMLDivElement>): void => {
     e.preventDefault();
 
     introductionSettingMutation.mutate(introduction, {
       onSuccess: (introductionSettingResult) => {
-        if (introductionSettingResult.result === "submitted") {
+        if (introductionSettingResult.status === "submitted") {
           toast({
             description: "소개가 수정되었습니다",
             status: "success",
             position: "top",
             isClosable: true,
           });
-        } else if (introductionSettingResult.result === "unauthenticated") {
-          handleUnauthenticatedError();
+        } else if (introductionSettingResult.status === "unauthenticated") {
+          handleUnauthenticated();
         }
       },
     });

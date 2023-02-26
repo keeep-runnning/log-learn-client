@@ -10,7 +10,7 @@ type PostControlButtonsProps = {
 };
 
 export default function PostControlButtons({ post }: PostControlButtonsProps) {
-  const meQuery = useMeQuery();
+  const { data } = useMeQuery();
 
   const {
     isOpen: isEditFormOpen,
@@ -24,8 +24,8 @@ export default function PostControlButtons({ post }: PostControlButtonsProps) {
     onClose: onCloseRemovalDialog,
   } = useDisclosure();
 
-  if (meQuery.data) {
-    const hasControl = meQuery.data.isLoggedIn && meQuery.data.id === post.author.id;
+  if (data) {
+    const hasControl = data.status === "loggedIn" && data.myProfile.id === post.author.id;
 
     if (!hasControl) {
       return null;

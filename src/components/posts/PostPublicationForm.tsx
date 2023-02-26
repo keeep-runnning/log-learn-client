@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Editor from "../editor/Editor";
 import usePostPublication from "../../hooks/posts/usePostPublication";
 import { pagePath } from "../../utils/page";
-import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
+import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 
 type PostPublicationFormData = {
   title: string;
@@ -31,7 +31,7 @@ export default function PostPublicationForm() {
 
   const toast = useToast();
 
-  const handleUnauthenticated = useHandleUnauthenticatedError();
+  const handleUnauthenticated = useHandleUnauthenticated();
 
   const onSubmit = ({ title, content }: PostPublicationFormData) => {
     postPublicationMutation.mutate(

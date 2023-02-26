@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
-import useHandleUnauthenticatedError from "../../hooks/auth/useHandleUnauthenticatedError";
+import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 import useShortIntroductionSetting from "../../hooks/auth/useShortIntroductionSetting";
 
 type ShortIntroductionSettingFormProps = {
@@ -39,12 +39,12 @@ export default function ShortIntroductionSettingForm({
 
   const shortIntroductionSettingMutation = useShortIntroductionSetting();
 
-  const handleUnauthenticatedError = useHandleUnauthenticatedError();
+  const handleUnauthenticated = useHandleUnauthenticated();
 
   const handleSubmitShortIntroductionSettingForm = handleSubmit(({ shortIntroduction }) => {
     shortIntroductionSettingMutation.mutate(shortIntroduction, {
       onSuccess: (shortIntroductionSettingResult) => {
-        if (shortIntroductionSettingResult.result === "submitted") {
+        if (shortIntroductionSettingResult.status === "submitted") {
           reset({
             shortIntroduction: shortIntroductionSettingResult.shortIntroduction,
           });
@@ -54,9 +54,9 @@ export default function ShortIntroductionSettingForm({
             position: "top",
             isClosable: true,
           });
-        } else if (shortIntroductionSettingResult.result === "unauthenticated") {
-          handleUnauthenticatedError();
-        } else if (shortIntroductionSettingResult.result === "fieldInvalid") {
+        } else if (shortIntroductionSettingResult.status === "unauthenticated") {
+          handleUnauthenticated();
+        } else if (shortIntroductionSettingResult.status === "fieldsInvalid") {
           shortIntroductionSettingResult.fieldErrors.forEach(({ field, reason }) => {
             if (field === "shortIntroduction") {
               setError(field, {

@@ -8,33 +8,33 @@ type SetUsernameResponse = {
 };
 
 type Submitted = {
-  result: "submitted";
+  status: "submitted";
 } & SetUsernameResponse;
 
 type Unauthenticated = {
-  result: "unauthenticated";
-  reason: string;
+  status: "unauthenticated";
+  message: string;
 };
 
 type UsernameExists = {
-  result: "usernameExists";
-  reason: string;
+  status: "usernameExists";
+  message: string;
 };
 
-type FieldInvalid = {
-  result: "fieldInvalid";
+type FieldsInvalid = {
+  status: "fieldsInvalid";
   fieldErrors: ApiFieldError[];
 };
 
-type SetUsernameResult = Submitted | Unauthenticated | UsernameExists | FieldInvalid;
-
-async function setUsername(username: string): Promise<SetUsernameResult> {
+async function setUsername(
+  username: string
+): Promise<Submitted | Unauthenticated | UsernameExists | FieldsInvalid> {
   try {
     const { data } = await apiClient.put<SetUsernameResponse>("/auth/me/username", {
       username,
     });
     return {
-      result: "submitted",
+      status: "submitted",
       ...data,
     };
   } catch (error) {
@@ -42,20 +42,20 @@ async function setUsername(username: string): Promise<SetUsernameResult> {
       switch (error.statusCode) {
         case 400: {
           return {
-            result: "fieldInvalid",
+            status: "fieldsInvalid",
             fieldErrors: error.fieldErrors,
           };
         }
         case 401: {
           return {
-            result: "unauthenticated",
-            reason: error.message,
+            status: "unauthenticated",
+            message: error.message,
           };
         }
         case 409: {
           return {
-            result: "usernameExists",
-            reason: error.message,
+            status: "usernameExists",
+            message: error.message,
           };
         }
       }
@@ -70,7 +70,7 @@ export default function useUsernameSetting() {
   return useMutation({
     mutationFn: setUsername,
     onSuccess: (usernameSettingResult) => {
-      if (usernameSettingResult.result === "submitted") {
+      if (usernameSettingResult.status === "submitted") {
         queryClient.invalidateQueries({
           queryKey: queryKeys.me,
         });

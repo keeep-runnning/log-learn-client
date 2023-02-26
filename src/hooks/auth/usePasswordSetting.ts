@@ -2,57 +2,57 @@ import { useMutation } from "@tanstack/react-query";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "../../utils/apiClient";
 
-type SetPasswordRequest = {
+type SetPasswordData = {
   oldPassword: string;
   newPassword: string;
 };
 
 type Submitted = {
-  result: "submitted";
+  status: "submitted";
 };
 
 type FieldsInvalid = {
-  result: "fieldsInvalid";
+  status: "fieldsInvalid";
   fieldErrors: ApiFieldError[];
 };
 
 type Unauthenticated = {
-  result: "unauthenticated";
-  reason: string;
+  status: "unauthenticated";
+  message: string;
 };
 
 type OldPasswordWrong = {
-  result: "oldPasswordWrong";
-  reason: string;
+  status: "oldPasswordWrong";
+  message: string;
 };
 
-type SetPasswordResult = Submitted | FieldsInvalid | Unauthenticated | OldPasswordWrong;
-
-async function setPassword(passwords: SetPasswordRequest): Promise<SetPasswordResult> {
+async function setPassword(
+  passwords: SetPasswordData
+): Promise<Submitted | FieldsInvalid | Unauthenticated | OldPasswordWrong> {
   try {
     await apiClient.put("/auth/me/password", passwords);
     return {
-      result: "submitted",
+      status: "submitted",
     };
   } catch (error) {
     if (error instanceof ApiResponseError) {
       switch (error.statusCode) {
         case 400: {
           return {
-            result: "fieldsInvalid",
+            status: "fieldsInvalid",
             fieldErrors: error.fieldErrors,
           };
         }
         case 401: {
           return {
-            result: "unauthenticated",
-            reason: error.message,
+            status: "unauthenticated",
+            message: error.message,
           };
         }
         case 409: {
           return {
-            result: "oldPasswordWrong",
-            reason: error.message,
+            status: "oldPasswordWrong",
+            message: error.message,
           };
         }
       }

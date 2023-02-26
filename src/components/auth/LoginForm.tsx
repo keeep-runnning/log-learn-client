@@ -46,12 +46,12 @@ export default function LoginForm() {
       { email, password },
       {
         onSuccess: (loginResult) => {
-          if (loginResult.result === "loggedIn") {
+          if (loginResult.status === "loggedIn") {
             const redirectURL =
-              location.state?.from?.pathname || pagePath.getBlog(loginResult.username);
+              location.state?.from?.pathname || pagePath.getBlog(loginResult.myProfile.username);
             navigate(redirectURL, { replace: true });
-          } else if (loginResult.result === "invalidCredential") {
-            setAlertMessage(loginResult.reason);
+          } else if (loginResult.status === "invalidCredential") {
+            setAlertMessage(loginResult.message);
           }
         },
       }
