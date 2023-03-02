@@ -4,8 +4,10 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const isDevelopment = process.env.NODE_ENV !== "production";
+const useAnalyzer = process.env.ANALYZE === "analyze";
 
 module.exports = {
   context: __dirname,
@@ -67,6 +69,11 @@ module.exports = {
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     !isDevelopment && new MiniCssExtractPlugin(),
+    !isDevelopment &&
+      useAnalyzer &&
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static",
+      }),
   ].filter(Boolean),
   optimization: {
     minimizer: ["...", new CssMinimizerPlugin()],

@@ -3,9 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "prepare": "husky install",
+    "dev": "cross-env NODE_ENV=development webpack serve --progress",
     "build": "cross-env NODE_ENV=production webpack --progress",
-    "dev": "webpack serve --progress",
-    "prepare": "husky install"
+    "build:analyze": "cross-env NODE_ENV=production ANALYZE=analyze webpack --progress"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
@@ -51,6 +52,7 @@
     "style-loader": "^3.3.1",
     "typescript": "^4.9.4",
     "webpack": "^5.75.0",
+    "webpack-bundle-analyzer": "^4.8.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   },
