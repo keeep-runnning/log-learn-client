@@ -1,7 +1,7 @@
 import Viewer from "../../components/editor/Viewer";
 import EmptyMessage from "../../components/EmptyMessage";
-import BaseContainer from "../BaseContainer";
-import { useBlogOwner } from "./Blog";
+import BaseContainer from "../../components/BaseContainer";
+import { useBlogOwner } from "./BlogLayout";
 
 export default function BlogOwnerIntroduction() {
   const { blogOwner } = useBlogOwner();

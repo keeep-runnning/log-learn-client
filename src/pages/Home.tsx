@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 
 import SparklingKeyword from "../components/SparklingKeyword";
-import BaseContainer from "./BaseContainer";
+import BaseContainer from "../components/BaseContainer";
 
 const keywords = [
   {
@@ -18,7 +18,7 @@ const keywords = [
   },
 ];
 
-export default function Index() {
+export default function Home() {
   return (
     <BaseContainer>
       <Flex direction="column" rowGap={{ base: 12, md: 16 }} pt={{ base: 16, md: 20 }}>

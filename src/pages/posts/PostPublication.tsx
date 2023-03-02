@@ -1,5 +1,5 @@
 import PostPublicationForm from "../../components/posts/PostPublicationForm";
-import BaseContainer from "../BaseContainer";
+import BaseContainer from "../../components/BaseContainer";
 
 export default function PostPublication() {
   return (

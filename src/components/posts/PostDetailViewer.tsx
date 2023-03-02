@@ -13,7 +13,7 @@ type PostProps = {
   id: number;
 };
 
-export default function PostDetail({ id }: PostProps) {
+export default function PostDetailViewer({ id }: PostProps) {
   const postDetailQuery = usePostDetailQuery(id);
 
   if (postDetailQuery.data) {

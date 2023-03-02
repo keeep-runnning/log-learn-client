@@ -4,8 +4,8 @@ import { Box } from "@chakra-ui/react";
 import LoadingMessage from "../../components/LoadingMessage";
 import PostList from "../../components/posts/PostList";
 import usePostsInfiniteQuery from "../../hooks/posts/usePostsInfiniteQuery";
-import BaseContainer from "../BaseContainer";
-import { useBlogOwner } from "./Blog";
+import BaseContainer from "../../components/BaseContainer";
+import { useBlogOwner } from "./BlogLayout";
 
 export default function BlogOwnerPostList() {
   const { blogOwner } = useBlogOwner();

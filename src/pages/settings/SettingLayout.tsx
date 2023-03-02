@@ -3,9 +3,9 @@ import { Flex, Heading } from "@chakra-ui/react";
 
 import NavLinkTabs from "../../components/NavLinkTabs";
 import { pagePath } from "../../utils/page";
-import BaseContainer from "../BaseContainer";
+import BaseContainer from "../../components/BaseContainer";
 
-export default function Setting() {
+export default function SettingLayout() {
   return (
     <Flex direction="column" rowGap={{ base: 6, md: 8 }}>
       <BaseContainer>

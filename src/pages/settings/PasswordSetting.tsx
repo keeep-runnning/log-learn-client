@@ -1,5 +1,5 @@
 import PasswordSettingForm from "../../components/auth/PasswordSettingForm";
-import BaseContainer from "../BaseContainer";
+import BaseContainer from "../../components/BaseContainer";
 
 export default function PasswordSetting() {
   return (

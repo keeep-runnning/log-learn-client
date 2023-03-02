@@ -7,14 +7,14 @@ import NavLinkTabs from "../../components/NavLinkTabs";
 import useUserProfileQuery from "../../hooks/users/useUserProfileQuery";
 import NotFound from "../NotFound";
 import LoadingMessage from "../../components/LoadingMessage";
-import BaseContainer from "../BaseContainer";
+import BaseContainer from "../../components/BaseContainer";
 import { UserProfile } from "../../types/users";
 
 export function useBlogOwner() {
   return useOutletContext<{ blogOwner: UserProfile }>();
 }
 
-export default function Blog() {
+export default function BlogLayout() {
   const params = useParams();
   const usernameParam: string = params.username!;
 

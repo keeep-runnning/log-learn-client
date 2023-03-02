@@ -8,7 +8,7 @@ import IntroductionSettingForm from "../../components/auth/IntroductionSettingFo
 import { pagePath } from "../../utils/page";
 import useMeQuery from "../../hooks/auth/useMeQuery";
 import LoadingMessage from "../../components/LoadingMessage";
-import BaseContainer from "../BaseContainer";
+import BaseContainer from "../../components/BaseContainer";
 
 export default function MainSetting() {
   const me = useMeQuery();

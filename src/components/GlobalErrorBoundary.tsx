@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
-import BaseContainer from "../pages/BaseContainer";
+import BaseContainer from "./BaseContainer";
 
 type GlobalErrorBoundaryProps = {
   children: ReactNode;

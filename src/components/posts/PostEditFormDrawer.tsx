@@ -17,7 +17,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import { PostDetail } from "../../types/posts";
 import usePostEdit from "../../hooks/posts/usePostEdit";
-import BaseContainer from "../../pages/BaseContainer";
+import BaseContainer from "../BaseContainer";
 import Editor from "../editor/Editor";
 import useHandleUnauthenticated from "../../hooks/auth/useHandleUnauthenticated";
 

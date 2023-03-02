@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 
-import BaseContainer from "./BaseContainer";
+import BaseContainer from "../components/BaseContainer";
 
 export default function NotFound() {
   return (
