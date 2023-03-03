@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "prepare": "husky install",
-    "dev": "cross-env NODE_ENV=development webpack serve --progress",
-    "build": "cross-env NODE_ENV=production webpack --progress",
-    "build:analyze": "cross-env NODE_ENV=production ANALYZE=analyze webpack --progress"
+    "dev": "webpack serve --node-env development --progress",
+    "build": "webpack --node-env production --progress",
+    "build:analyze": "webpack --node-env production --analyze --progress"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
@@ -36,7 +36,6 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "babel-loader": "^9.1.2",
-    "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
     "css-minimizer-webpack-plugin": "^4.2.2",
     "eslint": "^8.26.0",
