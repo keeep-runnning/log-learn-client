@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -64,6 +65,11 @@ module.exports = {
           syntactic: true,
         },
       },
+    }),
+    new webpack.DefinePlugin({
+      "process.env.API_BASE_URL": isDevelopment
+        ? JSON.stringify("/api")
+        : JSON.stringify(process.env.API_BASE_URL),
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     !isDevelopment && new MiniCssExtractPlugin(),

@@ -24,7 +24,7 @@ export class ApiResponseError extends Error {
 }
 
 const apiClient = axios.create({
-  baseURL: "/api",
+  baseURL: process.env.API_BASE_URL,
   withCredentials: true,
 });
 
