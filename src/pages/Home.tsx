@@ -13,7 +13,7 @@ const keywords = [
     backgroundGradient: "linear-gradient(90deg, rgba(0,254,132,1) 10%, rgba(14,70,235,1) 90%)",
   },
   {
-    keyword: "For Developers",
+    keyword: "For Everyone",
     backgroundGradient: "linear-gradient(90deg, rgba(55,0,254,1) 10%, rgba(233,14,235,1) 90%)",
   },
 ];
@@ -39,12 +39,13 @@ export default function Home() {
           textAlign="center"
           rowGap={{ md: 2 }}
         >
-          <Text>쉽고 간단한 블로그 서비스,</Text>
           <Text>
+            쉽고 간단한 블로그 서비스,
+            <br />
             <Text as="strong" color="main.500" fontWeight="bold">
-              log learn
+              {process.env.APP_NAME}
             </Text>
-            을 이용해 학습한 내용을 정리하세요
+            을 이용해보세요
           </Text>
         </Flex>
       </Flex>

@@ -12,7 +12,7 @@ export default function SignUp() {
         <AuthFormHeader title="회원가입" />
         <SignUpForm />
         <Text textAlign="center" fontSize="sm">
-          가입시, log learn의{" "}
+          가입시, {process.env.APP_NAME}의{" "}
           <Text as="strong" color="main.500" fontWeight="bold">
             이용약관
           </Text>

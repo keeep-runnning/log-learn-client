@@ -31,7 +31,7 @@ function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
         >
           <Text fontSize="lg">
             알 수 없는 <Text as="strong">에러</Text>가 발생했습니다. <br />
-            <Text as="strong">에러</Text>가 계속 발생하면, log learn팀으로{" "}
+            <Text as="strong">에러</Text>가 계속 발생하면, {process.env.APP_NAME}팀으로{" "}
             <Text as="strong">문의</Text>해주세요.
           </Text>
           <ButtonGroup size="sm" alignSelf="center">

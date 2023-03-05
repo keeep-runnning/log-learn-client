@@ -71,6 +71,7 @@ module.exports = {
       "process.env.API_BASE_URL": isDevelopment
         ? JSON.stringify("/api")
         : JSON.stringify(process.env.API_BASE_URL),
+      "process.env.APP_NAME": JSON.stringify("log simple"),
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     !isDevelopment && new MiniCssExtractPlugin(),

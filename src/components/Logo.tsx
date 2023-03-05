@@ -7,7 +7,7 @@ export default function Logo() {
     <Flex alignItems="center" columnGap={2}>
       <Image src={logoImage} alt="logo" boxSize="28px" />
       <Text fontSize="2xl" fontWeight="bold" as="span">
-        log learn
+        {process.env.APP_NAME}
       </Text>
     </Flex>
   );
