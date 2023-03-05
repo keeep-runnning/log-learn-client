@@ -1,6 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import { format, differenceInDays, formatDistanceToNow, differenceInSeconds } from "date-fns";
-import { ko } from "date-fns/locale";
+import { formatDate, formatRelativeDateTime } from "../utils/dateTimeFormatter";
 
 type DateTimeProps = {
   dateTime: Date;
@@ -9,20 +8,17 @@ type DateTimeProps = {
 export default function DateTime({ dateTime }: DateTimeProps) {
   return (
     <Text color="gray.500" fontSize="sm">
-      {formatDateTime(dateTime, new Date())}
+      {format(dateTime)}
     </Text>
   );
 }
 
-function formatDateTime(dateTime: Date, now: Date): string {
-  const diffDays = differenceInDays(now, dateTime);
-  if (diffDays < 7) {
-    const diffSeconds = differenceInSeconds(now, dateTime);
-    if (diffSeconds <= 30) {
-      return "방금 전";
-    } else {
-      return formatDistanceToNow(dateTime, { addSuffix: true, locale: ko });
-    }
+function format(dateTime: Date): string {
+  const diffInMS = Date.now() - dateTime.getTime();
+
+  if (diffInMS < 7 * 24 * 60 * 60 * 1000) {
+    return formatRelativeDateTime(dateTime);
   }
-  return format(dateTime, "yyyy년 MM월 dd일", { locale: ko });
+
+  return formatDate(dateTime);
 }
