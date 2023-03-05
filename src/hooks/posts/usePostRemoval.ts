@@ -61,12 +61,12 @@ export default function usePostRemoval(post: PostDetail) {
 
   return useMutation({
     mutationFn: () => removePost(post.id),
-    onSuccess: (mutationResult) => {
-      if (mutationResult.status === "removed") {
+    onSuccess: (result) => {
+      if (result.status === "removed") {
         queryClient.invalidateQueries({
           queryKey: queryKeys.posts.detail(post.id),
         });
-        queryClient.invalidateQueries({
+        queryClient.resetQueries({
           queryKey: queryKeys.posts.list(post.author.name),
         });
       }

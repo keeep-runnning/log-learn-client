@@ -105,13 +105,13 @@ export default function usePostEdit() {
 
   return useMutation({
     mutationFn: editPost,
-    onSuccess: (editPostResult) => {
-      if (editPostResult.status === "edited") {
+    onSuccess: (result) => {
+      if (result.status === "edited") {
         queryClient.invalidateQueries({
-          queryKey: queryKeys.posts.detail(editPostResult.editedPost.id),
+          queryKey: queryKeys.posts.detail(result.editedPost.id),
         });
-        queryClient.invalidateQueries({
-          queryKey: queryKeys.posts.list(editPostResult.editedPost.author.name),
+        queryClient.resetQueries({
+          queryKey: queryKeys.posts.list(result.editedPost.author.name),
         });
       }
     },

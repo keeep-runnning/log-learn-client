@@ -1,7 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, { ApiFieldError, ApiResponseError } from "./../../utils/apiClient";
 import { PostDetail } from "../../types/posts";
+import queryKeys from "../../utils/queryKeys";
 
 type PublishPostData = {
   title: string;
@@ -75,7 +76,16 @@ async function publishPost({
 }
 
 export default function usePostPublication() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: publishPost,
+    onSuccess: (result) => {
+      if (result.status === "published") {
+        queryClient.resetQueries({
+          queryKey: queryKeys.posts.list(result.newPost.author.name),
+        });
+      }
+    },
   });
 }
