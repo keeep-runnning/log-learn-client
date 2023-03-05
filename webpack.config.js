@@ -1,4 +1,5 @@
 const path = require("path");
+require("dotenv").config();
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
@@ -85,7 +86,7 @@ module.exports = {
     hot: true,
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        target: process.env.API_BASE_URL,
         pathRewrite: { "^/api": "" },
       },
     },
