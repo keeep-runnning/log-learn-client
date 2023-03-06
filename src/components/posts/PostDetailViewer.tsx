@@ -45,7 +45,10 @@ export default function PostDetailViewer({ id }: PostProps) {
           </Flex>
         </Flex>
         <Divider />
-        <Viewer content={postDetail.content} />
+        <Viewer
+          content={postDetail.content}
+          defaultMessage="블로그 포스트 내용이 작성되지 않았습니다"
+        />
       </Flex>
     );
   }
