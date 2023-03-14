@@ -6,6 +6,7 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -84,7 +85,17 @@ module.exports = {
     !isDevelopment && new MiniCssExtractPlugin(),
   ].filter(Boolean),
   optimization: {
-    minimizer: ["...", new CssMinimizerPlugin()],
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+      new CssMinimizerPlugin(),
+    ],
   },
   devServer: {
     static: "./dist",
