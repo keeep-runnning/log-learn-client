@@ -11,7 +11,10 @@ export default function Blogs() {
     <Routes>
       <Route path="/" element={<BlogLayout />}>
         <Route index element={<BlogOwnerPostList />} />
-        <Route path={pageKeyword.introduction} element={<BlogOwnerIntroduction />} />
+        <Route
+          path={pageKeyword.introduction}
+          element={<BlogOwnerIntroduction />}
+        />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

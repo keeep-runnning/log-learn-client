@@ -21,7 +21,9 @@ type NotFound = {
 
 async function loadUserProfile(username: string): Promise<Loaded | NotFound> {
   try {
-    const { data } = await apiClient.get<LoadUserProfileResponse>(`/users/${username}`);
+    const { data } = await apiClient.get<LoadUserProfileResponse>(
+      `/users/${username}`
+    );
     return {
       status: "loaded",
       userProfile: data,

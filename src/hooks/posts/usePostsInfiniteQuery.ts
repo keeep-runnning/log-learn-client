@@ -51,7 +51,8 @@ async function loadPageOfPosts({
 export default function usePostsInfiniteQuery(authorName: string) {
   return useInfiniteQuery({
     queryKey: queryKeys.posts.list(authorName),
-    queryFn: ({ pageParam }) => loadPageOfPosts({ authorName, cursor: pageParam }),
+    queryFn: ({ pageParam }) =>
+      loadPageOfPosts({ authorName, cursor: pageParam }),
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 }

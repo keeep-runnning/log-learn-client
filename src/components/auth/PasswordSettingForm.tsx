@@ -40,52 +40,54 @@ export default function PasswordSettingForm() {
 
   const handleUnauthenticated = useHandleUnauthenticated();
 
-  const handleSubmitPasswordSettingForm = handleSubmit(({ oldPassword, newPassword }) => {
-    passwordSettingMutation.mutate(
-      { oldPassword, newPassword },
-      {
-        onSuccess: (result) => {
-          switch (result.status) {
-            case "submitted": {
-              reset();
-              toast({
-                description: "비밀번호가 변경되었습니다",
-                status: "success",
-                position: "top",
-                isClosable: true,
-              });
-              break;
+  const handleSubmitPasswordSettingForm = handleSubmit(
+    ({ oldPassword, newPassword }) => {
+      passwordSettingMutation.mutate(
+        { oldPassword, newPassword },
+        {
+          onSuccess: (result) => {
+            switch (result.status) {
+              case "submitted": {
+                reset();
+                toast({
+                  description: "비밀번호가 변경되었습니다",
+                  status: "success",
+                  position: "top",
+                  isClosable: true,
+                });
+                break;
+              }
+              case "fieldsInvalid": {
+                result.fieldErrors.forEach(({ field, reason }) => {
+                  if (field === "oldPassword" || field === "newPassword") {
+                    setError(field, {
+                      type: "serverValidation",
+                      message: reason,
+                    });
+                  }
+                });
+                break;
+              }
+              case "oldPasswordWrong": {
+                setError("oldPassword", {
+                  type: "oldPasswordWrong",
+                  message: result.message,
+                });
+                break;
+              }
+              case "unauthenticated": {
+                handleUnauthenticated();
+                break;
+              }
+              default: {
+                throw new Error("unexpected result of updating password");
+              }
             }
-            case "fieldsInvalid": {
-              result.fieldErrors.forEach(({ field, reason }) => {
-                if (field === "oldPassword" || field === "newPassword") {
-                  setError(field, {
-                    type: "serverValidation",
-                    message: reason,
-                  });
-                }
-              });
-              break;
-            }
-            case "oldPasswordWrong": {
-              setError("oldPassword", {
-                type: "oldPasswordWrong",
-                message: result.message,
-              });
-              break;
-            }
-            case "unauthenticated": {
-              handleUnauthenticated();
-              break;
-            }
-            default: {
-              throw new Error("unexpected result of updating password");
-            }
-          }
-        },
-      }
-    );
-  });
+          },
+        }
+      );
+    }
+  );
 
   return (
     <Flex
@@ -139,8 +141,10 @@ export default function PasswordSettingForm() {
                 message: "새 비밀번호를 8자 이상 32자 이하로 입력해주세요",
               },
               pattern: {
-                value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/,
-                message: "영문 대소문자/숫자/특수문자를 각각 1자 이상 포함해주세요",
+                value:
+                  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/,
+                message:
+                  "영문 대소문자/숫자/특수문자를 각각 1자 이상 포함해주세요",
               },
             })}
           />
@@ -171,7 +175,9 @@ export default function PasswordSettingForm() {
             })}
           />
           {errors.newPasswordCheck ? (
-            <FormErrorMessage>{errors.newPasswordCheck.message}</FormErrorMessage>
+            <FormErrorMessage>
+              {errors.newPasswordCheck.message}
+            </FormErrorMessage>
           ) : null}
         </Flex>
       </FormControl>

@@ -15,5 +15,12 @@ export default function Viewer({ content, defaultMessage }: ViewerProps) {
     return defaultMessage ? <EmptyMessage message={defaultMessage} /> : null;
   }
 
-  return <ReactQuill readOnly value={content} className="custom-viewer" theme="bubble" />;
+  return (
+    <ReactQuill
+      readOnly
+      value={content}
+      className="custom-viewer"
+      theme="bubble"
+    />
+  );
 }

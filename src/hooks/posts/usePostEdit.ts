@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import apiClient, { ApiFieldError, ApiResponseError } from "./../../utils/apiClient";
+import apiClient, {
+  ApiFieldError,
+  ApiResponseError,
+} from "./../../utils/apiClient";
 import { PostDetail } from "../../types/posts";
 import queryKeys from "../../utils/queryKeys";
 
@@ -48,9 +51,14 @@ async function editPost({
   id,
   title,
   content,
-}: EditPostData): Promise<Edited | FieldsInvalid | Unauthenticated | Unauthorized | NotFound> {
+}: EditPostData): Promise<
+  Edited | FieldsInvalid | Unauthenticated | Unauthorized | NotFound
+> {
   try {
-    const { data } = await apiClient.patch<EditPostResponse>(`/posts/${id}`, { title, content });
+    const { data } = await apiClient.patch<EditPostResponse>(`/posts/${id}`, {
+      title,
+      content,
+    });
     const editedPost: PostDetail = {
       id: data.id,
       title: data.title,

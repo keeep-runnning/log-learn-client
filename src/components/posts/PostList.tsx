@@ -1,5 +1,12 @@
 import { Link as ReactRouterLink } from "react-router-dom";
-import { Flex, Link, Skeleton, StackDivider, Text, VStack } from "@chakra-ui/react";
+import {
+  Flex,
+  Link,
+  Skeleton,
+  StackDivider,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 import { pagePath } from "../../utils/page";
 import DateTime from "../DateTime";
@@ -17,7 +24,11 @@ export default function PostList({ posts, isFetching }: PostListProps) {
   }
 
   return (
-    <VStack alignItems="stretch" spacing={6} divider={<StackDivider borderColor="gray.300" />}>
+    <VStack
+      alignItems="stretch"
+      spacing={6}
+      divider={<StackDivider borderColor="gray.300" />}
+    >
       {posts.map((post) => (
         <Flex key={post.id} direction="column" rowGap={4} px={2}>
           <Link

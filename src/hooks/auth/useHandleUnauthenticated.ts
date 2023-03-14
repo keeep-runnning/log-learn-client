@@ -16,7 +16,9 @@ export default function useHandleUnauthenticated() {
   const queryClient = useQueryClient();
 
   return () => {
-    queryClient.setQueryData<LoggedOutMe>(queryKeys.me, { status: "loggedOut" });
+    queryClient.setQueryData<LoggedOutMe>(queryKeys.me, {
+      status: "loggedOut",
+    });
 
     navigate(pagePath.getLogin(), {
       replace: true,

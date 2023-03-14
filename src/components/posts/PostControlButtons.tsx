@@ -25,7 +25,8 @@ export default function PostControlButtons({ post }: PostControlButtonsProps) {
   } = useDisclosure();
 
   if (data) {
-    const hasControl = data.status === "loggedIn" && data.myProfile.id === post.author.id;
+    const hasControl =
+      data.status === "loggedIn" && data.myProfile.id === post.author.id;
 
     if (!hasControl) {
       return null;
@@ -41,7 +42,11 @@ export default function PostControlButtons({ post }: PostControlButtonsProps) {
             삭제
           </Button>
         </ButtonGroup>
-        <PostEditFormDrawer post={post} isOpen={isEditFormOpen} onClose={onCloseEditForm} />
+        <PostEditFormDrawer
+          post={post}
+          isOpen={isEditFormOpen}
+          onClose={onCloseEditForm}
+        />
         <PostRemovalAlertDialog
           post={post}
           isOpen={isRemovalDialogOpen}

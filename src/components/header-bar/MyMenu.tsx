@@ -48,7 +48,12 @@ export default function MyMenu({ username }: MyMenuProps) {
       <MenuList>
         <MenuGroup>
           {linkMenus.map((linkMenu) => (
-            <MenuItem key={linkMenu.link} as={Link} to={linkMenu.link} icon={linkMenu.icon}>
+            <MenuItem
+              key={linkMenu.link}
+              as={Link}
+              to={linkMenu.link}
+              icon={linkMenu.icon}
+            >
               {linkMenu.name}
             </MenuItem>
           ))}

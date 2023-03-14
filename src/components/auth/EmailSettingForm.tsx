@@ -4,7 +4,9 @@ type EmailSettingFormProps = {
   defaultEmail: string;
 };
 
-export default function EmailSettingForm({ defaultEmail }: EmailSettingFormProps) {
+export default function EmailSettingForm({
+  defaultEmail,
+}: EmailSettingFormProps) {
   return (
     <Box as="form">
       <FormControl>

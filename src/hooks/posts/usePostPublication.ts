@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import apiClient, { ApiFieldError, ApiResponseError } from "./../../utils/apiClient";
+import apiClient, {
+  ApiFieldError,
+  ApiResponseError,
+} from "./../../utils/apiClient";
 import { PostDetail } from "../../types/posts";
 import queryKeys from "../../utils/queryKeys";
 
@@ -38,7 +41,10 @@ async function publishPost({
   content,
 }: PublishPostData): Promise<Published | FieldsInvalid | Unauthenticated> {
   try {
-    const { data } = await apiClient.post<PublishPostResponse>("/posts", { title, content });
+    const { data } = await apiClient.post<PublishPostResponse>("/posts", {
+      title,
+      content,
+    });
     const newPost: PostDetail = {
       id: data.id,
       title: data.title,

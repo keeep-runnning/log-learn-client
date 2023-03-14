@@ -25,7 +25,10 @@ export default function BlogOwnerPostList() {
 
     return (
       <BaseContainer>
-        <PostList posts={posts} isFetching={postsInfiniteQuery.isFetchingNextPage} />
+        <PostList
+          posts={posts}
+          isFetching={postsInfiniteQuery.isFetchingNextPage}
+        />
         <Box ref={fetchTriggerRef} />
       </BaseContainer>
     );

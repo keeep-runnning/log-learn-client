@@ -1,5 +1,13 @@
 import { FormEvent, useState } from "react";
-import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  FormControl,
+  FormLabel,
+  useToast,
+} from "@chakra-ui/react";
 
 import Editor from "../editor/Editor";
 import useIntroductionSetting from "../../hooks/auth/useIntroductionSetting";
@@ -60,7 +68,11 @@ export default function IntroductionSettingForm({
         </Box>
       </FormControl>
       <ButtonGroup variant="ghost" size="sm" justifyContent="flex-end">
-        <Button type="button" colorScheme="red" onClick={handleClickClearButton}>
+        <Button
+          type="button"
+          colorScheme="red"
+          onClick={handleClickClearButton}
+        >
           전체 지우기
         </Button>
         <Button

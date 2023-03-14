@@ -49,7 +49,8 @@ export default function LoginForm() {
           switch (result.status) {
             case "loggedIn": {
               const redirectURL =
-                location.state?.from?.pathname || pagePath.getBlog(result.myProfile.username);
+                location.state?.from?.pathname ||
+                pagePath.getBlog(result.myProfile.username);
               navigate(redirectURL, { replace: true });
               break;
             }
@@ -67,7 +68,12 @@ export default function LoginForm() {
   });
 
   return (
-    <Flex as="form" onSubmit={handleSubmitLoginForm} direction="column" rowGap={4}>
+    <Flex
+      as="form"
+      onSubmit={handleSubmitLoginForm}
+      direction="column"
+      rowGap={4}
+    >
       {alertMessage ? (
         <Alert status="error" borderRadius="md">
           <AlertIcon />
@@ -83,7 +89,9 @@ export default function LoginForm() {
             required: "이메일을 입력해주세요",
           })}
         />
-        {errors.email ? <FormErrorMessage>{errors.email.message}</FormErrorMessage> : null}
+        {errors.email ? (
+          <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+        ) : null}
       </FormControl>
       <FormControl isInvalid={Boolean(errors.password)}>
         <FormLabel htmlFor="password">비밀번호</FormLabel>
@@ -94,7 +102,9 @@ export default function LoginForm() {
             required: "비밀번호를 입력해주세요",
           })}
         />
-        {errors.password ? <FormErrorMessage>{errors.password.message}</FormErrorMessage> : null}
+        {errors.password ? (
+          <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+        ) : null}
       </FormControl>
       <Button
         type="submit"

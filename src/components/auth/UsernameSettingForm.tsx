@@ -20,7 +20,9 @@ type UsernameSettingFormData = {
   username: string;
 };
 
-export default function UsernameSettingForm({ defaultUsername }: UsernameSettingFormProps) {
+export default function UsernameSettingForm({
+  defaultUsername,
+}: UsernameSettingFormProps) {
   const {
     register,
     handleSubmit,
@@ -86,7 +88,12 @@ export default function UsernameSettingForm({ defaultUsername }: UsernameSetting
   });
 
   return (
-    <Flex as="form" onSubmit={handleSubmitUsernameSettingForm} direction="column" rowGap={4}>
+    <Flex
+      as="form"
+      onSubmit={handleSubmitUsernameSettingForm}
+      direction="column"
+      rowGap={4}
+    >
       <FormControl isInvalid={Boolean(errors.username)}>
         <Flex direction={{ base: "column", md: "row" }}>
           <FormLabel htmlFor="username" width={{ md: "25%" }}>

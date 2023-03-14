@@ -35,18 +35,25 @@ module.exports = {
           options: {
             presets: [
               "@babel/preset-env",
-              ["@babel/preset-react", { runtime: "automatic", importSource: "@emotion/react" }],
+              [
+                "@babel/preset-react",
+                { runtime: "automatic", importSource: "@emotion/react" },
+              ],
               "@babel/preset-typescript",
             ],
-            plugins: ["@emotion/babel-plugin", isDevelopment && "react-refresh/babel"].filter(
-              Boolean
-            ),
+            plugins: [
+              "@emotion/babel-plugin",
+              isDevelopment && "react-refresh/babel",
+            ].filter(Boolean),
           },
         },
       },
       {
         test: /\.css$/i,
-        use: [isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
+        use: [
+          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,

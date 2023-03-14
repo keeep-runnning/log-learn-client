@@ -27,9 +27,15 @@ type InvalidCredential = {
   message: string;
 };
 
-async function login({ email, password }: LoginCredential): Promise<LoggedIn | InvalidCredential> {
+async function login({
+  email,
+  password,
+}: LoginCredential): Promise<LoggedIn | InvalidCredential> {
   try {
-    const { data } = await apiClient.post<LoginResponse>("/auth/login", { email, password });
+    const { data } = await apiClient.post<LoginResponse>("/auth/login", {
+      email,
+      password,
+    });
     return {
       status: "loggedIn",
       myProfile: data,

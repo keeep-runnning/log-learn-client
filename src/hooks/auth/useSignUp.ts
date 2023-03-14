@@ -1,6 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 
-import apiClient, { ApiFieldError, ApiResponseError } from "../../utils/apiClient";
+import apiClient, {
+  ApiFieldError,
+  ApiResponseError,
+} from "../../utils/apiClient";
 import { MyProfile } from "../../types/auth";
 
 type SignUpData = {
@@ -32,9 +35,14 @@ type FieldsInvalid = {
   fieldErrors: ApiFieldError[];
 };
 
-async function signUp(newUser: SignUpData): Promise<Submitted | Failed | FieldsInvalid> {
+async function signUp(
+  newUser: SignUpData
+): Promise<Submitted | Failed | FieldsInvalid> {
   try {
-    const { data } = await apiClient.post<SignUpResponse>("/auth/signup", newUser);
+    const { data } = await apiClient.post<SignUpResponse>(
+      "/auth/signup",
+      newUser
+    );
     return {
       status: "submitted",
       createdUserProfile: data,

@@ -32,7 +32,11 @@ type PostEditFormData = {
   content: string;
 };
 
-export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFormDrawerProps) {
+export default function PostEditFormDrawer({
+  post,
+  onClose,
+  isOpen,
+}: PostEditFormDrawerProps) {
   const toast = useToast();
 
   const {
@@ -101,7 +105,12 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
   };
 
   return (
-    <Drawer isOpen={isOpen} onClose={handleClickCloseButton} placement="bottom" size="full">
+    <Drawer
+      isOpen={isOpen}
+      onClose={handleClickCloseButton}
+      placement="bottom"
+      size="full"
+    >
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader>
@@ -150,7 +159,9 @@ export default function PostEditFormDrawer({ post, onClose, isOpen }: PostEditFo
                 <Controller
                   name="content"
                   control={control}
-                  render={({ field }) => <Editor value={field.value} onChange={field.onChange} />}
+                  render={({ field }) => (
+                    <Editor value={field.value} onChange={field.onChange} />
+                  )}
                 />
               </Box>
             </Flex>

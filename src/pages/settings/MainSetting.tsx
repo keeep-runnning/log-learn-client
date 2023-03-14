@@ -18,14 +18,21 @@ export default function MainSetting() {
       return <Navigate to={pagePath.getLogin()} replace />;
     }
 
-    const { username, email, shortIntroduction, introduction } = me.data.myProfile;
+    const { username, email, shortIntroduction, introduction } =
+      me.data.myProfile;
 
     return (
       <BaseContainer>
-        <VStack alignItems="stretch" spacing={10} divider={<StackDivider borderColor="gray.300" />}>
+        <VStack
+          alignItems="stretch"
+          spacing={10}
+          divider={<StackDivider borderColor="gray.300" />}
+        >
           <UsernameSettingForm defaultUsername={username} />
           <EmailSettingForm defaultEmail={email} />
-          <ShortIntroductionSettingForm defaultShortIntroduction={shortIntroduction} />
+          <ShortIntroductionSettingForm
+            defaultShortIntroduction={shortIntroduction}
+          />
           <IntroductionSettingForm defaultIntroduction={introduction} />
         </VStack>
       </BaseContainer>

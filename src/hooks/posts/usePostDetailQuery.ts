@@ -26,7 +26,9 @@ type InvalidId = {
   status: "invalidId";
 };
 
-async function loadPostDetail(id: number): Promise<Loaded | NotFound | InvalidId> {
+async function loadPostDetail(
+  id: number
+): Promise<Loaded | NotFound | InvalidId> {
   try {
     const {
       data: { title, content, createdAt, authorId, authorName },

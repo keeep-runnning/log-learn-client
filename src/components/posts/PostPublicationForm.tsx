@@ -1,4 +1,11 @@
-import { Box, Button, Flex, FormControl, Textarea, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  Textarea,
+  useToast,
+} from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +46,9 @@ export default function PostPublicationForm() {
       {
         onSuccess: (postPublicationResult) => {
           if (postPublicationResult.status === "published") {
-            navigate(pagePath.getPostDetail(postPublicationResult.newPost.id), { replace: true });
+            navigate(pagePath.getPostDetail(postPublicationResult.newPost.id), {
+              replace: true,
+            });
           } else if (postPublicationResult.status === "fieldsInvalid") {
             const message = postPublicationResult.fieldErrors
               .filter(({ field }) => ["title", "content"].includes(field))
@@ -61,7 +70,12 @@ export default function PostPublicationForm() {
   };
 
   return (
-    <Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" rowGap={6}>
+    <Flex
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      direction="column"
+      rowGap={6}
+    >
       <Button
         type="submit"
         loadingText="글 발행 중..."
@@ -86,7 +100,9 @@ export default function PostPublicationForm() {
         <Controller
           name="content"
           control={control}
-          render={({ field }) => <Editor value={field.value} onChange={field.onChange} />}
+          render={({ field }) => (
+            <Editor value={field.value} onChange={field.onChange} />
+          )}
         />
       </Box>
     </Flex>

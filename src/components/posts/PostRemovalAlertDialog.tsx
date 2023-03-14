@@ -77,7 +77,11 @@ export default function PostRemovalAlertDialog({
   };
 
   return (
-    <AlertDialog isOpen={isOpen} onClose={onClose} leastDestructiveRef={cancelButtonRef}>
+    <AlertDialog
+      isOpen={isOpen}
+      onClose={onClose}
+      leastDestructiveRef={cancelButtonRef}
+    >
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader>

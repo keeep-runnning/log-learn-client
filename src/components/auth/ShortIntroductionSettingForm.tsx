@@ -41,44 +41,48 @@ export default function ShortIntroductionSettingForm({
 
   const handleUnauthenticated = useHandleUnauthenticated();
 
-  const handleSubmitShortIntroductionSettingForm = handleSubmit(({ shortIntroduction }) => {
-    shortIntroductionSettingMutation.mutate(shortIntroduction, {
-      onSuccess: (result) => {
-        switch (result.status) {
-          case "submitted": {
-            reset({
-              shortIntroduction: result.shortIntroduction,
-            });
-            toast({
-              description: "짧은 소개가 변경되었습니다",
-              status: "success",
-              position: "top",
-              isClosable: true,
-            });
-            break;
+  const handleSubmitShortIntroductionSettingForm = handleSubmit(
+    ({ shortIntroduction }) => {
+      shortIntroductionSettingMutation.mutate(shortIntroduction, {
+        onSuccess: (result) => {
+          switch (result.status) {
+            case "submitted": {
+              reset({
+                shortIntroduction: result.shortIntroduction,
+              });
+              toast({
+                description: "짧은 소개가 변경되었습니다",
+                status: "success",
+                position: "top",
+                isClosable: true,
+              });
+              break;
+            }
+            case "unauthenticated": {
+              handleUnauthenticated();
+              break;
+            }
+            case "fieldsInvalid": {
+              result.fieldErrors.forEach(({ field, reason }) => {
+                if (field === "shortIntroduction") {
+                  setError(field, {
+                    type: "serverValidation",
+                    message: reason,
+                  });
+                }
+              });
+              break;
+            }
+            default: {
+              throw new Error(
+                "unexpected result of updating user short introduction"
+              );
+            }
           }
-          case "unauthenticated": {
-            handleUnauthenticated();
-            break;
-          }
-          case "fieldsInvalid": {
-            result.fieldErrors.forEach(({ field, reason }) => {
-              if (field === "shortIntroduction") {
-                setError(field, {
-                  type: "serverValidation",
-                  message: reason,
-                });
-              }
-            });
-            break;
-          }
-          default: {
-            throw new Error("unexpected result of updating user short introduction");
-          }
-        }
-      },
-    });
-  });
+        },
+      });
+    }
+  );
 
   return (
     <Flex
@@ -96,9 +100,15 @@ export default function ShortIntroductionSettingForm({
           짧은 소개
         </FormLabel>
         <Flex direction="column" rowGap={2} flexGrow={1}>
-          <Textarea id="shortIntroduction" rows={6} {...register("shortIntroduction")} />
+          <Textarea
+            id="shortIntroduction"
+            rows={6}
+            {...register("shortIntroduction")}
+          />
           {errors.shortIntroduction ? (
-            <FormErrorMessage>{errors.shortIntroduction.message}</FormErrorMessage>
+            <FormErrorMessage>
+              {errors.shortIntroduction.message}
+            </FormErrorMessage>
           ) : null}
         </Flex>
       </FormControl>

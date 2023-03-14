@@ -48,49 +48,60 @@ export default function SignUpForm() {
 
   const toast = useToast();
 
-  const handleSubmitSignUpForm = handleSubmit(({ username, email, password }) => {
-    signUpMutation.mutate(
-      { username, email, password },
-      {
-        onSuccess: (result) => {
-          switch (result.status) {
-            case "submitted": {
-              navigate(pagePath.getLogin(), { replace: true });
-              toast({
-                title: "회원가입 성공",
-                description: `${result.createdUserProfile.username}님 환영합니다. 로그인 해주세요.`,
-                status: "success",
-                position: "top",
-                isClosable: true,
-              });
-              break;
+  const handleSubmitSignUpForm = handleSubmit(
+    ({ username, email, password }) => {
+      signUpMutation.mutate(
+        { username, email, password },
+        {
+          onSuccess: (result) => {
+            switch (result.status) {
+              case "submitted": {
+                navigate(pagePath.getLogin(), { replace: true });
+                toast({
+                  title: "회원가입 성공",
+                  description: `${result.createdUserProfile.username}님 환영합니다. 로그인 해주세요.`,
+                  status: "success",
+                  position: "top",
+                  isClosable: true,
+                });
+                break;
+              }
+              case "failed": {
+                setAlertMessage(result.message);
+                break;
+              }
+              case "fieldsInvalid": {
+                result.fieldErrors.forEach(({ field, reason }) => {
+                  if (
+                    field === "username" ||
+                    field === "email" ||
+                    field === "password"
+                  ) {
+                    setError(field, {
+                      type: "serverValidation",
+                      message: reason,
+                    });
+                  }
+                });
+                break;
+              }
+              default: {
+                throw new Error("unexpected result of sign-up");
+              }
             }
-            case "failed": {
-              setAlertMessage(result.message);
-              break;
-            }
-            case "fieldsInvalid": {
-              result.fieldErrors.forEach(({ field, reason }) => {
-                if (field === "username" || field === "email" || field === "password") {
-                  setError(field, {
-                    type: "serverValidation",
-                    message: reason,
-                  });
-                }
-              });
-              break;
-            }
-            default: {
-              throw new Error("unexpected result of sign-up");
-            }
-          }
-        },
-      }
-    );
-  });
+          },
+        }
+      );
+    }
+  );
 
   return (
-    <Flex as="form" onSubmit={handleSubmitSignUpForm} direction="column" rowGap={4}>
+    <Flex
+      as="form"
+      onSubmit={handleSubmitSignUpForm}
+      direction="column"
+      rowGap={4}
+    >
       {alertMessage ? (
         <Alert status="error" borderRadius="md">
           <AlertIcon />
@@ -120,7 +131,9 @@ export default function SignUpForm() {
             },
           })}
         />
-        {errors.username ? <FormErrorMessage>{errors.username.message}</FormErrorMessage> : null}
+        {errors.username ? (
+          <FormErrorMessage>{errors.username.message}</FormErrorMessage>
+        ) : null}
       </FormControl>
       <FormControl isInvalid={Boolean(errors.email)}>
         <FormLabel htmlFor="email">이메일</FormLabel>
@@ -137,7 +150,9 @@ export default function SignUpForm() {
             },
           })}
         />
-        {errors.email ? <FormErrorMessage>{errors.email.message}</FormErrorMessage> : null}
+        {errors.email ? (
+          <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+        ) : null}
       </FormControl>
       <FormControl isInvalid={Boolean(errors.password)}>
         <FormLabel htmlFor="password">비밀번호</FormLabel>
@@ -156,12 +171,16 @@ export default function SignUpForm() {
               message: "비밀번호를 8자 이상 32자 이하로 입력해주세요",
             },
             pattern: {
-              value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/,
-              message: "영문 대소문자/숫자/특수문자를 각각 1자 이상 포함해주세요",
+              value:
+                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/,
+              message:
+                "영문 대소문자/숫자/특수문자를 각각 1자 이상 포함해주세요",
             },
           })}
         />
-        {errors.password ? <FormErrorMessage>{errors.password.message}</FormErrorMessage> : null}
+        {errors.password ? (
+          <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+        ) : null}
       </FormControl>
       <FormControl isInvalid={Boolean(errors.passwordCheck)}>
         <FormLabel htmlFor="password-check">비밀번호 확인</FormLabel>

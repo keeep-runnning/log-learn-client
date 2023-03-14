@@ -17,7 +17,10 @@ export default function PostDetailViewer({ id }: PostProps) {
   const postDetailQuery = usePostDetailQuery(id);
 
   if (postDetailQuery.data) {
-    if (postDetailQuery.data.status === "notFound" || postDetailQuery.data.status === "invalidId") {
+    if (
+      postDetailQuery.data.status === "notFound" ||
+      postDetailQuery.data.status === "invalidId"
+    ) {
       return <NotFound />;
     }
 

@@ -16,11 +16,16 @@ type Unauthenticated = {
   message: string;
 };
 
-async function setIntroduction(introduction: string): Promise<Submitted | Unauthenticated> {
+async function setIntroduction(
+  introduction: string
+): Promise<Submitted | Unauthenticated> {
   try {
-    const { data } = await apiClient.put<SetIntroductionResponse>("/auth/me/introduction", {
-      introduction,
-    });
+    const { data } = await apiClient.put<SetIntroductionResponse>(
+      "/auth/me/introduction",
+      {
+        introduction,
+      }
+    );
     return {
       status: "submitted",
       ...data,

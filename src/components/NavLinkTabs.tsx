@@ -31,7 +31,9 @@ export default function NavLinkTabs({ tabs }: NavLinksTabsProps) {
                   px={{ base: 2, md: 4 }}
                   backgroundColor={isActive ? "main.500" : "white"}
                   color={isActive ? "white" : "black"}
-                  _hover={{ backgroundColor: isActive ? "main.500" : "main.100" }}
+                  _hover={{
+                    backgroundColor: isActive ? "main.500" : "main.100",
+                  }}
                 >
                   {name}
                 </Text>

@@ -36,7 +36,10 @@ export default function BlogLayout() {
           <NavLinkTabs
             tabs={[
               { name: "포스트", link: pagePath.getBlog(blogOwner.username) },
-              { name: "소개", link: pagePath.getBlogOwnerIntroduction(blogOwner.username) },
+              {
+                name: "소개",
+                link: pagePath.getBlogOwnerIntroduction(blogOwner.username),
+              },
             ]}
           />
         </BaseContainer>

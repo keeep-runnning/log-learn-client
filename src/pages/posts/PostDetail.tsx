@@ -10,7 +10,11 @@ export default function PostDetail() {
 
   return (
     <BaseContainer>
-      {Number.isInteger(postId) ? <PostDetailViewer id={postId} /> : <NotFound />}
+      {Number.isInteger(postId) ? (
+        <PostDetailViewer id={postId} />
+      ) : (
+        <NotFound />
+      )}
     </BaseContainer>
   );
 }

@@ -15,7 +15,11 @@ export class ApiResponseError extends Error {
   readonly statusCode: number;
   readonly fieldErrors: ApiFieldError[];
 
-  constructor(message: string, statusCode: number, fieldErrors: ApiFieldError[] = []) {
+  constructor(
+    message: string,
+    statusCode: number,
+    fieldErrors: ApiFieldError[] = []
+  ) {
     super(message);
     this.name = this.constructor.name;
     this.statusCode = statusCode;

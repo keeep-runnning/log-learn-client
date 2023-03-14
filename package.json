@@ -6,6 +6,7 @@
     "prepare": "husky install",
     "dev": "webpack serve --node-env development --progress",
     "lint": "eslint --fix .",
+    "prettier": "prettier --write .",
     "build": "webpack --node-env production --progress",
     "build:analyze": "webpack --node-env production --analyze --progress"
   },

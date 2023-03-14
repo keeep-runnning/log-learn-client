@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import apiClient, { ApiFieldError, ApiResponseError } from "../../utils/apiClient";
+import apiClient, {
+  ApiFieldError,
+  ApiResponseError,
+} from "../../utils/apiClient";
 import queryKeys from "../../utils/queryKeys";
 
 type SetUsernameResponse = {
@@ -30,9 +33,12 @@ async function setUsername(
   username: string
 ): Promise<Submitted | Unauthenticated | UsernameExists | FieldsInvalid> {
   try {
-    const { data } = await apiClient.put<SetUsernameResponse>("/auth/me/username", {
-      username,
-    });
+    const { data } = await apiClient.put<SetUsernameResponse>(
+      "/auth/me/username",
+      {
+        username,
+      }
+    );
     return {
       status: "submitted",
       ...data,

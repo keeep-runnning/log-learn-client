@@ -31,14 +31,18 @@ function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
         >
           <Text fontSize="lg">
             알 수 없는 <Text as="strong">에러</Text>가 발생했습니다. <br />
-            <Text as="strong">에러</Text>가 계속 발생하면, {process.env.APP_NAME}팀으로{" "}
-            <Text as="strong">문의</Text>해주세요.
+            <Text as="strong">에러</Text>가 계속 발생하면,{" "}
+            {process.env.APP_NAME}팀으로 <Text as="strong">문의</Text>해주세요.
           </Text>
           <ButtonGroup size="sm" alignSelf="center">
             <Button type="button" onClick={handleClickHomeButton}>
               메인 페이지로
             </Button>
-            <Button type="button" onClick={resetErrorBoundary} colorScheme="main">
+            <Button
+              type="button"
+              onClick={resetErrorBoundary}
+              colorScheme="main"
+            >
               다시 시도
             </Button>
           </ButtonGroup>
@@ -48,6 +52,12 @@ function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   );
 }
 
-export default function GlobalErrorBoundary({ children }: GlobalErrorBoundaryProps) {
-  return <ErrorBoundary FallbackComponent={GlobalErrorFallback}>{children}</ErrorBoundary>;
+export default function GlobalErrorBoundary({
+  children,
+}: GlobalErrorBoundaryProps) {
+  return (
+    <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+      {children}
+    </ErrorBoundary>
+  );
 }

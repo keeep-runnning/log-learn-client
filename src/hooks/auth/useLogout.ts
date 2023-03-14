@@ -14,7 +14,9 @@ export default function useLogout() {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.setQueryData<LoggedOutMe>(queryKeys.me, { status: "loggedOut" });
+      queryClient.setQueryData<LoggedOutMe>(queryKeys.me, {
+        status: "loggedOut",
+      });
     },
   });
 }
