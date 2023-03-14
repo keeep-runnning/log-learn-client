@@ -8,11 +8,21 @@ import NotFound from "./pages/NotFound";
 import RootLayout from "./pages/RootLayout";
 import Home from "./pages/Home";
 
-const SignUp = lazy(() => import("./pages/SignUp"));
-const Login = lazy(() => import("./pages/Login"));
-const Blogs = lazy(() => import("./pages/blogs/Blogs"));
-const Posts = lazy(() => import("./pages/posts/Posts"));
-const Settings = lazy(() => import("./pages/settings/Settings"));
+const SignUp = lazy(
+  () => import(/* webpackChunkName: "sign-up" */ "./pages/SignUp")
+);
+const Login = lazy(
+  () => import(/* webpackChunkName: "login" */ "./pages/Login")
+);
+const Blogs = lazy(
+  () => import(/* webpackChunkName: "blogs" */ "./pages/blogs/Blogs")
+);
+const Posts = lazy(
+  () => import(/* webpackChunkName: "posts" */ "./pages/posts/Posts")
+);
+const Settings = lazy(
+  () => import(/* webpackChunkName: "settings" */ "./pages/settings/Settings")
+);
 
 export default function App() {
   return (
