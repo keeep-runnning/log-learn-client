@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, {
-  ApiFieldError,
+  ApiFieldValidationResult,
   ApiResponseError,
 } from "../../lib/apiClient";
 import queryKeys from "../../utils/queryKeys";
@@ -26,7 +26,7 @@ type UsernameExists = {
 
 type FieldsInvalid = {
   status: "fieldsInvalid";
-  fieldErrors: ApiFieldError[];
+  fieldValidationResults: ApiFieldValidationResult[];
 };
 
 async function setUsername(
@@ -49,7 +49,7 @@ async function setUsername(
         case 400: {
           return {
             status: "fieldsInvalid",
-            fieldErrors: error.fieldErrors,
+            fieldValidationResults: error.fieldValidationResults,
           };
         }
         case 401: {

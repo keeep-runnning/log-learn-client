@@ -79,7 +79,7 @@ export default function PostEditFormDrawer({
               break;
             }
             case "fieldsInvalid": {
-              const message = result.fieldErrors
+              const message = result.fieldValidationResults
                 .filter(({ field }) => field === "title" || field === "content")
                 .map(({ reason }) => reason)
                 .join(". ");

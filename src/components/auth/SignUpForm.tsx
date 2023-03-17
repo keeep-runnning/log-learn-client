@@ -71,7 +71,7 @@ export default function SignUpForm() {
                 break;
               }
               case "fieldsInvalid": {
-                result.fieldErrors.forEach(({ field, reason }) => {
+                result.fieldValidationResults.forEach(({ field, reason }) => {
                   if (
                     field === "username" ||
                     field === "email" ||

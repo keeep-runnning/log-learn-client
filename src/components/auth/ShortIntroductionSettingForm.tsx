@@ -63,7 +63,7 @@ export default function ShortIntroductionSettingForm({
               break;
             }
             case "fieldsInvalid": {
-              result.fieldErrors.forEach(({ field, reason }) => {
+              result.fieldValidationResults.forEach(({ field, reason }) => {
                 if (field === "shortIntroduction") {
                   setError(field, {
                     type: "serverValidation",

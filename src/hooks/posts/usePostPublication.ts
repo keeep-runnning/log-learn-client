@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, {
-  ApiFieldError,
+  ApiFieldValidationResult,
   ApiResponseError,
 } from "../../lib/apiClient";
 import { PostDetail } from "../../types/posts";
@@ -33,7 +33,7 @@ type Unauthenticated = {
 
 type FieldsInvalid = {
   status: "fieldsInvalid";
-  fieldErrors: ApiFieldError[];
+  fieldValidationResults: ApiFieldValidationResult[];
 };
 
 async function publishPost({
@@ -65,7 +65,7 @@ async function publishPost({
         case 400: {
           return {
             status: "fieldsInvalid",
-            fieldErrors: error.fieldErrors,
+            fieldValidationResults: error.fieldValidationResults,
           };
         }
         case 401: {

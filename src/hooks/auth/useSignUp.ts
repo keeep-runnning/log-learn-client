@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import apiClient, {
-  ApiFieldError,
+  ApiFieldValidationResult,
   ApiResponseError,
 } from "../../lib/apiClient";
 import { MyProfile } from "../../types/auth";
@@ -32,7 +32,7 @@ type Failed = {
 
 type FieldsInvalid = {
   status: "fieldsInvalid";
-  fieldErrors: ApiFieldError[];
+  fieldValidationResults: ApiFieldValidationResult[];
 };
 
 async function signUp(
@@ -53,7 +53,7 @@ async function signUp(
         case 400: {
           return {
             status: "fieldsInvalid",
-            fieldErrors: error.fieldErrors,
+            fieldValidationResults: error.fieldValidationResults,
           };
         }
         case 409: {

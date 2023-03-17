@@ -58,7 +58,7 @@ export default function UsernameSettingForm({
             break;
           }
           case "fieldsInvalid": {
-            result.fieldErrors.forEach(({ field, reason }) => {
+            result.fieldValidationResults.forEach(({ field, reason }) => {
               if (field === "username") {
                 setError(field, {
                   type: "serverValidation",

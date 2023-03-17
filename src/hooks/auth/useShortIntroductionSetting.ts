@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient, {
-  ApiFieldError,
+  ApiFieldValidationResult,
   ApiResponseError,
 } from "../../lib/apiClient";
 import queryKeys from "../../utils/queryKeys";
@@ -21,7 +21,7 @@ type Unauthenticated = {
 
 type FieldsInvalid = {
   status: "fieldsInvalid";
-  fieldErrors: ApiFieldError[];
+  fieldValidationResults: ApiFieldValidationResult[];
 };
 
 async function setShortIntroduction(
@@ -42,7 +42,7 @@ async function setShortIntroduction(
         case 400: {
           return {
             status: "fieldsInvalid",
-            fieldErrors: error.fieldErrors,
+            fieldValidationResults: error.fieldValidationResults,
           };
         }
         case 401: {

@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from "axios";
 
-export type ApiFieldError = {
+export type ApiFieldValidationResult = {
   field: string;
   value?: unknown;
   reason: string;
@@ -8,22 +8,22 @@ export type ApiFieldError = {
 
 type ApiErrorResponse = {
   errorMessage: string;
-  errors: ApiFieldError[];
+  errors: ApiFieldValidationResult[];
 };
 
 export class ApiResponseError extends Error {
   readonly statusCode: number;
-  readonly fieldErrors: ApiFieldError[];
+  readonly fieldValidationResults: ApiFieldValidationResult[];
 
   constructor(
     message: string,
     statusCode: number,
-    fieldErrors: ApiFieldError[] = []
+    fieldValidationResults: ApiFieldValidationResult[] = []
   ) {
     super(message);
     this.name = this.constructor.name;
     this.statusCode = statusCode;
-    this.fieldErrors = fieldErrors;
+    this.fieldValidationResults = fieldValidationResults;
   }
 }
 

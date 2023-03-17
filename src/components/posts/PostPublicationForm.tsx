@@ -50,7 +50,7 @@ export default function PostPublicationForm() {
               replace: true,
             });
           } else if (postPublicationResult.status === "fieldsInvalid") {
-            const message = postPublicationResult.fieldErrors
+            const message = postPublicationResult.fieldValidationResults
               .filter(({ field }) => ["title", "content"].includes(field))
               .map(({ reason }) => reason)
               .join(". ");

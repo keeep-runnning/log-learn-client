@@ -58,7 +58,7 @@ export default function PasswordSettingForm() {
                 break;
               }
               case "fieldsInvalid": {
-                result.fieldErrors.forEach(({ field, reason }) => {
+                result.fieldValidationResults.forEach(({ field, reason }) => {
                   if (field === "oldPassword" || field === "newPassword") {
                     setError(field, {
                       type: "serverValidation",
