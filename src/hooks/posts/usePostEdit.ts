@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient, {
   ApiFieldError,
   ApiResponseError,
-} from "./../../utils/apiClient";
+} from "../../lib/apiClient";
 import { PostDetail } from "../../types/posts";
 import queryKeys from "../../utils/queryKeys";
 

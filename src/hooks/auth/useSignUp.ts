@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import apiClient, {
   ApiFieldError,
   ApiResponseError,
-} from "../../utils/apiClient";
+} from "../../lib/apiClient";
 import { MyProfile } from "../../types/auth";
 
 type SignUpData = {

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import apiClient, { ApiResponseError } from "../../utils/apiClient";
+import apiClient, { ApiResponseError } from "../../lib/apiClient";
 import queryKeys from "../../utils/queryKeys";
 import { LoggedInMe, MyProfile } from "./../../types/auth";
 

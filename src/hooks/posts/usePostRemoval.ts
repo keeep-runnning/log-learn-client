@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { PostDetail } from "../../types/posts";
-import apiClient, { ApiResponseError } from "../../utils/apiClient";
+import apiClient, { ApiResponseError } from "../../lib/apiClient";
 import queryKeys from "../../utils/queryKeys";
 
 type Removed = {

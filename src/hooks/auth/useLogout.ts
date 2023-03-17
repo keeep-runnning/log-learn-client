@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import apiClient from "../../utils/apiClient";
+import apiClient from "../../lib/apiClient";
 import queryKeys from "../../utils/queryKeys";
 import { LoggedOutMe } from "../../types/auth";
 

@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import apiClient from "../../utils/apiClient";
+import apiClient from "../../lib/apiClient";
 import queryKeys from "../../utils/queryKeys";
 import { PostListItem } from "../../types/posts";
 
