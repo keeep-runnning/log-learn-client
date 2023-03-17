@@ -1,4 +1,4 @@
-export const pageKeyword = Object.freeze({
+export const pageKeyword = {
   signUp: "sign-up",
   login: "login",
   settings: "settings",
@@ -7,9 +7,9 @@ export const pageKeyword = Object.freeze({
   new: "new",
   introduction: "introduction",
   password: "password",
-});
+} as const;
 
-export const pagePath = Object.freeze({
+export const pagePath = {
   getSignUp(): string {
     return `/${pageKeyword.signUp}`;
   },
@@ -34,4 +34,4 @@ export const pagePath = Object.freeze({
   getPostPublication(): string {
     return `/${pageKeyword.posts}/${pageKeyword.new}`;
   },
-});
+} as const;
