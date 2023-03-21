@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2022",
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-    "module": "ESNext",
-    "rootDir": "./src",
+    "module": "ES2022",
     "moduleResolution": "node",
     "noEmit": true,
     "isolatedModules": true,
@@ -13,5 +12,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
